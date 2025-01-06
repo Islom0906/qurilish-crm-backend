@@ -1,9 +1,9 @@
 {
   "version": 2,
   "env": {
-    "MONGO_URI": "mongodb://localhost:27017/qurilish-crm",
-    "PORT": 4100,
-    "SECRET_JWT":"islom-12345"
+    "MONGO_URI": "@mongo_uri",
+    "PORT": "@port",
+    "SECRET_JWT":"@secret_jwt"
   },
   "builds": [
     {
