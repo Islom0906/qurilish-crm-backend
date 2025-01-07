@@ -25,7 +25,7 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: true,
-            secretOrKey: 'islom-12345'
+            secretOrKey: configService.get('SECRET_JWT')
         });
         this.configService = configService;
         this.userModel = userModel;
