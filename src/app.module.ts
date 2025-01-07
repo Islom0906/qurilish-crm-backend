@@ -1,14 +1,26 @@
-import { Module } from '@nestjs/common';
-import { UserModule } from './user/user.module';
+import {Module} from '@nestjs/common';
+import {UserModule} from './user/user.module';
 import {ConfigModule, ConfigService} from '@nestjs/config'
 import {MongooseModule} from "@nestjs/mongoose";
 import {getMongoDbConfig} from "./config/mongo.config";
-import { AuthModule } from './auth/auth.module';
+import {AuthModule} from './auth/auth.module';
+import {ServeStaticModule} from "@nestjs/serve-static";
+import { join } from 'path';
+
 @Module({
-  imports: [ConfigModule.forRoot(), MongooseModule.forRootAsync({
+  imports: [
+    ConfigModule.forRoot(),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'swagger-static'),
+      serveRoot: process.env.NODE_ENV === 'development' ? '/' : '/swagger',
+    }),
+    MongooseModule.forRootAsync({
     imports:[ConfigModule],
     inject:[ConfigService],
     useFactory:getMongoDbConfig
-  }),UserModule, AuthModule],
+    }),
+    UserModule,
+    AuthModule
+  ],
 })
 export class AppModule {}

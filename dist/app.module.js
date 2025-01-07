@@ -13,16 +13,27 @@ const config_1 = require("@nestjs/config");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongo_config_1 = require("./config/mongo.config");
 const auth_module_1 = require("./auth/auth.module");
+const serve_static_1 = require("@nestjs/serve-static");
+const path_1 = require("path");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_1.ConfigModule.forRoot(), mongoose_1.MongooseModule.forRootAsync({
+        imports: [
+            config_1.ConfigModule.forRoot(),
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: (0, path_1.join)(__dirname, '..', 'swagger-static'),
+                serveRoot: process.env.NODE_ENV === 'development' ? '/' : '/swagger',
+            }),
+            mongoose_1.MongooseModule.forRootAsync({
                 imports: [config_1.ConfigModule],
                 inject: [config_1.ConfigService],
                 useFactory: mongo_config_1.getMongoDbConfig
-            }), user_module_1.UserModule, auth_module_1.AuthModule],
+            }),
+            user_module_1.UserModule,
+            auth_module_1.AuthModule
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

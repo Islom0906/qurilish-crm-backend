@@ -8,6 +8,14 @@
   ],
   "routes": [
     {
+      "src": "/swagger",
+      "dest": "/swagger.html"
+    },
+    {
+      "src": "/swagger.json",
+      "dest": "/swagger.json"
+    },
+    {
       "src": "/(.*)",
       "dest": "dist/main.js",
       "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"]
