@@ -1,17 +1,16 @@
 import {CanActivate, ExecutionContext, ForbiddenException, Injectable} from "@nestjs/common";
 import {Reflector} from "@nestjs/core";
-import {Observable} from "rxjs";
 import {UserDocument} from "../../user/user.model";
 
 @Injectable()
-export class OnlyAdminGuard implements CanActivate{
+export class OnlyGeneralGuard implements CanActivate{
     constructor(private reflector:Reflector) {}
     canActivate(context: ExecutionContext): boolean {
         const request=context.switchToHttp().getRequest<{user:UserDocument}>();
         const user=request.user
 
-        if (user.role !=='admin') throw new ForbiddenException("Sizda kirish huquqi yo'q")
+        if (user.role !=="director") throw new ForbiddenException("Sizda kirish huquqi yo'q")
 
-        return user.role ==="admin" && true
+        return user.role ==="director" && true
     }
 }

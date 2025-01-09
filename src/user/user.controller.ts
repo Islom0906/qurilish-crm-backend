@@ -17,7 +17,7 @@ export class UserController {
     @ApiCreatedResponse({
         description: "User malumotlarini olish",
     })
-    @Auth("Seller")
+    @Auth("staff")
     async getProfile(@User("_id") _id:string){
         return this.userService.byId(_id)
 

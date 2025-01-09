@@ -19,9 +19,14 @@ const app_root_path_1 = require("app-root-path");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const file_model_1 = require("./file.model");
+const deleteFile_utils_1 = require("../utils/deleteFile.utils");
 let FileService = class FileService {
     constructor(fileModel) {
         this.fileModel = fileModel;
+    }
+    async getMedia() {
+        const medias = await this.fileModel.find();
+        return medias;
     }
     async uploadFile(media) {
         await (0, fs_extra_1.ensureDir)(`${app_root_path_1.path}/medias`);
@@ -31,6 +36,26 @@ let FileService = class FileService {
             name: media.originalname
         });
         return file;
+    }
+    async deleteFiles(dto) {
+        let medias = [];
+        await this.fileModel.find({ _id: { $in: dto.ids } })
+            .then((documents) => {
+            medias = documents;
+        })
+            .catch((err) => {
+            return err.message;
+        });
+        if (medias.length === 0)
+            throw new common_1.BadRequestException('File topilmadi');
+        await this.fileModel.deleteMany({ _id: { $in: dto.ids } })
+            .then((result) => {
+        })
+            .catch((error) => {
+            return error.message;
+        });
+        await (0, deleteFile_utils_1.deleteMedias)(medias);
+        return 'delete files';
     }
 };
 exports.FileService = FileService;

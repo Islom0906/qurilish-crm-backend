@@ -9,24 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OnlyGeneralGuard = void 0;
-const common_1 = require("@nestjs/common");
-const core_1 = require("@nestjs/core");
-let OnlyGeneralGuard = class OnlyGeneralGuard {
-    constructor(reflector) {
-        this.reflector = reflector;
-    }
-    canActivate(context) {
-        const request = context.switchToHttp().getRequest();
-        const user = request.user;
-        if (user.role !== "General")
-            throw new common_1.ForbiddenException("Sizda kirish huquqi yo'q");
-        return user.role === "General" && true;
-    }
-};
-exports.OnlyGeneralGuard = OnlyGeneralGuard;
-exports.OnlyGeneralGuard = OnlyGeneralGuard = __decorate([
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [core_1.Reflector])
-], OnlyGeneralGuard);
-//# sourceMappingURL=general.guard.js.map
+exports.DeleteFilesDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
+class DeleteFilesDto {
+}
+exports.DeleteFilesDto = DeleteFilesDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Media yuklash',
+        format: 'array',
+    }),
+    __metadata("design:type", Array)
+], DeleteFilesDto.prototype, "ids", void 0);
+//# sourceMappingURL=deleteFiles.dto.js.map

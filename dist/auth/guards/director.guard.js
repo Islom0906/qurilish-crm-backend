@@ -9,24 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OnlyAdminGuard = void 0;
+exports.OnlyGeneralGuard = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
-let OnlyAdminGuard = class OnlyAdminGuard {
+let OnlyGeneralGuard = class OnlyGeneralGuard {
     constructor(reflector) {
         this.reflector = reflector;
     }
     canActivate(context) {
         const request = context.switchToHttp().getRequest();
         const user = request.user;
-        if (user.role !== 'admin')
+        if (user.role !== "director")
             throw new common_1.ForbiddenException("Sizda kirish huquqi yo'q");
-        return user.role === "admin" && true;
+        return user.role === "director" && true;
     }
 };
-exports.OnlyAdminGuard = OnlyAdminGuard;
-exports.OnlyAdminGuard = OnlyAdminGuard = __decorate([
+exports.OnlyGeneralGuard = OnlyGeneralGuard;
+exports.OnlyGeneralGuard = OnlyGeneralGuard = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [core_1.Reflector])
-], OnlyAdminGuard);
-//# sourceMappingURL=admin.guard.js.map
+], OnlyGeneralGuard);
+//# sourceMappingURL=director.guard.js.map

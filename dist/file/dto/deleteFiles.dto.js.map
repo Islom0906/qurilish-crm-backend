@@ -1,0 +1,1 @@
+{"version":3,"file":"deleteFiles.dto.js","sourceRoot":"","sources":["../../../src/file/dto/deleteFiles.dto.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,6CAA4C;AAE5C,MAAa,cAAc;CAM1B;AAND,wCAMC;AADG;IAJC,IAAA,qBAAW,EAAC;QACT,WAAW,EAAE,eAAe;QAC5B,MAAM,EAAE,OAAO;KAClB,CAAC;8BACE,KAAK;2CAAQ"}

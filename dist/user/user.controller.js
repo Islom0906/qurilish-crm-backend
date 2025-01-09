@@ -33,7 +33,7 @@ __decorate([
     (0, swagger_1.ApiCreatedResponse)({
         description: "User malumotlarini olish",
     }),
-    (0, auth_decorator_1.Auth)("Seller"),
+    (0, auth_decorator_1.Auth)("staff"),
     __param(0, (0, user_decorator_1.User)("_id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

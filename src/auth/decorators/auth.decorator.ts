@@ -2,14 +2,17 @@ import {RoleUser} from "../../user/user.interface";
 import {applyDecorators, UseGuards} from "@nestjs/common";
 import {JwtAuthGuard} from "../guards/jwt.guard";
 import {OnlyAdminGuard} from "../guards/admin.guard";
-import {OnlyGeneralGuard} from "../guards/general.guard";
+import {OnlyGeneralGuard} from "../guards/director.guard";
+import {OnlySuperAdminGuard} from "../guards/superAdmin.guard";
 
-export const Auth=(role:RoleUser='Seller')=>{
+export const Auth=(role:RoleUser='staff')=>{
     return applyDecorators(
-        role==='Admin' && UseGuards(JwtAuthGuard,OnlyAdminGuard)
+        role==='superAdmin' && UseGuards(JwtAuthGuard,OnlySuperAdminGuard)
         ||
-        role==='Seller'&& UseGuards(JwtAuthGuard)
+        role==='admin' && UseGuards(JwtAuthGuard,OnlyAdminGuard)
         ||
-        role ==='General' && UseGuards(JwtAuthGuard,OnlyGeneralGuard)
+        role==='staff'&& UseGuards(JwtAuthGuard)
+        ||
+        role ==='director' && UseGuards(JwtAuthGuard,OnlyGeneralGuard)
     )
 }

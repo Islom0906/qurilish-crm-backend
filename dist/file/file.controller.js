@@ -18,15 +18,32 @@ const file_service_1 = require("./file.service");
 const platform_express_1 = require("@nestjs/platform-express");
 const swagger_1 = require("@nestjs/swagger");
 const file_dto_1 = require("./dto/file.dto");
+const auth_decorator_1 = require("../auth/decorators/auth.decorator");
+const deleteFiles_dto_1 = require("./dto/deleteFiles.dto");
 let FileController = class FileController {
     constructor(fileService) {
         this.fileService = fileService;
     }
+    async getMedia() {
+        return this.fileService.getMedia();
+    }
     async uploadFile(media) {
         return this.fileService.uploadFile(media);
     }
+    async deleteFiles(dto) {
+        return this.fileService.deleteFiles(dto);
+    }
 };
 exports.FileController = FileController;
+__decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Get)('medias'),
+    (0, auth_decorator_1.Auth)("superAdmin"),
+    (0, swagger_1.ApiOperation)({ summary: "Get media" }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], FileController.prototype, "getMedia", null);
 __decorate([
     (0, common_1.Post)('medias'),
     (0, common_1.HttpCode)(201),
@@ -36,6 +53,7 @@ __decorate([
         description: "Media yuklash",
         type: file_dto_1.FileDto
     }),
+    (0, auth_decorator_1.Auth)("superAdmin"),
     (0, swagger_1.ApiConsumes)('multipart/form-data'),
     (0, swagger_1.ApiBody)({
         description: 'Media file to upload',
@@ -55,6 +73,19 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], FileController.prototype, "uploadFile", null);
+__decorate([
+    (0, common_1.Delete)('medias'),
+    (0, auth_decorator_1.Auth)("superAdmin"),
+    (0, swagger_1.ApiOperation)({ summary: "Media yuklash" }),
+    (0, swagger_1.ApiCreatedResponse)({
+        description: "Media yuklash",
+        type: deleteFiles_dto_1.DeleteFilesDto
+    }),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [deleteFiles_dto_1.DeleteFilesDto]),
+    __metadata("design:returntype", Promise)
+], FileController.prototype, "deleteFiles", null);
 exports.FileController = FileController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiTags)('Media'),

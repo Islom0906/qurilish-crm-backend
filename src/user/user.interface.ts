@@ -1,4 +1,4 @@
 import {UserDocument} from "./user.model";
 
-export type RoleUser="Admin" | "Seller" | "General"
+export type RoleUser= "superAdmin" |"admin" | "staff" | "director"
 export type UserTypeData=keyof UserDocument
