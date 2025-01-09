@@ -6,6 +6,7 @@ import {getMongoDbConfig} from "./config/mongo.config";
 import {AuthModule} from './auth/auth.module';
 import {ServeStaticModule} from "@nestjs/serve-static";
 import { join } from 'path';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -16,11 +17,13 @@ import { join } from 'path';
     }),
     MongooseModule.forRootAsync({
     imports:[ConfigModule],
+
     inject:[ConfigService],
     useFactory:getMongoDbConfig
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+    FileModule
   ],
 })
 export class AppModule {}

@@ -15,6 +15,7 @@ const mongo_config_1 = require("./config/mongo.config");
 const auth_module_1 = require("./auth/auth.module");
 const serve_static_1 = require("@nestjs/serve-static");
 const path_1 = require("path");
+const file_module_1 = require("./file/file.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -32,7 +33,8 @@ exports.AppModule = AppModule = __decorate([
                 useFactory: mongo_config_1.getMongoDbConfig
             }),
             user_module_1.UserModule,
-            auth_module_1.AuthModule
+            auth_module_1.AuthModule,
+            file_module_1.FileModule
         ],
     })
 ], AppModule);
