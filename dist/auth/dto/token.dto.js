@@ -18,9 +18,9 @@ exports.TokenDto = TokenDto;
 __decorate([
     (0, class_validator_1.IsString)({ message: 'Refresh token vaqti tugagan yoki string emas' }),
     (0, swagger_1.ApiProperty)({
-        description: 'refreshToken',
+        description: 'refresh token',
         required: true
     }),
     __metadata("design:type", String)
-], TokenDto.prototype, "refreshToken", void 0);
+], TokenDto.prototype, "refresh", void 0);
 //# sourceMappingURL=token.dto.js.map

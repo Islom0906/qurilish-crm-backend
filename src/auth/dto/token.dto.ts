@@ -4,8 +4,8 @@ import {ApiProperty} from "@nestjs/swagger";
 export class TokenDto{
     @IsString({message:'Refresh token vaqti tugagan yoki string emas'})
     @ApiProperty({
-        description:'refreshToken',
+        description:'refresh token',
         required:true
     })
-    refreshToken:string
+    refresh:string
 }

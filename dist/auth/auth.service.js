@@ -27,7 +27,7 @@ let AuthService = class AuthService {
     async register(dto) {
         const existUser = await this.isExistUser(dto.email);
         if (existUser)
-            throw new common_1.BadRequestException("Bu email bilan foydalanuvchi allaqachon ro'yxatdam o'tgan");
+            throw new common_1.BadRequestException("Bu email bilan foydalanuvchi allaqachon ro'yxatdan o'tgan");
         const salt = await (0, bcryptjs_1.genSalt)(10);
         const passwordHash = await (0, bcryptjs_1.hash)(dto.password, salt);
         const newUser = await this.userModel.create({
@@ -47,10 +47,10 @@ let AuthService = class AuthService {
         const token = await this.issueTokenPair(String(existUser._id));
         return { user: this.getUserField(existUser), ...token };
     }
-    async getNewToken({ refreshToken }) {
-        if (!refreshToken)
+    async getNewToken({ refresh }) {
+        if (!refresh)
             throw new common_1.UnauthorizedException("Iltimos ro'yxatdan o'ting!");
-        const result = await this.jwtService.verifyAsync(refreshToken);
+        const result = await this.jwtService.verifyAsync(refresh);
         if (!result)
             throw new common_1.UnauthorizedException('Token muddati tugagan yoki yaroqli emas!');
         const user = await this.userModel.findById(result._id);
@@ -63,13 +63,13 @@ let AuthService = class AuthService {
     }
     async issueTokenPair(userId) {
         const data = { _id: userId };
-        const refreshToken = await this.jwtService.signAsync(data, {
+        const refresh = await this.jwtService.signAsync(data, {
             expiresIn: '15d'
         });
-        const accessToken = await this.jwtService.signAsync(data, {
+        const access = await this.jwtService.signAsync(data, {
             expiresIn: '1m'
         });
-        return { refreshToken, accessToken };
+        return { refresh, access };
     }
     getUserField(user) {
         return {

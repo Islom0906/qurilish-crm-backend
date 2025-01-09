@@ -6,8 +6,8 @@ export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
     register(dto: RegisterDto): Promise<{
-        refreshToken: string;
-        accessToken: string;
+        refresh: string;
+        access: string;
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;
@@ -15,8 +15,8 @@ export declare class AuthController {
         };
     }>;
     login(dto: LoginDto): Promise<{
-        refreshToken: string;
-        accessToken: string;
+        refresh: string;
+        access: string;
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;
@@ -24,8 +24,8 @@ export declare class AuthController {
         };
     }>;
     getNewToken(dto: TokenDto): Promise<{
-        refreshToken: string;
-        accessToken: string;
+        refresh: string;
+        access: string;
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;

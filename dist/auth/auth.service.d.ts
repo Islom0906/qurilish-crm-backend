@@ -9,8 +9,8 @@ export declare class AuthService {
     private readonly jwtService;
     constructor(userModel: Model<UserDocument>, jwtService: JwtService);
     register(dto: RegisterDto): Promise<{
-        refreshToken: string;
-        accessToken: string;
+        refresh: string;
+        access: string;
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;
@@ -18,17 +18,17 @@ export declare class AuthService {
         };
     }>;
     login(dto: LoginDto): Promise<{
-        refreshToken: string;
-        accessToken: string;
+        refresh: string;
+        access: string;
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;
             fullName: string;
         };
     }>;
-    getNewToken({ refreshToken }: TokenDto): Promise<{
-        refreshToken: string;
-        accessToken: string;
+    getNewToken({ refresh }: TokenDto): Promise<{
+        refresh: string;
+        access: string;
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;
@@ -37,8 +37,8 @@ export declare class AuthService {
     }>;
     isExistUser(email: string): Promise<UserDocument>;
     issueTokenPair(userId: string): Promise<{
-        refreshToken: string;
-        accessToken: string;
+        refresh: string;
+        access: string;
     }>;
     getUserField(user: UserDocument): {
         _id: import("mongoose").Types.ObjectId;

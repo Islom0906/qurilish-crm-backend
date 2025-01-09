@@ -15,7 +15,7 @@ export class AuthService {
     // REGISTER SERVICE
     async register(dto:RegisterDto){
     const existUser=await this.isExistUser(dto.email)
-        if (existUser) throw new BadRequestException("Bu email bilan foydalanuvchi allaqachon ro'yxatdam o'tgan")
+        if (existUser) throw new BadRequestException("Bu email bilan foydalanuvchi allaqachon ro'yxatdan o'tgan")
 
         const salt=await genSalt(10);
         const passwordHash=await hash(dto.password,salt)
@@ -45,10 +45,10 @@ export class AuthService {
 
     //  NEW TOKEN
 
-    async getNewToken({refreshToken}:TokenDto){
-        if (!refreshToken) throw new UnauthorizedException("Iltimos ro'yxatdan o'ting!")
+    async getNewToken({refresh}:TokenDto){
+        if (!refresh) throw new UnauthorizedException("Iltimos ro'yxatdan o'ting!")
 
-        const result=await this.jwtService.verifyAsync(refreshToken)
+        const result=await this.jwtService.verifyAsync(refresh)
 
         if (!result) throw new UnauthorizedException('Token muddati tugagan yoki yaroqli emas!')
 
@@ -70,15 +70,15 @@ export class AuthService {
         const data={_id:userId}
 
 
-        const refreshToken=await this.jwtService.signAsync(data,{
+        const refresh=await this.jwtService.signAsync(data,{
             expiresIn:'15d'
         })
 
-        const accessToken=await this.jwtService.signAsync(data,{
+        const access=await this.jwtService.signAsync(data,{
             expiresIn:'1m'
         })
 
-        return {refreshToken,accessToken}
+        return {refresh,access}
     }
 
     getUserField(user:UserDocument){

@@ -1,3 +1,3 @@
 export declare class TokenDto {
-    refreshToken: string;
+    refresh: string;
 }
