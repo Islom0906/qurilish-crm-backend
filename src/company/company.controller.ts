@@ -22,6 +22,7 @@ export class CompanyController {
         return this.companyService.getCompany()
     }
 
+    // POST
     @UsePipes(new ValidationPipe())
     @HttpCode(201)
     @Post()
@@ -35,30 +36,31 @@ export class CompanyController {
         return this.companyService.creatCompany(dto)
     }
 
+    // PUT
+    // @UsePipes(new ValidationPipe())
+    // @HttpCode(200)
+    // @Put(':id')
+    // @Auth("superAdmin")
+    // @ApiOperation({summary: "Company api"})
+    // @ApiCreatedResponse({
+    //     description: "Company o'zgartirish",
+    //     type: CompanyDto
+    // })
+    // async updateCompany(@Param('id') id: string, @Body() dto: CompanyDto) {
+    //     return this.companyService.updateCompany(id, dto)
+    // }
 
-    @UsePipes(new ValidationPipe())
+//     DELETE
     @HttpCode(200)
-    @Put(':id')
+    @Delete(':id')
     @Auth("superAdmin")
     @ApiOperation({summary: "Company api"})
     @ApiCreatedResponse({
-        description: "Company yaratish",
-        type: CompanyDto
+        description: "Company o'chirish",
     })
-    async updateCompany(@Param('id') id: string, @Body() dto: CompanyDto) {
-        return this.companyService.updateCompany(id, dto)
-    }
-
-@HttpCode(200)
-@Delete(':id')
-@Auth("superAdmin")
-@ApiOperation({summary: "Company api"})
-@ApiCreatedResponse({
-    description: "Company yaratish",
-})
-    async deleteCompany(@Param('id') id:string){
+    async deleteCompany(@Param('id') id: string) {
         return this.companyService.deleteCompany(id)
-}
+    }
 
 
 }

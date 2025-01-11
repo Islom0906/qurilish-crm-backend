@@ -17,6 +17,8 @@ const serve_static_1 = require("@nestjs/serve-static");
 const path_1 = require("path");
 const file_module_1 = require("./file/file.module");
 const company_module_1 = require("./company/company.module");
+const slot_module_1 = require("./slot/slot.module");
+const common_module_1 = require("./common/common.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -36,7 +38,9 @@ exports.AppModule = AppModule = __decorate([
             user_module_1.UserModule,
             auth_module_1.AuthModule,
             file_module_1.FileModule,
-            company_module_1.CompanyModule
+            company_module_1.CompanyModule,
+            slot_module_1.SlotModule,
+            common_module_1.CommonModule
         ],
     })
 ], AppModule);

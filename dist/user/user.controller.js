@@ -22,8 +22,9 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    async getProfile(_id) {
-        return this.userService.byId(_id);
+    async getProfile(email) {
+        console.log(email);
+        return this.userService.byId(email);
     }
 };
 exports.UserController = UserController;
@@ -33,8 +34,8 @@ __decorate([
     (0, swagger_1.ApiCreatedResponse)({
         description: "User malumotlarini olish",
     }),
-    (0, auth_decorator_1.Auth)("staff"),
-    __param(0, (0, user_decorator_1.User)("_id")),
+    (0, auth_decorator_1.Auth)("admin"),
+    __param(0, (0, user_decorator_1.User)("email")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)

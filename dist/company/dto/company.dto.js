@@ -51,9 +51,36 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({
-        description: 'Company ishchilar soni',
+        description: 'Company image',
         required: true
     }),
     __metadata("design:type", String)
 ], CompanyDto.prototype, "image", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'Full name',
+        required: true
+    }),
+    __metadata("design:type", String)
+], CompanyDto.prototype, "fullName", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsEmail)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'Email',
+        required: true
+    }),
+    __metadata("design:type", String)
+], CompanyDto.prototype, "email", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(6),
+    (0, swagger_1.ApiProperty)({
+        description: 'Password',
+        required: true
+    }),
+    __metadata("design:type", String)
+], CompanyDto.prototype, "password", void 0);
 //# sourceMappingURL=company.dto.js.map

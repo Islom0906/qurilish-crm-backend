@@ -1,4 +1,4 @@
-import {IsDate, IsNumber, IsString} from "@nestjs/class-validator";
+import { IsEmail, IsNotEmpty, IsNumber, IsString, MinLength} from "@nestjs/class-validator";
 import {ApiProperty} from "@nestjs/swagger";
 import {IsDateString, IsPhoneNumber} from "class-validator";
 
@@ -37,9 +37,34 @@ export class CompanyDto{
 
     @IsString()
     @ApiProperty({
-        description:'Company ishchilar soni',
+        description:'Company image',
         required:true
 
     })
     image: string
+
+    @IsString()
+    @ApiProperty({
+        description:'Full name',
+        required:true
+    })
+    fullName:string
+
+    @IsString()
+    @IsEmail()
+    @IsNotEmpty()
+    @ApiProperty({
+        description:'Email',
+        required:true
+
+    })
+    email:string
+
+    @IsString()
+    @MinLength(6)
+    @ApiProperty({
+        description:'Password',
+        required:true
+    })
+    password:string
 }
