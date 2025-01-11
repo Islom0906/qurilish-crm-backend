@@ -17,10 +17,9 @@ export class UserController {
     @ApiCreatedResponse({
         description: "User malumotlarini olish",
     })
-    @Auth("admin")
-    async getProfile(@User("email") email:string){
-        console.log(email)
-        return this.userService.byId(email)
+    @Auth()
+    async getProfile(@User("_id") id:string){
+        return this.userService.byId(id)
 
     }
 }
