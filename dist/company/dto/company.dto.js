@@ -83,4 +83,36 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], CompanyDto.prototype, "password", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'User image',
+        required: true
+    }),
+    __metadata("design:type", String)
+], CompanyDto.prototype, "imageUser", void 0);
+__decorate([
+    (0, class_validator_2.IsDateString)(),
+    (0, swagger_1.ApiProperty)({
+        description: "Userni tug'ilgan kuni",
+        required: true
+    }),
+    __metadata("design:type", Date)
+], CompanyDto.prototype, "birthday", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'User jinsi',
+        required: true
+    }),
+    __metadata("design:type", String)
+], CompanyDto.prototype, "gender", void 0);
+__decorate([
+    (0, class_validator_2.IsPhoneNumber)("UZ"),
+    (0, swagger_1.ApiProperty)({
+        description: 'User telefon raqami',
+        required: true
+    }),
+    __metadata("design:type", String)
+], CompanyDto.prototype, "phoneUser", void 0);
 //# sourceMappingURL=company.dto.js.map

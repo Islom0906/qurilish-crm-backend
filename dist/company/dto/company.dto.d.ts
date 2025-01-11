@@ -7,4 +7,8 @@ export declare class CompanyDto {
     fullName: string;
     email: string;
     password: string;
+    imageUser: string;
+    birthday: Date;
+    gender: string;
+    phoneUser: string;
 }

@@ -18,13 +18,15 @@ export declare class CompanyController {
         fullName: string;
         email: string;
         role: import("../user/user.interface").RoleUser;
+        image: import("mongoose").Types.ObjectId;
+        birthday: Date;
+        gender: string;
+        phone: string;
         _id: import("mongoose").Types.ObjectId;
         name: string;
         status: import("./company.interface").CompanyStatus;
-        phone: string;
         staffCount: number;
         expiredDate: Date;
-        image: import("mongoose").Types.ObjectId;
     }>;
     deleteCompany(id: string): Promise<string>;
 }

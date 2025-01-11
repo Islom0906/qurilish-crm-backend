@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterDto = void 0;
 const class_validator_1 = require("@nestjs/class-validator");
 const swagger_1 = require("@nestjs/swagger");
+const class_validator_2 = require("class-validator");
 class RegisterDto {
 }
 exports.RegisterDto = RegisterDto;
@@ -50,4 +51,36 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "role", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'User image',
+        required: true
+    }),
+    __metadata("design:type", String)
+], RegisterDto.prototype, "image", void 0);
+__decorate([
+    (0, class_validator_2.IsDateString)(),
+    (0, swagger_1.ApiProperty)({
+        description: "Userni tug'ilgan kuni",
+        required: true
+    }),
+    __metadata("design:type", Date)
+], RegisterDto.prototype, "birthday", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'User jinsi',
+        required: true
+    }),
+    __metadata("design:type", String)
+], RegisterDto.prototype, "gender", void 0);
+__decorate([
+    (0, class_validator_2.IsPhoneNumber)("UZ"),
+    (0, swagger_1.ApiProperty)({
+        description: 'User telefon raqami',
+        required: true
+    }),
+    __metadata("design:type", String)
+], RegisterDto.prototype, "phone", void 0);
 //# sourceMappingURL=registerDto.js.map

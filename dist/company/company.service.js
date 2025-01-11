@@ -51,11 +51,15 @@ let CompanyService = class CompanyService {
             email: dto.email,
             password: passwordHash,
             role: 'admin',
-            companyId: company._id
+            companyId: company._id,
+            image: dto.imageUser,
+            birthday: dto.birthday,
+            gender: dto.gender,
+            phone: dto.phoneUser,
         });
         return {
             ...(0, lodash_1.pick)(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id']),
-            ...(0, lodash_1.pick)(companyAdmin, ['email', 'fullName', 'role'])
+            ...(0, lodash_1.pick)(companyAdmin, ['email', 'fullName', 'role', 'image', 'birthday', 'gender', 'phone'])
         };
     }
     async updateCompany(id, dto) {

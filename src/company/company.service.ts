@@ -44,11 +44,15 @@ export class CompanyService {
                 email:dto.email,
                 password:passwordHash,
                 role:'admin',
-                companyId:company._id
+                companyId:company._id,
+                image:dto.imageUser,
+                birthday:dto.birthday,
+                gender:dto.gender,
+                phone:dto.phoneUser,
             })
             return {
                 ...pick(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id']),
-                ...pick(companyAdmin,['email','fullName','role'])}
+                ...pick(companyAdmin,['email','fullName','role','image','birthday','gender','phone'])}
 
 
     }

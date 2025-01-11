@@ -12,6 +12,17 @@ import {TokenDto} from "./dto/token.dto";
 export class AuthService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,private readonly jwtService:JwtService) {}
 
+    // GET USERS
+    async getUsers() {
+        const users = await this.userModel.find()
+            .select('-createdAt -updatedAt')
+            .populate('image', 'url -_id')
+            .populate('companyId', '-createdAt -updatedAt -isDelete -__v')
+
+        return users
+    }
+
+
     // REGISTER SERVICE
     async register(dto:RegisterDto){
     const existUser=await this.isExistUser(dto.email)
@@ -83,7 +94,13 @@ export class AuthService {
 
     getUserField(user:UserDocument){
         return{
-            _id:user._id,email:user.email,fullName:user.fullName
+            _id: user._id,
+            email: user.email,
+            fullName: user.fullName,
+            image: user.image,
+            birthday: user.birthday,
+            gender: user.gender,
+            phone: user.phone
         }
     }
 

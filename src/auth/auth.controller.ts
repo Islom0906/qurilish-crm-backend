@@ -1,15 +1,25 @@
-import {Body, Controller, HttpCode, Post, UsePipes, ValidationPipe} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, Post, UsePipes, ValidationPipe} from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {RegisterDto} from "./dto/registerDto";
 import {LoginDto} from "./dto/login.dto";
 import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
 import {TokenDto} from "./dto/token.dto";
+import {Auth} from "./decorators/auth.decorator";
 
 @ApiBearerAuth()
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {
+    }
+
+    // GET ALL USER
+    @HttpCode(200)
+    @Get()
+    @Auth("superAdmin")
+    @ApiOperation({summary: "Get users"})
+    async getUsers() {
+        return this.authService.getUsers()
     }
 
     // REGISTER CONTROLLER

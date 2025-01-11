@@ -35,7 +35,7 @@ export declare class SlotController {
         __v: number;
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
-    }>, "companyId" | "_id" | "name" | "image" | "finishedDate">>;
+    }>, "companyId" | "image" | "_id" | "name" | "finishedDate">>;
     updateCompany(id: string, dto: SlotDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./slot.model").Slot> & import("./slot.model").Slot & {
         _id: import("mongoose").Types.ObjectId;
     } & {
@@ -46,6 +46,6 @@ export declare class SlotController {
         __v: number;
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
-    }>, "companyId" | "_id" | "name" | "image" | "finishedDate">>;
+    }>, "companyId" | "image" | "_id" | "name" | "finishedDate">>;
     deleteSlot(id: string): Promise<string>;
 }

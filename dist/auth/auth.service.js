@@ -24,6 +24,13 @@ let AuthService = class AuthService {
         this.userModel = userModel;
         this.jwtService = jwtService;
     }
+    async getUsers() {
+        const users = await this.userModel.find()
+            .select('-createdAt -updatedAt')
+            .populate('image', 'url -_id')
+            .populate('companyId', '-createdAt -updatedAt -isDelete -__v');
+        return users;
+    }
     async register(dto) {
         const existUser = await this.isExistUser(dto.email);
         if (existUser)
@@ -73,7 +80,13 @@ let AuthService = class AuthService {
     }
     getUserField(user) {
         return {
-            _id: user._id, email: user.email, fullName: user.fullName
+            _id: user._id,
+            email: user.email,
+            fullName: user.fullName,
+            image: user.image,
+            birthday: user.birthday,
+            gender: user.gender,
+            phone: user.phone
         };
     }
 };

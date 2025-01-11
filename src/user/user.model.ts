@@ -19,8 +19,20 @@ export class User {
     @Prop()
     role:RoleUser
 
-    @Prop({ type: Types.ObjectId, ref: 'File',default:null})
+    @Prop({ type: Types.ObjectId, ref: 'Company',default:null})
     companyId:Types.ObjectId | null
+
+    @Prop({ type: Types.ObjectId, ref: 'File',default:null})
+    image:Types.ObjectId
+
+    @Prop({required:true})
+    birthday:Date
+
+    @Prop({required:true})
+    gender:string
+
+    @Prop({required: true})
+    phone: string
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

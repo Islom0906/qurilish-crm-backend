@@ -19,9 +19,13 @@ const registerDto_1 = require("./dto/registerDto");
 const login_dto_1 = require("./dto/login.dto");
 const swagger_1 = require("@nestjs/swagger");
 const token_dto_1 = require("./dto/token.dto");
+const auth_decorator_1 = require("./decorators/auth.decorator");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
+    }
+    async getUsers() {
+        return this.authService.getUsers();
     }
     async register(dto) {
         return this.authService.register(dto);
@@ -34,6 +38,15 @@ let AuthController = class AuthController {
     }
 };
 exports.AuthController = AuthController;
+__decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Get)(),
+    (0, auth_decorator_1.Auth)("superAdmin"),
+    (0, swagger_1.ApiOperation)({ summary: "Get users" }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getUsers", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(201),

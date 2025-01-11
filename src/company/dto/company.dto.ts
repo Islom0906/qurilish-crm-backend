@@ -67,4 +67,36 @@ export class CompanyDto{
         required:true
     })
     password:string
+
+    @IsString()
+    @ApiProperty({
+        description:'User image',
+        required:true
+
+    })
+    imageUser: string
+
+    @IsDateString()
+    @ApiProperty({
+        description:"Userni tug'ilgan kuni",
+        required:true
+
+    })
+    birthday: Date
+
+    @IsString()
+    @ApiProperty({
+        description:'User jinsi',
+        required:true
+
+    })
+    gender: string
+
+    @IsPhoneNumber("UZ")
+    @ApiProperty({
+        description:'User telefon raqami',
+        required:true
+
+    })
+    phoneUser: string
 }
