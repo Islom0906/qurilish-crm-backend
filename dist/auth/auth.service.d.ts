@@ -25,7 +25,8 @@ export declare class AuthService {
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;
-            fullName: string;
+            name: string;
+            sur_name: string;
             image: import("mongoose").Types.ObjectId;
             birthday: Date;
             gender: string;
@@ -38,7 +39,8 @@ export declare class AuthService {
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;
-            fullName: string;
+            name: string;
+            sur_name: string;
             image: import("mongoose").Types.ObjectId;
             birthday: Date;
             gender: string;
@@ -51,7 +53,8 @@ export declare class AuthService {
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;
-            fullName: string;
+            name: string;
+            sur_name: string;
             image: import("mongoose").Types.ObjectId;
             birthday: Date;
             gender: string;
@@ -66,7 +69,8 @@ export declare class AuthService {
     getUserField(user: UserDocument): {
         _id: import("mongoose").Types.ObjectId;
         email: string;
-        fullName: string;
+        name: string;
+        sur_name: string;
         image: import("mongoose").Types.ObjectId;
         birthday: Date;
         gender: string;

@@ -6,10 +6,17 @@ import {IsDateString, IsPhoneNumber} from "class-validator";
 export class RegisterDto{
     @IsString()
     @ApiProperty({
-        description:'Full name',
+        description:'User name',
         required:true
     })
-    fullName:string
+    name:string
+
+    @IsString()
+    @ApiProperty({
+        description:'User Surname',
+        required:true
+    })
+    sur_name:string
 
     @IsString()
     @IsEmail()

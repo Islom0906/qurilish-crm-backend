@@ -1,6 +1,7 @@
 import { RoleUser } from "../../user/user.interface";
 export declare class RegisterDto {
-    fullName: string;
+    name: string;
+    sur_name: string;
     email: string;
     password: string;
     role: RoleUser;

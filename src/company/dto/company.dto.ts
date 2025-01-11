@@ -45,10 +45,17 @@ export class CompanyDto{
 
     @IsString()
     @ApiProperty({
-        description:'Full name',
+        description:'User name',
         required:true
     })
-    fullName:string
+    userName:string
+
+    @IsString()
+    @ApiProperty({
+        description:'User Surname',
+        required:true
+    })
+    sur_name:string
 
     @IsString()
     @IsEmail()

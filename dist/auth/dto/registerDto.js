@@ -19,11 +19,19 @@ exports.RegisterDto = RegisterDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({
-        description: 'Full name',
+        description: 'User name',
         required: true
     }),
     __metadata("design:type", String)
-], RegisterDto.prototype, "fullName", void 0);
+], RegisterDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'User Surname',
+        required: true
+    }),
+    __metadata("design:type", String)
+], RegisterDto.prototype, "sur_name", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsEmail)(),

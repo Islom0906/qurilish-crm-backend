@@ -40,7 +40,8 @@ export class CompanyService {
             const salt=await genSalt(10);
             const passwordHash=await hash(dto.password,salt)
             const companyAdmin=await this.userModel.create({
-                fullName:dto.fullName,
+                name:dto.userName,
+                sur_name:dto.sur_name,
                 email:dto.email,
                 password:passwordHash,
                 role:'admin',
@@ -52,43 +53,14 @@ export class CompanyService {
             })
             return {
                 ...pick(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id']),
-                ...pick(companyAdmin,['email','fullName','role','image','birthday','gender','phone'])}
+                ...pick(companyAdmin,['email','name','sur_name','role','image','birthday','gender','phone'])}
 
 
     }
 
 //     PUT COMPANY
     async updateCompany(id: string, dto: CompanyDto) {
-        const company = await this.companyModel.findByIdAndUpdate(id,
-            {
-                name:dto.name,
-                phone:dto.phone,
-                staffCount:dto.staffCount,
-                expiredDate:dto.expiredDate,
-                image:dto.image,
-                status: "active",
-                isDelete: false
-            },
-            {new: true})
-        const salt=await genSalt(10);
-        const passwordHash=await hash(dto.password,salt)
-        const companyAdmin=await this.userModel.findOneAndUpdate(
-            {companyId:id},
-            {
-                fullName:dto.fullName,
-                email:dto.email,
-                password:passwordHash,
-                role:'admin',
-                companyId:company._id
-            },
-            {new:true,upsert: true}
-            )
-        console.log(companyAdmin)
-        if (!company) throw new NotFoundException('Company topilmadi')
-        if (!companyAdmin) throw new NotFoundException("Bunday admin yo'q")
-        return {
-            ...pick(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id']),
-            ...pick(companyAdmin,['email','fullName','role'])}
+
 
     }
 

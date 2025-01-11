@@ -22,7 +22,8 @@ export declare class AuthController {
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;
-            fullName: string;
+            name: string;
+            sur_name: string;
             image: import("mongoose").Types.ObjectId;
             birthday: Date;
             gender: string;
@@ -35,7 +36,8 @@ export declare class AuthController {
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;
-            fullName: string;
+            name: string;
+            sur_name: string;
             image: import("mongoose").Types.ObjectId;
             birthday: Date;
             gender: string;
@@ -48,7 +50,8 @@ export declare class AuthController {
         user: {
             _id: import("mongoose").Types.ObjectId;
             email: string;
-            fullName: string;
+            name: string;
+            sur_name: string;
             image: import("mongoose").Types.ObjectId;
             birthday: Date;
             gender: string;

@@ -47,7 +47,8 @@ let CompanyService = class CompanyService {
         const salt = await (0, bcryptjs_1.genSalt)(10);
         const passwordHash = await (0, bcryptjs_1.hash)(dto.password, salt);
         const companyAdmin = await this.userModel.create({
-            fullName: dto.fullName,
+            name: dto.userName,
+            sur_name: dto.sur_name,
             email: dto.email,
             password: passwordHash,
             role: 'admin',
@@ -59,37 +60,10 @@ let CompanyService = class CompanyService {
         });
         return {
             ...(0, lodash_1.pick)(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id']),
-            ...(0, lodash_1.pick)(companyAdmin, ['email', 'fullName', 'role', 'image', 'birthday', 'gender', 'phone'])
+            ...(0, lodash_1.pick)(companyAdmin, ['email', 'name', 'sur_name', 'role', 'image', 'birthday', 'gender', 'phone'])
         };
     }
     async updateCompany(id, dto) {
-        const company = await this.companyModel.findByIdAndUpdate(id, {
-            name: dto.name,
-            phone: dto.phone,
-            staffCount: dto.staffCount,
-            expiredDate: dto.expiredDate,
-            image: dto.image,
-            status: "active",
-            isDelete: false
-        }, { new: true });
-        const salt = await (0, bcryptjs_1.genSalt)(10);
-        const passwordHash = await (0, bcryptjs_1.hash)(dto.password, salt);
-        const companyAdmin = await this.userModel.findOneAndUpdate({ companyId: id }, {
-            fullName: dto.fullName,
-            email: dto.email,
-            password: passwordHash,
-            role: 'admin',
-            companyId: company._id
-        }, { new: true, upsert: true });
-        console.log(companyAdmin);
-        if (!company)
-            throw new common_1.NotFoundException('Company topilmadi');
-        if (!companyAdmin)
-            throw new common_1.NotFoundException("Bunday admin yo'q");
-        return {
-            ...(0, lodash_1.pick)(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id']),
-            ...(0, lodash_1.pick)(companyAdmin, ['email', 'fullName', 'role'])
-        };
     }
     async deleteCompany(id) {
         const findAndDelete = await this.companyModel.findOneAndUpdate({ _id: id, isDelete: false }, { $set: { isDelete: true } }, { new: true });

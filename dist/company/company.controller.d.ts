@@ -15,7 +15,8 @@ export declare class CompanyController {
         _id: import("mongoose").Types.ObjectId;
     }>)[]>;
     creatCompany(dto: CompanyDto): Promise<{
-        fullName: string;
+        name: string;
+        sur_name: string;
         email: string;
         role: import("../user/user.interface").RoleUser;
         image: import("mongoose").Types.ObjectId;
@@ -23,7 +24,6 @@ export declare class CompanyController {
         gender: string;
         phone: string;
         _id: import("mongoose").Types.ObjectId;
-        name: string;
         status: import("./company.interface").CompanyStatus;
         staffCount: number;
         expiredDate: Date;

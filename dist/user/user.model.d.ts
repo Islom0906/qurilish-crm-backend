@@ -2,7 +2,8 @@ import { HydratedDocument, Types } from 'mongoose';
 import { RoleUser } from "./user.interface";
 export type UserDocument = HydratedDocument<User>;
 export declare class User {
-    fullName: string;
+    name: string;
+    sur_name: string;
     email: string;
     password: string;
     role: RoleUser;
