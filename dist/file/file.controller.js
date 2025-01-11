@@ -53,7 +53,6 @@ __decorate([
         description: "Media yuklash",
         type: file_dto_1.FileDto
     }),
-    (0, auth_decorator_1.Auth)(),
     (0, swagger_1.ApiConsumes)('multipart/form-data'),
     (0, swagger_1.ApiBody)({
         description: 'Media file to upload',

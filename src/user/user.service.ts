@@ -9,6 +9,7 @@ export class UserService {
 
     async byId(id:string){
         const user=await  this.userModel.findById(id)
+            .select('-createdAt -updatedAt -__v')
 
         if (!user) throw new NotFoundException('Not Found User')
 

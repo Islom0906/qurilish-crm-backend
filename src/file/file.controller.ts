@@ -40,7 +40,7 @@ export class FileController {
         description: "Media yuklash",
         type: FileDto
     })
-    @Auth()
+    // @Auth()
     @ApiConsumes('multipart/form-data')  // This is required for file uploads
     @ApiBody({
         description: 'Media file to upload',
