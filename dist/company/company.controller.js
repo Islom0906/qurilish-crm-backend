@@ -28,9 +28,6 @@ let CompanyController = class CompanyController {
     async creatCompany(dto) {
         return this.companyService.creatCompany(dto);
     }
-    async updateCompany(id, dto) {
-        return this.companyService.updateCompany(id, dto);
-    }
     async deleteCompany(id) {
         return this.companyService.deleteCompany(id);
     }
@@ -61,28 +58,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CompanyController.prototype, "creatCompany", null);
 __decorate([
-    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
-    (0, common_1.HttpCode)(200),
-    (0, common_1.Put)(':id'),
-    (0, auth_decorator_1.Auth)("superAdmin"),
-    (0, swagger_1.ApiOperation)({ summary: "Company api" }),
-    (0, swagger_1.ApiCreatedResponse)({
-        description: "Company yaratish",
-        type: company_dto_1.CompanyDto
-    }),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, company_dto_1.CompanyDto]),
-    __metadata("design:returntype", Promise)
-], CompanyController.prototype, "updateCompany", null);
-__decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(':id'),
     (0, auth_decorator_1.Auth)("superAdmin"),
     (0, swagger_1.ApiOperation)({ summary: "Company api" }),
     (0, swagger_1.ApiCreatedResponse)({
-        description: "Company yaratish",
+        description: "Company o'chirish",
     }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
