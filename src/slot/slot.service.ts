@@ -15,17 +15,17 @@ export class SlotService {
     async getSlot(userId:string) {
         const companyId = await this.commonService.getCompanyId(userId)
         const slot = await this.slotModel.find({isDelete: false,companyId})
-            .select('-createdAt -updatedAt')
-            .populate('image', 'url -_id')
+            .select('-createdAt -updatedAt -isDelete')
+            // .populate('image', 'url -_id')
 
         return slot
     }
 
     // GET by id slot
     async getByIdSlot(id: string) {
-        const slot = await this.slotModel.findById(id)
+        const slot = await this.slotModel.findOne({_id:id,isDelete:false})
             .select('-createdAt -updatedAt')
-            .populate('image','-createdAt -updatedAt')
+            .populate('image','-createdAt -updatedAt -isDelete')
         if (!slot) throw new NotFoundException("Slot topilmadi")
 
         return slot
@@ -43,7 +43,7 @@ export class SlotService {
         return pick(service, ['name', 'companyId', '_id', 'finishedDate', 'image'])
     }
 
-    async updateCompany(id: string, dto: SlotDto, userId: string) {
+    async updateSlot(id: string, dto: SlotDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
 
         const service = await this.slotModel.findByIdAndUpdate(id,
@@ -51,7 +51,7 @@ export class SlotService {
                 ...dto,
                 companyId,
                 isDelete: false
-            }
+            },{new:true}
         )
 
         if (!service) throw new NotFoundException('Slot topilmadi')

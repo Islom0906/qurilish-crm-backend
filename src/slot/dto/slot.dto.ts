@@ -1,6 +1,6 @@
 import {IsString} from "@nestjs/class-validator";
 import {ApiProperty} from "@nestjs/swagger";
-import {IsDateString} from "class-validator";
+import {IsDateString, IsMongoId} from "class-validator";
 
 export class SlotDto {
     @IsString()
@@ -24,6 +24,7 @@ export class SlotDto {
     @ApiProperty({
         description:'Slot image',
     })
+    @IsMongoId()
     image: string
 
 

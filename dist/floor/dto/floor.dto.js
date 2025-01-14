@@ -9,35 +9,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SlotDto = void 0;
-const class_validator_1 = require("@nestjs/class-validator");
+exports.FloorDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
-const class_validator_2 = require("class-validator");
-class SlotDto {
+const class_validator_1 = require("class-validator");
+class FloorDto {
 }
-exports.SlotDto = SlotDto;
+exports.FloorDto = FloorDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Name of the floor',
+        required: true,
+    }),
     (0, class_validator_1.IsString)(),
-    (0, swagger_1.ApiProperty)({
-        description: 'Slot nomi',
-        required: true
-    }),
     __metadata("design:type", String)
-], SlotDto.prototype, "name", void 0);
+], FloorDto.prototype, "name", void 0);
 __decorate([
-    (0, class_validator_2.IsDateString)(),
     (0, swagger_1.ApiProperty)({
-        description: 'Slot tugash vaqti',
-        required: true
+        description: 'Is sale floor',
+        required: true,
     }),
-    __metadata("design:type", Date)
-], SlotDto.prototype, "finishedDate", void 0);
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], FloorDto.prototype, "isSale", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({
-        description: 'Slot image',
+        description: 'Image file ID',
+        required: true,
     }),
-    (0, class_validator_2.IsMongoId)(),
+    (0, class_validator_1.IsMongoId)(),
     __metadata("design:type", String)
-], SlotDto.prototype, "image", void 0);
-//# sourceMappingURL=slot.dto.js.map
+], FloorDto.prototype, "image", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Slot ID associated with the house',
+        required: true,
+    }),
+    (0, class_validator_1.IsMongoId)(),
+    __metadata("design:type", String)
+], FloorDto.prototype, "houseId", void 0);
+//# sourceMappingURL=floor.dto.js.map

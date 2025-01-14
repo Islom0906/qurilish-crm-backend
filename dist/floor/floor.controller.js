@@ -12,104 +12,104 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SlotController = void 0;
+exports.FloorController = void 0;
 const common_1 = require("@nestjs/common");
-const swagger_1 = require("@nestjs/swagger");
-const slot_service_1 = require("./slot.service");
+const floor_service_1 = require("./floor.service");
 const auth_decorator_1 = require("../auth/decorators/auth.decorator");
-const slot_dto_1 = require("./dto/slot.dto");
+const swagger_1 = require("@nestjs/swagger");
+const floor_dto_1 = require("./dto/floor.dto");
 const user_decorator_1 = require("../user/decorators/user.decorator");
-let SlotController = class SlotController {
-    constructor(slotService) {
-        this.slotService = slotService;
+let FloorController = class FloorController {
+    constructor(floorService) {
+        this.floorService = floorService;
     }
-    async getSlot(userId) {
-        return this.slotService.getSlot(userId);
+    async getFloor(userId) {
+        return this.floorService.getFloor(userId);
     }
-    async getByIdSlot(id) {
-        return this.slotService.getByIdSlot(id);
+    async getByIdFloor(id) {
+        return this.floorService.getByIdFloor(id);
     }
-    async creatSlot(dto, userId) {
-        return this.slotService.creatSlot(dto, userId);
+    async creatFloor(dto, userId) {
+        return this.floorService.creatFloor(dto, userId);
     }
-    async updateSlot(id, dto, userId) {
-        return this.slotService.updateSlot(id, dto, userId);
+    async updateFloor(id, dto, userId) {
+        return this.floorService.updateFloor(id, dto, userId);
     }
-    async deleteSlot(id) {
-        return this.slotService.deleteSlot(id);
+    async deleteFloor(id) {
+        return this.floorService.deleteFloor(id);
     }
 };
-exports.SlotController = SlotController;
+exports.FloorController = FloorController;
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(),
     (0, auth_decorator_1.Auth)("admin"),
-    (0, swagger_1.ApiOperation)({ summary: "Get slot" }),
+    (0, swagger_1.ApiOperation)({ summary: "Get floor" }),
     __param(0, (0, user_decorator_1.UserInfo)("_id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], SlotController.prototype, "getSlot", null);
+], FloorController.prototype, "getFloor", null);
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":id"),
     (0, auth_decorator_1.Auth)("admin"),
-    (0, swagger_1.ApiOperation)({ summary: "Get by id slot" }),
+    (0, swagger_1.ApiOperation)({ summary: "Get by id floor" }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], SlotController.prototype, "getByIdSlot", null);
+], FloorController.prototype, "getByIdFloor", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(201),
     (0, common_1.Post)(),
     (0, auth_decorator_1.Auth)("admin"),
-    (0, swagger_1.ApiOperation)({ summary: "Slot api" }),
+    (0, swagger_1.ApiOperation)({ summary: "Floor api" }),
     (0, swagger_1.ApiCreatedResponse)({
-        description: "Slot yaratish",
-        type: slot_dto_1.SlotDto
+        description: "Floor yaratish",
+        type: floor_dto_1.FloorDto
     }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, user_decorator_1.UserInfo)("_id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [slot_dto_1.SlotDto, String]),
+    __metadata("design:paramtypes", [floor_dto_1.FloorDto, String]),
     __metadata("design:returntype", Promise)
-], SlotController.prototype, "creatSlot", null);
+], FloorController.prototype, "creatFloor", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Put)(':id'),
     (0, auth_decorator_1.Auth)("admin"),
-    (0, swagger_1.ApiOperation)({ summary: "Slot api" }),
+    (0, swagger_1.ApiOperation)({ summary: "Floor api" }),
     (0, swagger_1.ApiCreatedResponse)({
-        description: "Slot o'zgartirish",
-        type: slot_dto_1.SlotDto
+        description: "Floor o'zgartirish",
+        type: floor_dto_1.FloorDto
     }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, user_decorator_1.UserInfo)("_id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, slot_dto_1.SlotDto, String]),
+    __metadata("design:paramtypes", [String, floor_dto_1.FloorDto, String]),
     __metadata("design:returntype", Promise)
-], SlotController.prototype, "updateSlot", null);
+], FloorController.prototype, "updateFloor", null);
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(':id'),
     (0, auth_decorator_1.Auth)("admin"),
-    (0, swagger_1.ApiOperation)({ summary: "Slot api" }),
+    (0, swagger_1.ApiOperation)({ summary: "Floor api" }),
     (0, swagger_1.ApiCreatedResponse)({
-        description: "Slot o'chirish",
+        description: "Floor o'chirish",
     }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], SlotController.prototype, "deleteSlot", null);
-exports.SlotController = SlotController = __decorate([
+], FloorController.prototype, "deleteFloor", null);
+exports.FloorController = FloorController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
-    (0, swagger_1.ApiTags)('Slot'),
-    (0, common_1.Controller)('slot'),
-    __metadata("design:paramtypes", [slot_service_1.SlotService])
-], SlotController);
-//# sourceMappingURL=slot.controller.js.map
+    (0, swagger_1.ApiTags)('Floor'),
+    (0, common_1.Controller)('floor'),
+    __metadata("design:paramtypes", [floor_service_1.FloorService])
+], FloorController);
+//# sourceMappingURL=floor.controller.js.map

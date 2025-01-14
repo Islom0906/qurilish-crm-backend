@@ -19,6 +19,8 @@ const file_module_1 = require("./file/file.module");
 const company_module_1 = require("./company/company.module");
 const slot_module_1 = require("./slot/slot.module");
 const common_module_1 = require("./common/common.module");
+const house_module_1 = require("./house/house.module");
+const floor_module_1 = require("./floor/floor.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -40,7 +42,9 @@ exports.AppModule = AppModule = __decorate([
             file_module_1.FileModule,
             company_module_1.CompanyModule,
             slot_module_1.SlotModule,
-            common_module_1.CommonModule
+            common_module_1.CommonModule,
+            house_module_1.HouseModule,
+            floor_module_1.FloorModule
         ],
     })
 ], AppModule);

@@ -12,66 +12,69 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SlotService = void 0;
+exports.FloorService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const floor_model_1 = require("./floor.model");
 const mongoose_2 = require("mongoose");
-const slot_model_1 = require("./slot.model");
 const common_service_1 = require("../common/common.service");
 const lodash_1 = require("lodash");
-let SlotService = class SlotService {
-    constructor(slotModel, commonService) {
-        this.slotModel = slotModel;
+let FloorService = class FloorService {
+    constructor(floorModel, commonService) {
+        this.floorModel = floorModel;
         this.commonService = commonService;
     }
-    async getSlot(userId) {
+    async getFloor(userId) {
         const companyId = await this.commonService.getCompanyId(userId);
-        const slot = await this.slotModel.find({ isDelete: false, companyId })
-            .select('-createdAt -updatedAt -isDelete');
-        return slot;
+        const getFloor = await this.floorModel.find({ isDelete: false, companyId })
+            .select('-createdAt -updatedAt -isDelete')
+            .populate('image', 'url -_id');
+        return getFloor;
     }
-    async getByIdSlot(id) {
-        const slot = await this.slotModel.findOne({ _id: id, isDelete: false })
-            .select('-createdAt -updatedAt')
-            .populate('image', '-createdAt -updatedAt -isDelete');
-        if (!slot)
-            throw new common_1.NotFoundException("Slot topilmadi");
-        return slot;
+    async getByIdFloor(id) {
+        const floor = await this.floorModel.findOne({ _id: id, isDelete: false })
+            .select('-createdAt -updatedAt -isDelete')
+            .populate('image', '-createdAt -updatedAt -isDelete ')
+            .populate('houseId', '-createdAt -updatedAt -image -slotId -companyId -squarePrices -isDelete -__v');
+        if (!floor)
+            throw new common_1.NotFoundException("Floor topilmadi");
+        return floor;
     }
-    async creatSlot(dto, userId) {
+    async creatFloor(dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
-        const service = await this.slotModel.create({
+        const floor = await this.floorModel.create({
             ...dto,
             companyId,
             isDelete: false
         });
-        return (0, lodash_1.pick)(service, ['name', 'companyId', '_id', 'finishedDate', 'image']);
+        return (0, lodash_1.pick)(floor, ['name', 'companyId', '_id', 'houseId', 'image', 'isSale']);
     }
-    async updateSlot(id, dto, userId) {
+    async updateFloor(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
-        const service = await this.slotModel.findByIdAndUpdate(id, {
+        const floor = await this.floorModel.findOneAndUpdate({ _id: id,
+            isDelete: false }, {
             ...dto,
             companyId,
             isDelete: false
         }, { new: true });
-        if (!service)
-            throw new common_1.NotFoundException('Slot topilmadi');
-        return (0, lodash_1.pick)(service, ['name', 'companyId', '_id', 'finishedDate', 'image']);
+        if (!floor)
+            throw new common_1.NotFoundException('Floor topilmadi');
+        return (0, lodash_1.pick)(floor, ['name', 'companyId', '_id', 'houseId', 'image', 'isSale']);
     }
-    async deleteSlot(id) {
-        const findAndDelete = await this.slotModel.findOneAndUpdate({
+    async deleteFloor(id) {
+        const findAndDelete = await this.floorModel.findOneAndUpdate({
             _id: id,
             isDelete: false
         }, { $set: { isDelete: true } }, { new: true });
         if (!findAndDelete)
-            throw new common_1.NotFoundException('Slot topilmadi');
+            throw new common_1.NotFoundException('Floor topilmadi');
         return 'success delete';
     }
 };
-exports.SlotService = SlotService;
-exports.SlotService = SlotService = __decorate([
+exports.FloorService = FloorService;
+exports.FloorService = FloorService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(slot_model_1.Slot.name)),
+    __param(0, (0, mongoose_1.InjectModel)(floor_model_1.Floor.name)),
     __metadata("design:paramtypes", [mongoose_2.Model, common_service_1.CommonService])
-], SlotService);
-//# sourceMappingURL=slot.service.js.map
+], FloorService);
+//# sourceMappingURL=floor.service.js.map

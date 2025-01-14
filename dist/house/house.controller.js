@@ -12,104 +12,104 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SlotController = void 0;
+exports.HouseController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const slot_service_1 = require("./slot.service");
+const house_service_1 = require("./house.service");
 const auth_decorator_1 = require("../auth/decorators/auth.decorator");
-const slot_dto_1 = require("./dto/slot.dto");
 const user_decorator_1 = require("../user/decorators/user.decorator");
-let SlotController = class SlotController {
-    constructor(slotService) {
-        this.slotService = slotService;
+const house_dto_1 = require("./dto/house.dto");
+let HouseController = class HouseController {
+    constructor(houseService) {
+        this.houseService = houseService;
     }
-    async getSlot(userId) {
-        return this.slotService.getSlot(userId);
+    async getHouse(userId) {
+        return this.houseService.getHouse(userId);
     }
-    async getByIdSlot(id) {
-        return this.slotService.getByIdSlot(id);
+    async getByIdHouse(id) {
+        return this.houseService.getByIdHouse(id);
     }
-    async creatSlot(dto, userId) {
-        return this.slotService.creatSlot(dto, userId);
+    async creatHouse(dto, userId) {
+        return this.houseService.creatHouse(dto, userId);
     }
-    async updateSlot(id, dto, userId) {
-        return this.slotService.updateSlot(id, dto, userId);
+    async updateHouse(id, dto, userId) {
+        return this.houseService.updateHouse(id, dto, userId);
     }
-    async deleteSlot(id) {
-        return this.slotService.deleteSlot(id);
+    async deleteHouse(id) {
+        return this.houseService.deleteHouse(id);
     }
 };
-exports.SlotController = SlotController;
+exports.HouseController = HouseController;
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(),
     (0, auth_decorator_1.Auth)("admin"),
-    (0, swagger_1.ApiOperation)({ summary: "Get slot" }),
+    (0, swagger_1.ApiOperation)({ summary: "Get house" }),
     __param(0, (0, user_decorator_1.UserInfo)("_id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], SlotController.prototype, "getSlot", null);
+], HouseController.prototype, "getHouse", null);
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":id"),
     (0, auth_decorator_1.Auth)("admin"),
-    (0, swagger_1.ApiOperation)({ summary: "Get by id slot" }),
+    (0, swagger_1.ApiOperation)({ summary: "Get by id house" }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], SlotController.prototype, "getByIdSlot", null);
+], HouseController.prototype, "getByIdHouse", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(201),
     (0, common_1.Post)(),
     (0, auth_decorator_1.Auth)("admin"),
-    (0, swagger_1.ApiOperation)({ summary: "Slot api" }),
+    (0, swagger_1.ApiOperation)({ summary: "House api" }),
     (0, swagger_1.ApiCreatedResponse)({
-        description: "Slot yaratish",
-        type: slot_dto_1.SlotDto
+        description: "House yaratish",
+        type: house_dto_1.HouseDto
     }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, user_decorator_1.UserInfo)("_id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [slot_dto_1.SlotDto, String]),
+    __metadata("design:paramtypes", [house_dto_1.HouseDto, String]),
     __metadata("design:returntype", Promise)
-], SlotController.prototype, "creatSlot", null);
+], HouseController.prototype, "creatHouse", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),
     (0, common_1.Put)(':id'),
     (0, auth_decorator_1.Auth)("admin"),
-    (0, swagger_1.ApiOperation)({ summary: "Slot api" }),
+    (0, swagger_1.ApiOperation)({ summary: "House api" }),
     (0, swagger_1.ApiCreatedResponse)({
-        description: "Slot o'zgartirish",
-        type: slot_dto_1.SlotDto
+        description: "House o'zgartirish",
+        type: house_dto_1.HouseDto
     }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, user_decorator_1.UserInfo)("_id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, slot_dto_1.SlotDto, String]),
+    __metadata("design:paramtypes", [String, house_dto_1.HouseDto, String]),
     __metadata("design:returntype", Promise)
-], SlotController.prototype, "updateSlot", null);
+], HouseController.prototype, "updateHouse", null);
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(':id'),
     (0, auth_decorator_1.Auth)("admin"),
-    (0, swagger_1.ApiOperation)({ summary: "Slot api" }),
+    (0, swagger_1.ApiOperation)({ summary: "House api" }),
     (0, swagger_1.ApiCreatedResponse)({
-        description: "Slot o'chirish",
+        description: "House o'chirish",
     }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], SlotController.prototype, "deleteSlot", null);
-exports.SlotController = SlotController = __decorate([
+], HouseController.prototype, "deleteHouse", null);
+exports.HouseController = HouseController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
-    (0, swagger_1.ApiTags)('Slot'),
-    (0, common_1.Controller)('slot'),
-    __metadata("design:paramtypes", [slot_service_1.SlotService])
-], SlotController);
-//# sourceMappingURL=slot.controller.js.map
+    (0, swagger_1.ApiTags)('House'),
+    (0, common_1.Controller)('house'),
+    __metadata("design:paramtypes", [house_service_1.HouseService])
+], HouseController);
+//# sourceMappingURL=house.controller.js.map

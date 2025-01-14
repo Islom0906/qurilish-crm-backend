@@ -1,7 +1,7 @@
 import {Controller, Get} from '@nestjs/common';
 import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
 import {Auth} from "../auth/decorators/auth.decorator";
-import {User} from "./decorators/user.decorator";
+import { UserInfo} from "./decorators/user.decorator";
 import {UserService} from "./user.service";
 
 
@@ -18,7 +18,7 @@ export class UserController {
         description: "User malumotlarini olish",
     })
     @Auth()
-    async getProfile(@User("_id") id:string){
+    async getProfile(@UserInfo("_id") id:string){
         return this.userService.byId(id)
 
     }

@@ -36,7 +36,7 @@ export declare class SlotController {
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>, "name" | "companyId" | "image" | "_id" | "finishedDate">>;
-    updateCompany(id: string, dto: SlotDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./slot.model").Slot> & import("./slot.model").Slot & {
+    updateSlot(id: string, dto: SlotDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./slot.model").Slot> & import("./slot.model").Slot & {
         _id: import("mongoose").Types.ObjectId;
     } & {
         __v: number;

@@ -10,6 +10,8 @@ import { FileModule } from './file/file.module';
 import { CompanyModule } from './company/company.module';
 import { SlotModule } from './slot/slot.module';
 import { CommonModule } from './common/common.module';
+import { HouseModule } from './house/house.module';
+import { FloorModule } from './floor/floor.module';
 
 @Module({
   imports: [
@@ -29,7 +31,9 @@ import { CommonModule } from './common/common.module';
     FileModule,
     CompanyModule,
     SlotModule,
-    CommonModule
+    CommonModule,
+    HouseModule,
+    FloorModule
   ],
 })
 export class AppModule {}

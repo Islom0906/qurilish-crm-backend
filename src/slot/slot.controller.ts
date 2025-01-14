@@ -3,8 +3,8 @@ import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/
 import {SlotService} from "./slot.service";
 import {Auth} from "../auth/decorators/auth.decorator";
 import {SlotDto} from "./dto/slot.dto";
-import {User} from "../user/decorators/user.decorator";
-import {CompanyDto} from "../company/dto/company.dto";
+import { UserInfo} from "../user/decorators/user.decorator";
+
 
 @ApiBearerAuth()
 @ApiTags('Slot')
@@ -18,7 +18,7 @@ export class SlotController {
     @Get()
     @Auth("admin")
     @ApiOperation({summary: "Get slot"})
-    async getSlot(@User("_id") userId:string) {
+    async getSlot(@UserInfo("_id") userId:string) {
         return this.slotService.getSlot(userId)
     }
 
@@ -41,7 +41,7 @@ export class SlotController {
         description: "Slot yaratish",
         type: SlotDto
     })
-    async creatSlot(@Body() dto: SlotDto,@User("_id") userId:string) {
+    async creatSlot(@Body() dto: SlotDto, @UserInfo("_id") userId:string) {
         return this.slotService.creatSlot(dto,userId)
     }
 
@@ -55,8 +55,8 @@ export class SlotController {
         description: "Slot o'zgartirish",
         type: SlotDto
     })
-    async updateCompany(@Param('id') id: string, @Body() dto: SlotDto,@User("_id") userId:string) {
-        return this.slotService.updateCompany(id, dto,userId)
+    async updateSlot(@Param('id') id: string, @Body() dto: SlotDto, @UserInfo("_id") userId:string) {
+        return this.slotService.updateSlot(id, dto,userId)
     }
 
 
