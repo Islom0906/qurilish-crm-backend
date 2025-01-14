@@ -35,8 +35,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({
-        description: 'Slot soni',
-        required: true
+        description: 'Slot image',
     }),
     __metadata("design:type", String)
 ], SlotDto.prototype, "image", void 0);

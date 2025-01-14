@@ -24,7 +24,7 @@ __decorate([
     __metadata("design:type", Date)
 ], Slot.prototype, "finishedDate", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId, ref: 'File' }),
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'File' }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Slot.prototype, "image", void 0);
 __decorate([
