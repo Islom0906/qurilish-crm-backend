@@ -22,9 +22,7 @@ export class SlotDto {
 
     @IsString()
     @ApiProperty({
-        description:'Slot soni',
-        required:true
-
+        description:'Slot image',
     })
     image: string
 

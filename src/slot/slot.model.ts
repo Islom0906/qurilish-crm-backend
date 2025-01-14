@@ -11,7 +11,7 @@ export class Slot {
     @Prop({required: true})
     finishedDate: Date
 
-    @Prop({required: true, type: Types.ObjectId, ref: 'File'})
+    @Prop({ type: Types.ObjectId, ref: 'File'})
     image: Types.ObjectId
 
     @Prop({required: true, type: Types.ObjectId, ref: 'Company'})
