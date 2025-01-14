@@ -34,7 +34,7 @@ __decorate([
         description: "User malumotlarini olish",
     }),
     (0, auth_decorator_1.Auth)(),
-    __param(0, (0, user_decorator_1.User)("_id")),
+    __param(0, (0, user_decorator_1.UserInfo)("_id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)

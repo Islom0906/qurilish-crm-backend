@@ -27,7 +27,7 @@ let CompanyService = class CompanyService {
     }
     async getCompany() {
         const res = await this.companyModel.find({ isDelete: false })
-            .select('-createdAt -updatedAt')
+            .select('-createdAt -updatedAt -isDelete')
             .populate('image', 'url -_id');
         return res;
     }
