@@ -16,7 +16,7 @@ export class SlotService {
         const companyId = await this.commonService.getCompanyId(userId)
         const slot = await this.slotModel.find({isDelete: false,companyId})
             .select('-createdAt -updatedAt -isDelete')
-            // .populate('image', 'url -_id')
+            .populate('image', 'url -_id')
 
         return slot
     }

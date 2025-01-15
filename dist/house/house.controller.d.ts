@@ -3,7 +3,7 @@ import { HouseDto } from "./dto/house.dto";
 export declare class HouseController {
     private readonly houseService;
     constructor(houseService: HouseService);
-    getHouse(userId: string): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./house.model").House> & import("./house.model").House & {
+    getHouse(userId: string, slotId: string): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./house.model").House> & import("./house.model").House & {
         _id: import("mongoose").Types.ObjectId;
     } & {
         __v: number;

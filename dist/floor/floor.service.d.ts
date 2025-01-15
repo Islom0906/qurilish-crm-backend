@@ -6,7 +6,7 @@ export declare class FloorService {
     private floorModel;
     private readonly commonService;
     constructor(floorModel: Model<FloorDocument>, commonService: CommonService);
-    getFloor(userId: string): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Floor> & Floor & {
+    getFloor(userId: string, houseId: string): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Floor> & Floor & {
         _id: import("mongoose").Types.ObjectId;
     } & {
         __v: number;

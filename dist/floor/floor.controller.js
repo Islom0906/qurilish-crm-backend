@@ -23,8 +23,8 @@ let FloorController = class FloorController {
     constructor(floorService) {
         this.floorService = floorService;
     }
-    async getFloor(userId) {
-        return this.floorService.getFloor(userId);
+    async getFloor(userId, houseId) {
+        return this.floorService.getFloor(userId, houseId);
     }
     async getByIdFloor(id) {
         return this.floorService.getByIdFloor(id);
@@ -45,9 +45,11 @@ __decorate([
     (0, common_1.Get)(),
     (0, auth_decorator_1.Auth)("admin"),
     (0, swagger_1.ApiOperation)({ summary: "Get floor" }),
+    (0, swagger_1.ApiQuery)({ name: 'houseId', required: false, description: 'House filter with slot' }),
     __param(0, (0, user_decorator_1.UserInfo)("_id")),
+    __param(1, (0, common_1.Query)("houseId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], FloorController.prototype, "getFloor", null);
 __decorate([

@@ -1,5 +1,5 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
-import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
+import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe} from '@nestjs/common';
+import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags} from "@nestjs/swagger";
 import {HouseService} from "./house.service";
 import {Auth} from "../auth/decorators/auth.decorator";
 import { UserInfo} from "../user/decorators/user.decorator";
@@ -17,8 +17,9 @@ export class HouseController {
     @Get()
     @Auth("admin")
     @ApiOperation({summary: "Get house"})
-    async getHouse(@UserInfo("_id") userId:string) {
-        return this.houseService.getHouse(userId)
+    @ApiQuery({ name: 'slotId', required: false, description: 'House filter with slot' })
+    async getHouse(@UserInfo("_id") userId:string,@Query("slotId") slotId:string) {
+        return this.houseService.getHouse(userId,slotId)
     }
 
     // GET BY ID

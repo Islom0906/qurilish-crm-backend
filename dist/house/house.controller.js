@@ -23,8 +23,8 @@ let HouseController = class HouseController {
     constructor(houseService) {
         this.houseService = houseService;
     }
-    async getHouse(userId) {
-        return this.houseService.getHouse(userId);
+    async getHouse(userId, slotId) {
+        return this.houseService.getHouse(userId, slotId);
     }
     async getByIdHouse(id) {
         return this.houseService.getByIdHouse(id);
@@ -45,9 +45,11 @@ __decorate([
     (0, common_1.Get)(),
     (0, auth_decorator_1.Auth)("admin"),
     (0, swagger_1.ApiOperation)({ summary: "Get house" }),
+    (0, swagger_1.ApiQuery)({ name: 'slotId', required: false, description: 'House filter with slot' }),
     __param(0, (0, user_decorator_1.UserInfo)("_id")),
+    __param(1, (0, common_1.Query)("slotId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], HouseController.prototype, "getHouse", null);
 __decorate([

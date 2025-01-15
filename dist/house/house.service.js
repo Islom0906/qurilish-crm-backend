@@ -24,16 +24,19 @@ let HouseService = class HouseService {
         this.houseModel = houseModel;
         this.commonService = commonService;
     }
-    async getHouse(userId) {
+    async getHouse(userId, slotId) {
         const companyId = await this.commonService.getCompanyId(userId);
-        const getHouse = await this.houseModel.find({ isDelete: false, companyId })
+        const filter = { isDelete: false, companyId };
+        if (slotId)
+            filter.slotId = slotId;
+        const getHouse = await this.houseModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
             .populate('image', 'url -_id');
         return getHouse;
     }
     async getByIdHouse(id) {
         const house = await this.houseModel.findOne({ _id: id, isDelete: false })
-            .select('-createdAt -updatedAt -isDelete')
+            .select('-createdAt -updatedAt -isDeletel')
             .populate('image', '-createdAt -updatedAt')
             .populate('slotId', '-createdAt -updatedAt -finishedDate -image -companyId -isDelete -__v');
         if (!house)

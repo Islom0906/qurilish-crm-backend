@@ -1,7 +1,7 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe} from '@nestjs/common';
 import {FloorService} from "./floor.service";
 import {Auth} from "../auth/decorators/auth.decorator";
-import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags} from "@nestjs/swagger";
 import {FloorDto} from "./dto/floor.dto";
 import { UserInfo} from "../user/decorators/user.decorator";
 
@@ -18,8 +18,9 @@ export class FloorController {
     @Get()
     @Auth("admin")
     @ApiOperation({summary: "Get floor"})
-    async getFloor(@UserInfo("_id") userId: string) {
-        return this.floorService.getFloor(userId)
+    @ApiQuery({ name: 'houseId', required: false, description: 'House filter with slot' })
+    async getFloor(@UserInfo("_id") userId: string, @Query("houseId") houseId:string) {
+        return this.floorService.getFloor(userId,houseId)
     }
 
     // GET BY ID

@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsString, IsArray, IsNotEmpty, IsMongoId, ValidateNested } from 'class-validator';
+import { IsString, IsArray, IsNotEmpty, IsMongoId, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import {CompanyAndIsDeleteInterface} from "../../utils/companyAndIsDelete.interface";
 
 export class SquarePricesDto {
     @ApiProperty({
@@ -60,4 +61,8 @@ export class HouseDto {
     squarePrices: SquarePricesDto[];
 
 
+}
+
+export class FilterDto extends CompanyAndIsDeleteInterface{
+    slotId?:string
 }

@@ -24,9 +24,12 @@ let FloorService = class FloorService {
         this.floorModel = floorModel;
         this.commonService = commonService;
     }
-    async getFloor(userId) {
+    async getFloor(userId, houseId) {
         const companyId = await this.commonService.getCompanyId(userId);
-        const getFloor = await this.floorModel.find({ isDelete: false, companyId })
+        const filter = { isDelete: false, companyId };
+        if (houseId)
+            filter.houseId = houseId;
+        const getFloor = await this.floorModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
             .populate('image', 'url -_id');
         return getFloor;

@@ -6,7 +6,7 @@ export declare class HouseService {
     private houseModel;
     private readonly commonService;
     constructor(houseModel: Model<HouseDocument>, commonService: CommonService);
-    getHouse(userId: string): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, House> & House & {
+    getHouse(userId: string, slotId: string): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, House> & House & {
         _id: import("mongoose").Types.ObjectId;
     } & {
         __v: number;

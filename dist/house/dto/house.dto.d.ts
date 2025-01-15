@@ -1,3 +1,4 @@
+import { CompanyAndIsDeleteInterface } from "../../utils/companyAndIsDelete.interface";
 export declare class SquarePricesDto {
     startFloor: number;
     endFloor: number;
@@ -8,4 +9,7 @@ export declare class HouseDto {
     image: string;
     slotId: string;
     squarePrices: SquarePricesDto[];
+}
+export declare class FilterDto extends CompanyAndIsDeleteInterface {
+    slotId?: string;
 }

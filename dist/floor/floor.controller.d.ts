@@ -3,7 +3,7 @@ import { FloorDto } from "./dto/floor.dto";
 export declare class FloorController {
     private readonly floorService;
     constructor(floorService: FloorService);
-    getFloor(userId: string): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./floor.model").Floor> & import("./floor.model").Floor & {
+    getFloor(userId: string, houseId: string): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./floor.model").Floor> & import("./floor.model").Floor & {
         _id: import("mongoose").Types.ObjectId;
     } & {
         __v: number;

@@ -3,7 +3,7 @@ import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {House, HouseDocument} from "./house.model";
-import {HouseDto} from "./dto/house.dto";
+import {FilterDto, HouseDto} from "./dto/house.dto";
 import {pick} from "lodash";
 
 @Injectable()
@@ -12,20 +12,21 @@ export class HouseService {
     }
 
     // get house
-    async getHouse(userId:string) {
+    async getHouse(userId:string,slotId:string) {
         const companyId = await this.commonService.getCompanyId(userId)
+        const filter:FilterDto={isDelete: false,companyId}
+        if (slotId) filter.slotId=slotId
 
-        const getHouse = await this.houseModel.find({isDelete: false,companyId})
+        const getHouse = await this.houseModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
             .populate('image', 'url -_id')
-
         return getHouse
     }
 
     // GET by id house
     async getByIdHouse(id: string) {
         const house = await this.houseModel.findOne({_id:id,isDelete:false})
-            .select('-createdAt -updatedAt -isDelete')
+            .select('-createdAt -updatedAt -isDeletel')
             .populate('image','-createdAt -updatedAt')
             .populate('slotId','-createdAt -updatedAt -finishedDate -image -companyId -isDelete -__v')
         if (!house) throw new NotFoundException("House topilmadi")

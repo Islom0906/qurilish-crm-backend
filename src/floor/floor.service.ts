@@ -4,7 +4,7 @@ import {Floor, FloorDocument} from "./floor.model";
 import {Model} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {pick} from "lodash";
-import {FloorDto} from "./dto/floor.dto";
+import {FilterDto, FloorDto} from "./dto/floor.dto";
 
 @Injectable()
 export class FloorService {
@@ -13,10 +13,12 @@ export class FloorService {
 
 
     // get floor
-    async getFloor(userId:string) {
+    async getFloor(userId: string, houseId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
+        const filter: FilterDto = {isDelete: false, companyId}
+        if (houseId) filter.houseId = houseId
 
-        const getFloor = await this.floorModel.find({isDelete: false,companyId})
+        const getFloor = await this.floorModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
             .populate('image', 'url -_id')
 
