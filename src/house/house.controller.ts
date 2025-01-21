@@ -18,8 +18,15 @@ export class HouseController {
     @Auth("admin")
     @ApiOperation({summary: "Get house"})
     @ApiQuery({ name: 'slotId', required: false, description: 'House filter with slot' })
-    async getHouse(@UserInfo("_id") userId:string,@Query("slotId") slotId:string) {
-        return this.houseService.getHouse(userId,slotId)
+    @ApiQuery({ name: 'limit', required: false, description: 'House pagination page size',default:'10' })
+    @ApiQuery({ name: 'page', required: false, description: 'House pagination page number',default:'1' })
+    async getHouse(
+        @UserInfo("_id") userId:string,
+        @Query("slotId") slotId:string,
+        @Query('limit') limit:string='10',
+        @Query('page') page:string='1',
+    ) {
+        return this.houseService.getHouse(userId,slotId,limit,page)
     }
 
     // GET BY ID

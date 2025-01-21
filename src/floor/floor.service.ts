@@ -13,16 +13,34 @@ export class FloorService {
 
 
     // get floor
-    async getFloor(userId: string, houseId: string) {
+    async getFloor(userId: string, houseId: string,limit: string, page: string) {
+        const pageNumber=parseInt(page,10)
+        const pageSize=parseInt(limit,10)
+
         const companyId = await this.commonService.getCompanyId(userId)
         const filter: FilterDto = {isDelete: false, companyId}
         if (houseId) filter.houseId = houseId
 
+        const skip = (Number(pageNumber) - 1) * Number(pageSize)
+
         const getFloor = await this.floorModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
             .populate('image', 'url -_id')
+            .sort({createdAt: -1})
+            .skip(skip)
+            .limit(pageSize)
 
-        return getFloor
+        const totalItems = await this.floorModel.countDocuments()
+        const  totalPage= Math.ceil(totalItems / pageSize)
+
+        return {
+            data: getFloor,
+            currentPage: pageNumber,
+            totalPage: totalPage,
+            totalItems,
+            nextPage:pageNumber<totalPage?pageNumber+1:null,
+            prewPage:pageNumber>1?pageNumber-1:null
+        }
     }
 
     // GET by id floor

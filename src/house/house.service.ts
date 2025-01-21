@@ -12,21 +12,38 @@ export class HouseService {
     }
 
     // get house
-    async getHouse(userId:string,slotId:string) {
+    async getHouse(userId: string, slotId: string, limit: string, page: string) {
+        const pageNumber=parseInt(page,10)
+        const pageSize=parseInt(limit,10)
+
         const companyId = await this.commonService.getCompanyId(userId)
         const filter:FilterDto={isDelete: false,companyId}
         if (slotId) filter.slotId=slotId
 
+        const skip = (Number(pageNumber) - 1) * Number(pageSize)
+
         const getHouse = await this.houseModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
             .populate('image', 'url -_id')
-        return getHouse
+            .sort({createdAt: -1})
+            .skip(skip)
+            .limit(pageSize)
+        const totalItems = await this.houseModel.countDocuments()
+      const  totalPage= Math.ceil(totalItems / pageSize)
+        return {
+            data: getHouse,
+            currentPage: pageNumber,
+            totalPage: totalPage,
+            totalItems,
+            nextPage:pageNumber<totalPage?pageNumber+1:null,
+            prewPage:pageNumber>1?pageNumber-1:null
+        }
     }
 
     // GET by id house
     async getByIdHouse(id: string) {
         const house = await this.houseModel.findOne({_id:id,isDelete:false})
-            .select('-createdAt -updatedAt -isDeletel')
+            .select('-createdAt -updatedAt -isDelete')
             .populate('image','-createdAt -updatedAt')
             .populate('slotId','-createdAt -updatedAt -finishedDate -image -companyId -isDelete -__v')
         if (!house) throw new NotFoundException("House topilmadi")

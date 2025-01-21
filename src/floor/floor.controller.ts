@@ -19,8 +19,15 @@ export class FloorController {
     @Auth("admin")
     @ApiOperation({summary: "Get floor"})
     @ApiQuery({ name: 'houseId', required: false, description: 'House filter with slot' })
-    async getFloor(@UserInfo("_id") userId: string, @Query("houseId") houseId:string) {
-        return this.floorService.getFloor(userId,houseId)
+    @ApiQuery({ name: 'limit', required: false, description: 'House pagination page size',default:'10' })
+    @ApiQuery({ name: 'page', required: false, description: 'House pagination page number',default:'1' })
+    async getFloor(
+        @UserInfo("_id") userId: string,
+        @Query("houseId") houseId:string,
+        @Query('limit') limit:string='10',
+        @Query('page') page:string='1',
+    ) {
+        return this.floorService.getFloor(userId,houseId,limit,page)
     }
 
     // GET BY ID

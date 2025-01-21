@@ -24,19 +24,34 @@ let HouseService = class HouseService {
         this.houseModel = houseModel;
         this.commonService = commonService;
     }
-    async getHouse(userId, slotId) {
+    async getHouse(userId, slotId, limit, page) {
+        const pageNumber = parseInt(page, 10);
+        const pageSize = parseInt(limit, 10);
         const companyId = await this.commonService.getCompanyId(userId);
         const filter = { isDelete: false, companyId };
         if (slotId)
             filter.slotId = slotId;
+        const skip = (Number(pageNumber) - 1) * Number(pageSize);
         const getHouse = await this.houseModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
-            .populate('image', 'url -_id');
-        return getHouse;
+            .populate('image', 'url -_id')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(pageSize);
+        const totalItems = await this.houseModel.countDocuments();
+        const totalPage = Math.ceil(totalItems / pageSize);
+        return {
+            data: getHouse,
+            currentPage: pageNumber,
+            totalPage: totalPage,
+            totalItems,
+            nextPage: pageNumber < totalPage ? pageNumber + 1 : null,
+            prewPage: pageNumber > 1 ? pageNumber - 1 : null
+        };
     }
     async getByIdHouse(id) {
         const house = await this.houseModel.findOne({ _id: id, isDelete: false })
-            .select('-createdAt -updatedAt -isDeletel')
+            .select('-createdAt -updatedAt -isDelete')
             .populate('image', '-createdAt -updatedAt')
             .populate('slotId', '-createdAt -updatedAt -finishedDate -image -companyId -isDelete -__v');
         if (!house)
