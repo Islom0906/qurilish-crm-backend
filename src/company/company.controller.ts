@@ -1,5 +1,5 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
-import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
+import {Body, Controller, Delete, Get, HttpCode, Param, Post, Query, UsePipes, ValidationPipe} from '@nestjs/common';
+import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags} from "@nestjs/swagger";
 import {CompanyService} from "./company.service";
 import {Auth} from "../auth/decorators/auth.decorator";
 import {CompanyDto} from "./dto/company.dto";
@@ -18,8 +18,13 @@ export class CompanyController {
     @Get()
     @Auth("superAdmin")
     @ApiOperation({summary: "Get company"})
-    async getCompany() {
-        return this.companyService.getCompany()
+    @ApiQuery({name: 'limit', required: false, description: 'Company pagination page size', default: '10'})
+    @ApiQuery({name: 'page', required: false, description: 'Company pagination page number', default: '1'})
+    async getCompany(
+        @Query('limit') limit: string = '10',
+        @Query('page') page: string = '1'
+    ) {
+        return this.companyService.getCompany(limit,page)
     }
 
     // POST

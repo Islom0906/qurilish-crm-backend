@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsString, MinLength} from "@nestjs/class-validator";
 import {ApiProperty} from "@nestjs/swagger";
-import {IsDateString, IsPhoneNumber} from "class-validator";
+import {IsDateString, IsMongoId, IsPhoneNumber} from "class-validator";
 
 export class CompanyDto{
     @IsString()
@@ -41,7 +41,17 @@ export class CompanyDto{
         required:true
 
     })
+    @IsMongoId()
     image: string
+
+    @IsString()
+    @ApiProperty({
+        description:'Company image',
+        required:true
+
+    })
+    @IsMongoId()
+    logo: string
 
     @IsString()
     @ApiProperty({
@@ -81,6 +91,7 @@ export class CompanyDto{
         required:true
 
     })
+    @IsMongoId()
     imageUser: string
 
     @IsDateString()

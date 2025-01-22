@@ -16,12 +16,30 @@ export class CompanyService {
     }
 
     // GET ALL COMPANY
-    async getCompany() {
-        const res = await this.companyModel.find({isDelete: false})
+    async getCompany(limit: string, page: string) {
+        const pageNumber=parseInt(page,10)
+        const pageSize=parseInt(limit,10)
+
+        const skip = (Number(pageNumber) - 1) * Number(pageSize)
+
+        const getCompany = await this.companyModel.find({isDelete: false})
             .select('-createdAt -updatedAt -isDelete')
             .populate('image', 'url -_id')
+            .populate('logo', 'url -_id')
+            .sort({createdAt: -1})
+            .skip(skip)
+            .limit(pageSize)
 
-        return res
+        const totalItems = await this.companyModel.countDocuments()
+        const  totalPage= Math.ceil(totalItems / pageSize)
+        return {
+            data: getCompany,
+            currentPage: pageNumber,
+            totalPage: totalPage,
+            totalItems,
+            nextPage:pageNumber<totalPage?pageNumber+1:null,
+            prewPage:pageNumber>1?pageNumber-1:null
+        }
     }
 
     // POST COMPANY
@@ -34,6 +52,7 @@ export class CompanyService {
                 staffCount:dto.staffCount,
                 expiredDate:dto.expiredDate,
                 image:dto.image,
+                logo:dto.logo,
                 status: "active",
                 isDelete: false
             })
@@ -52,7 +71,7 @@ export class CompanyService {
                 phone:dto.phoneUser,
             })
             return {
-                ...pick(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id']),
+                ...pick(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id',"logo"]),
                 ...pick(companyAdmin,['email','name','sur_name','role','image','birthday','gender','phone'])}
 
 

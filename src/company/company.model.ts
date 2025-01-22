@@ -24,6 +24,9 @@ export class Company {
     @Prop({required: true, type: Types.ObjectId, ref: 'File'})
     image: Types.ObjectId
 
+    @Prop({required: true, type: Types.ObjectId, ref: 'File'})
+    logo: Types.ObjectId
+
     @Prop({required: true})
     isDelete: boolean
 }
