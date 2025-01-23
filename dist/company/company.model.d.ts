@@ -8,6 +8,7 @@ export declare class Company {
     status: CompanyStatus;
     expiredDate: Date;
     image: Types.ObjectId;
+    logo: Types.ObjectId;
     isDelete: boolean;
 }
 export declare const CompanySchema: import("mongoose").Schema<Company, import("mongoose").Model<Company, any, any, any, import("mongoose").Document<unknown, any, Company> & Company & {

@@ -4,6 +4,7 @@ export declare class CompanyDto {
     staffCount: number;
     expiredDate: Date;
     image: string;
+    logo: string;
     userName: string;
     sur_name: string;
     email: string;

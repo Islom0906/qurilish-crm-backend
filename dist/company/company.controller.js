@@ -22,8 +22,8 @@ let CompanyController = class CompanyController {
     constructor(companyService) {
         this.companyService = companyService;
     }
-    async getCompany() {
-        return this.companyService.getCompany();
+    async getCompany(limit = '10', page = '1') {
+        return this.companyService.getCompany(limit, page);
     }
     async creatCompany(dto) {
         return this.companyService.creatCompany(dto);
@@ -38,8 +38,12 @@ __decorate([
     (0, common_1.Get)(),
     (0, auth_decorator_1.Auth)("superAdmin"),
     (0, swagger_1.ApiOperation)({ summary: "Get company" }),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: false, description: 'Company pagination page size', default: '10' }),
+    (0, swagger_1.ApiQuery)({ name: 'page', required: false, description: 'Company pagination page number', default: '1' }),
+    __param(0, (0, common_1.Query)('limit')),
+    __param(1, (0, common_1.Query)('page')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], CompanyController.prototype, "getCompany", null);
 __decorate([

@@ -3,17 +3,24 @@ import { CompanyDto } from "./dto/company.dto";
 export declare class CompanyController {
     private readonly companyService;
     constructor(companyService: CompanyService);
-    getCompany(): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./company.model").Company> & import("./company.model").Company & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    }> & import("mongoose").Document<unknown, {}, import("./company.model").Company> & import("./company.model").Company & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    } & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>)[]>;
+    getCompany(limit?: string, page?: string): Promise<{
+        data: (import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./company.model").Company> & import("./company.model").Company & {
+            _id: import("mongoose").Types.ObjectId;
+        } & {
+            __v: number;
+        }> & import("mongoose").Document<unknown, {}, import("./company.model").Company> & import("./company.model").Company & {
+            _id: import("mongoose").Types.ObjectId;
+        } & {
+            __v: number;
+        } & Required<{
+            _id: import("mongoose").Types.ObjectId;
+        }>)[];
+        currentPage: number;
+        totalPage: number;
+        totalItems: number;
+        nextPage: number;
+        prewPage: number;
+    }>;
     creatCompany(dto: CompanyDto): Promise<{
         name: string;
         sur_name: string;
@@ -27,6 +34,7 @@ export declare class CompanyController {
         status: import("./company.interface").CompanyStatus;
         staffCount: number;
         expiredDate: Date;
+        logo: import("mongoose").Types.ObjectId;
     }>;
     deleteCompany(id: string): Promise<string>;
 }

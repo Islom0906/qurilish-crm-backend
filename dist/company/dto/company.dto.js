@@ -54,8 +54,18 @@ __decorate([
         description: 'Company image',
         required: true
     }),
+    (0, class_validator_2.IsMongoId)(),
     __metadata("design:type", String)
 ], CompanyDto.prototype, "image", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'Company image',
+        required: true
+    }),
+    (0, class_validator_2.IsMongoId)(),
+    __metadata("design:type", String)
+], CompanyDto.prototype, "logo", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({
@@ -97,6 +107,7 @@ __decorate([
         description: 'User image',
         required: true
     }),
+    (0, class_validator_2.IsMongoId)(),
     __metadata("design:type", String)
 ], CompanyDto.prototype, "imageUser", void 0);
 __decorate([

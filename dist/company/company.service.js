@@ -25,11 +25,27 @@ let CompanyService = class CompanyService {
         this.companyModel = companyModel;
         this.userModel = userModel;
     }
-    async getCompany() {
-        const res = await this.companyModel.find({ isDelete: false })
+    async getCompany(limit, page) {
+        const pageNumber = parseInt(page, 10);
+        const pageSize = parseInt(limit, 10);
+        const skip = (Number(pageNumber) - 1) * Number(pageSize);
+        const getCompany = await this.companyModel.find({ isDelete: false })
             .select('-createdAt -updatedAt -isDelete')
-            .populate('image', 'url -_id');
-        return res;
+            .populate('image', 'url -_id')
+            .populate('logo', 'url -_id')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(pageSize);
+        const totalItems = await this.companyModel.countDocuments();
+        const totalPage = Math.ceil(totalItems / pageSize);
+        return {
+            data: getCompany,
+            currentPage: pageNumber,
+            totalPage: totalPage,
+            totalItems,
+            nextPage: pageNumber < totalPage ? pageNumber + 1 : null,
+            prewPage: pageNumber > 1 ? pageNumber - 1 : null
+        };
     }
     async creatCompany(dto) {
         const existUser = await this.isExistUser(dto.email);
@@ -41,6 +57,7 @@ let CompanyService = class CompanyService {
             staffCount: dto.staffCount,
             expiredDate: dto.expiredDate,
             image: dto.image,
+            logo: dto.logo,
             status: "active",
             isDelete: false
         });
@@ -59,7 +76,7 @@ let CompanyService = class CompanyService {
             phone: dto.phoneUser,
         });
         return {
-            ...(0, lodash_1.pick)(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id']),
+            ...(0, lodash_1.pick)(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id', "logo"]),
             ...(0, lodash_1.pick)(companyAdmin, ['email', 'name', 'sur_name', 'role', 'image', 'birthday', 'gender', 'phone'])
         };
     }
