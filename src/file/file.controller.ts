@@ -10,7 +10,7 @@ import {
     UseInterceptors
 } from '@nestjs/common';
 import {FileService} from "./file.service";
-import {FileInterceptor} from "@nestjs/platform-express";
+import {AnyFilesInterceptor, FileInterceptor, FilesInterceptor} from "@nestjs/platform-express";
 import {ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
 import {FileDto} from "./dto/file.dto";
 import {Auth} from "../auth/decorators/auth.decorator";
@@ -34,13 +34,13 @@ export class FileController {
     // POST
     @Post('medias')
     @HttpCode(201)
-    @UseInterceptors(FileInterceptor('media'))
+    @UseInterceptors(FilesInterceptor('media',10))
     @ApiOperation({summary: "Media yuklash"})
     @ApiCreatedResponse({
         description: "Media yuklash",
         type: FileDto
     })
-    // @Auth()
+    @Auth()
     @ApiConsumes('multipart/form-data')  // This is required for file uploads
     @ApiBody({
         description: 'Media file to upload',
@@ -49,13 +49,16 @@ export class FileController {
             type: 'object',
             properties: {
                 media: {
-                    type: 'string',
-                    format: 'binary',
+                    type: 'array',
+                    items: {
+                        type: 'string',
+                        format: 'binary', // Specifies binary file input
+                    },
                 },
             },
         },
     })
-    async uploadFile(@UploadedFile() media:Express.Multer.File){
+    async uploadFile(@UploadedFiles() media:Array<Express.Multer.File>){
         return this.fileService.uploadFile(media)
     }
 

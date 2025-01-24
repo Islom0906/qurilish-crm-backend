@@ -1,3 +1,3 @@
 export declare class FileDto {
-    media: Express.Multer.File;
+    media: Array<Express.Multer.File>;
 }

@@ -52,7 +52,7 @@ export class HouseController {
         return this.houseService.creatHouse(dto,userId)
     }
 
-    // PUT SLOT
+    // PUT House
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
     @Put(':id')

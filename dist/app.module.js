@@ -21,6 +21,8 @@ const slot_module_1 = require("./slot/slot.module");
 const common_module_1 = require("./common/common.module");
 const house_module_1 = require("./house/house.module");
 const floor_module_1 = require("./floor/floor.module");
+const apartment_module_1 = require("./apartment/apartment.module");
+const structure_module_1 = require("./structure/structure.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -44,7 +46,9 @@ exports.AppModule = AppModule = __decorate([
             slot_module_1.SlotModule,
             common_module_1.CommonModule,
             house_module_1.HouseModule,
-            floor_module_1.FloorModule
+            floor_module_1.FloorModule,
+            apartment_module_1.ApartmentModule,
+            structure_module_1.StructureModule
         ],
     })
 ], AppModule);

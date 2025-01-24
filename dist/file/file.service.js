@@ -29,13 +29,18 @@ let FileService = class FileService {
         return medias;
     }
     async uploadFile(media) {
+        const saveFiles = [];
         await (0, fs_extra_1.ensureDir)(`${app_root_path_1.path}/medias`);
-        await (0, fs_extra_1.writeFile)(`${app_root_path_1.path}/medias/${media.originalname}`, media.buffer);
-        const file = await this.fileModel.create({
-            url: `/medias/${media.originalname}`,
-            name: media.originalname
-        });
-        return file;
+        console.log(media);
+        await Promise.all(media.map(async (file) => {
+            await (0, fs_extra_1.writeFile)(`${app_root_path_1.path}/medias/${file.originalname}`, file.buffer);
+            const saveFileDb = await this.fileModel.create({
+                url: `/medias/${file.originalname}`,
+                name: file.originalname
+            });
+            saveFiles.push(saveFileDb);
+        }));
+        return saveFiles;
     }
     async deleteFiles(dto) {
         let medias = [];

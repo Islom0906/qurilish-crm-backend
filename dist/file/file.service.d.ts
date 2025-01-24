@@ -1,4 +1,3 @@
-import { FileResponse } from "./file.interface";
 import { Model } from "mongoose";
 import { File, FileDocument } from "./file.model";
 import { DeleteFilesDto } from "./dto/deleteFiles.dto";
@@ -16,6 +15,6 @@ export declare class FileService {
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>)[]>;
-    uploadFile(media: Express.Multer.File): Promise<FileResponse>;
+    uploadFile(media: Array<Express.Multer.File>): Promise<any[]>;
     deleteFiles(dto: DeleteFilesDto): Promise<string>;
 }

@@ -5,23 +5,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FileDto = void 0;
-const swagger_1 = require("@nestjs/swagger");
-class FileDto {
-}
-exports.FileDto = FileDto;
-__decorate([
-    (0, swagger_1.ApiProperty)({
-        type: 'array',
-        description: 'Media yuklash',
-        items: {
-            format: 'binary',
-        },
-    }),
-    __metadata("design:type", Array)
-], FileDto.prototype, "media", void 0);
-//# sourceMappingURL=file.dto.js.map
+exports.ApartmentModule = void 0;
+const common_1 = require("@nestjs/common");
+const apartment_controller_1 = require("./apartment.controller");
+const apartment_service_1 = require("./apartment.service");
+let ApartmentModule = class ApartmentModule {
+};
+exports.ApartmentModule = ApartmentModule;
+exports.ApartmentModule = ApartmentModule = __decorate([
+    (0, common_1.Module)({
+        controllers: [apartment_controller_1.ApartmentController],
+        providers: [apartment_service_1.ApartmentService]
+    })
+], ApartmentModule);
+//# sourceMappingURL=apartment.module.js.map

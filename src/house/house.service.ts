@@ -51,7 +51,7 @@ export class HouseService {
         return house
     }
 
-    // POST SLOT
+    // POST House
     async creatHouse(dto: HouseDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
 
@@ -63,6 +63,8 @@ export class HouseService {
         return pick(service, ['name', 'companyId', '_id', 'slotId', 'image','squarePrices'])
     }
 
+
+    // UPDATE HOUSE
     async updateHouse(id: string, dto: HouseDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
 
@@ -79,7 +81,7 @@ export class HouseService {
         return pick(house, ['name', 'companyId', '_id', 'slotId', 'image','squarePrices'])
     }
 
-    // DELETE SLOT
+    // DELETE House
     async deleteHouse(id: string) {
         const findAndDelete = await this.houseModel.findOneAndUpdate({
             _id: id,

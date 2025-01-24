@@ -1,5 +1,4 @@
 import {BadRequestException, Injectable} from '@nestjs/common';
-import {FileResponse} from "./file.interface";
 import {ensureDir, writeFile} from 'fs-extra'
 import {path} from 'app-root-path'
 import {InjectModel} from "@nestjs/mongoose";
@@ -22,16 +21,23 @@ export class FileService {
     }
 
     //post
-    async uploadFile(media: Express.Multer.File): Promise<FileResponse> {
+    async uploadFile(media: Array<Express.Multer.File>) {
+        const saveFiles = []
         await ensureDir(`${path}/medias`);
-        await writeFile(`${path}/medias/${media.originalname}`,media.buffer)
+        console.log(media)
+        await Promise.all(
+            media.map(async (file) => {
+                await writeFile(`${path}/medias/${file.originalname}`, file.buffer)
+                const saveFileDb = await this.fileModel.create({
+                    url: `/medias/${file.originalname}`,
+                    name: file.originalname
+                })
+                saveFiles.push(saveFileDb)
+            })
+        )
 
-        const file=await this.fileModel.create({
-            url: `/medias/${media.originalname}`,
-            name: media.originalname
-        })
 
-        return file
+        return saveFiles
     }
 
     //delete

@@ -14,6 +14,6 @@ export declare class FileController {
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>)[]>;
-    uploadFile(media: Express.Multer.File): Promise<import("./file.interface").FileResponse>;
+    uploadFile(media: Array<Express.Multer.File>): Promise<any[]>;
     deleteFiles(dto: DeleteFilesDto): Promise<string>;
 }

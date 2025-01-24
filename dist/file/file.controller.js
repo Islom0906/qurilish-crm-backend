@@ -47,12 +47,13 @@ __decorate([
 __decorate([
     (0, common_1.Post)('medias'),
     (0, common_1.HttpCode)(201),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('media')),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('media', 10)),
     (0, swagger_1.ApiOperation)({ summary: "Media yuklash" }),
     (0, swagger_1.ApiCreatedResponse)({
         description: "Media yuklash",
         type: file_dto_1.FileDto
     }),
+    (0, auth_decorator_1.Auth)(),
     (0, swagger_1.ApiConsumes)('multipart/form-data'),
     (0, swagger_1.ApiBody)({
         description: 'Media file to upload',
@@ -61,15 +62,18 @@ __decorate([
             type: 'object',
             properties: {
                 media: {
-                    type: 'string',
-                    format: 'binary',
+                    type: 'array',
+                    items: {
+                        type: 'string',
+                        format: 'binary',
+                    },
                 },
             },
         },
     }),
-    __param(0, (0, common_1.UploadedFile)()),
+    __param(0, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", Promise)
 ], FileController.prototype, "uploadFile", null);
 __decorate([
