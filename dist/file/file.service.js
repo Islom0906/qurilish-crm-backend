@@ -31,7 +31,6 @@ let FileService = class FileService {
     async uploadFile(media) {
         const saveFiles = [];
         await (0, fs_extra_1.ensureDir)(`${app_root_path_1.path}/medias`);
-        console.log(media);
         await Promise.all(media.map(async (file) => {
             await (0, fs_extra_1.writeFile)(`${app_root_path_1.path}/medias/${file.originalname}`, file.buffer);
             const saveFileDb = await this.fileModel.create({

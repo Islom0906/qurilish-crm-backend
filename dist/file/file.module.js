@@ -23,7 +23,7 @@ exports.FileModule = FileModule = __decorate([
             mongoose_1.MongooseModule.forFeature([{ name: file_model_1.File.name, schema: file_model_1.FileSchema }]),
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: `${app_root_path_1.path}/medias`,
-                serveRoot: '/medias',
+                serveRoot: '/api/medias',
             }),
         ],
         controllers: [file_controller_1.FileController],

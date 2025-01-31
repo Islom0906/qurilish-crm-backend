@@ -10,11 +10,18 @@ exports.ApartmentModule = void 0;
 const common_1 = require("@nestjs/common");
 const apartment_controller_1 = require("./apartment.controller");
 const apartment_service_1 = require("./apartment.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const common_module_1 = require("../common/common.module");
+const apartment_model_1 = require("./apartment.model");
 let ApartmentModule = class ApartmentModule {
 };
 exports.ApartmentModule = ApartmentModule;
 exports.ApartmentModule = ApartmentModule = __decorate([
     (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: apartment_model_1.Apartment.name, schema: apartment_model_1.ApartmentSchema }]),
+            common_module_1.CommonModule
+        ],
         controllers: [apartment_controller_1.ApartmentController],
         providers: [apartment_service_1.ApartmentService]
     })

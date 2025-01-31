@@ -11,7 +11,7 @@ import {FileSchema,File} from "./file.model";
     MongooseModule.forFeature([{name:File.name,schema:FileSchema}]),
     ServeStaticModule.forRoot({
       rootPath: `${path}/medias`,
-      serveRoot: '/medias',
+      serveRoot: '/api/medias',
     }),
   ],
   controllers: [FileController],

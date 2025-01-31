@@ -24,7 +24,6 @@ export class FileService {
     async uploadFile(media: Array<Express.Multer.File>) {
         const saveFiles = []
         await ensureDir(`${path}/medias`);
-        console.log(media)
         await Promise.all(
             media.map(async (file) => {
                 await writeFile(`${path}/medias/${file.originalname}`, file.buffer)

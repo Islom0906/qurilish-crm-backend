@@ -63,7 +63,7 @@ export class FileController {
     }
 
     @Delete('medias')
-    @Auth("superAdmin")
+    @Auth()
     @ApiOperation({summary: "Media yuklash"})
     @ApiCreatedResponse({
         description: "Media yuklash",

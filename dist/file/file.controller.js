@@ -78,7 +78,7 @@ __decorate([
 ], FileController.prototype, "uploadFile", null);
 __decorate([
     (0, common_1.Delete)('medias'),
-    (0, auth_decorator_1.Auth)("superAdmin"),
+    (0, auth_decorator_1.Auth)(),
     (0, swagger_1.ApiOperation)({ summary: "Media yuklash" }),
     (0, swagger_1.ApiCreatedResponse)({
         description: "Media yuklash",
