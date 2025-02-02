@@ -4,6 +4,7 @@ export declare class Floor {
     name: string;
     image: Types.ObjectId;
     isSale: boolean;
+    priceSqm: number | null;
     houseId: Types.ObjectId;
     companyId: Types.ObjectId;
     isDelete: boolean;

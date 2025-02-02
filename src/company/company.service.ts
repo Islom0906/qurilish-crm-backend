@@ -20,6 +20,7 @@ export class CompanyService {
         const pageNumber=parseInt(page,10)
         const pageSize=parseInt(limit,10)
 
+
         const skip = (Number(pageNumber) - 1) * Number(pageSize)
 
         const getCompany = await this.companyModel.find({isDelete: false})
@@ -30,7 +31,7 @@ export class CompanyService {
             .skip(skip)
             .limit(pageSize)
 
-        const totalItems = await this.companyModel.countDocuments()
+        const totalItems = await this.companyModel.countDocuments({isDelete: false})
         const  totalPage= Math.ceil(totalItems / pageSize)
         return {
             data: getCompany,
@@ -54,7 +55,8 @@ export class CompanyService {
                 image:dto.image,
                 logo:dto.logo,
                 status: "active",
-                isDelete: false
+                isDelete: false,
+                isPriceSqm:dto.isPriceSqm
             })
             const salt=await genSalt(10);
             const passwordHash=await hash(dto.password,salt)
@@ -71,7 +73,7 @@ export class CompanyService {
                 phone:dto.phoneUser,
             })
             return {
-                ...pick(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id',"logo"]),
+                ...pick(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id',"logo","isPriceSqm"]),
                 ...pick(companyAdmin,['email','name','sur_name','role','image','birthday','gender','phone'])}
 
 

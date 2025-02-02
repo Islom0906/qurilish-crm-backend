@@ -4,20 +4,7 @@ import {HydratedDocument, Types} from 'mongoose';
 export type HouseDocument = HydratedDocument<House>;
 
 
-@Schema({ _id: false })
-export class SquarePrices {
-    @Prop({required: true})
-    startFloor: number
 
-    @Prop({required: true})
-    endFloor: number
-
-    @Prop({required: true})
-    price: string
-
-}
-
-export const SquarePricesSchema = SchemaFactory.createForClass(SquarePrices);
 
 
 @Schema({timestamps: true})
@@ -34,8 +21,7 @@ export class House {
     @Prop({required: true, type: Types.ObjectId, ref: 'Company'})
     companyId: Types.ObjectId
 
-    @Prop({required: true,type:[SquarePricesSchema]})
-    squarePrices: SquarePrices[]
+
 
     @Prop({required: true})
     isDelete: boolean

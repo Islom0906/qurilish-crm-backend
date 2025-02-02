@@ -4,11 +4,16 @@ import {Floor, FloorDocument} from "./floor.model";
 import {Model} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {pick} from "lodash";
-import {FilterDto, FloorDto} from "./dto/floor.dto";
+import { FilterFloorDto, FloorDto} from "./dto/floor.dto";
+import {Company, CompanyDocument} from "../company/company.model";
 
 @Injectable()
 export class FloorService {
-    constructor(@InjectModel(Floor.name) private floorModel: Model<FloorDocument>, private readonly commonService: CommonService) {
+    constructor(
+        @InjectModel(Floor.name) private floorModel: Model<FloorDocument>,
+        @InjectModel(Company.name) private companyModel: Model<CompanyDocument>,
+                private readonly commonService: CommonService
+    ) {
     }
 
 
@@ -18,7 +23,7 @@ export class FloorService {
         const pageSize=parseInt(limit,10)
 
         const companyId = await this.commonService.getCompanyId(userId)
-        const filter: FilterDto = {isDelete: false, companyId}
+        const filter: FilterFloorDto = {isDelete: false, companyId}
         if (houseId) filter.houseId = houseId
 
         const skip = (Number(pageNumber) - 1) * Number(pageSize)
@@ -30,7 +35,7 @@ export class FloorService {
             .skip(skip)
             .limit(pageSize)
 
-        const totalItems = await this.floorModel.countDocuments()
+        const totalItems = await this.floorModel.countDocuments(filter)
         const  totalPage= Math.ceil(totalItems / pageSize)
 
         return {
@@ -58,32 +63,38 @@ export class FloorService {
     async creatFloor(dto: FloorDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
 
+        const company =await this.companyModel.findById(companyId)
         const floor = await this.floorModel.create({
             ...dto,
             companyId,
+            priceSqm : company.isPriceSqm ? dto.priceSqm : null,
             isDelete: false
         })
-        return pick(floor, ['name', 'companyId', '_id', 'houseId', 'image','isSale'])
+        return pick(floor, ['name', 'companyId', '_id', 'houseId', 'image','isSale','priceSqm'])
     }
 
     async updateFloor(id: string, dto: FloorDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
+        const company =await this.companyModel.findById(companyId)
+
+
 
         const floor = await this.floorModel.findOneAndUpdate({_id: id,
                 isDelete: false},
             {
                 ...dto,
                 companyId,
+                priceSqm:company.isPriceSqm ? dto.priceSqm: null,
                 isDelete: false
             },{new:true}
         )
 
         if (!floor) throw new NotFoundException('Floor topilmadi')
 
-        return pick(floor, ['name', 'companyId', '_id', 'houseId', 'image','isSale'])
+        return pick(floor, ['name', 'companyId', '_id', 'houseId', 'image','isSale','priceSqm'])
     }
 
-    // DELETE SLOT
+    // DELETE Flor
     async deleteFloor(id: string) {
         const findAndDelete = await this.floorModel.findOneAndUpdate({
             _id: id,

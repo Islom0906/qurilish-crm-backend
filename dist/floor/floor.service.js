@@ -19,9 +19,11 @@ const floor_model_1 = require("./floor.model");
 const mongoose_2 = require("mongoose");
 const common_service_1 = require("../common/common.service");
 const lodash_1 = require("lodash");
+const company_model_1 = require("../company/company.model");
 let FloorService = class FloorService {
-    constructor(floorModel, commonService) {
+    constructor(floorModel, companyModel, commonService) {
         this.floorModel = floorModel;
+        this.companyModel = companyModel;
         this.commonService = commonService;
     }
     async getFloor(userId, houseId, limit, page) {
@@ -38,7 +40,7 @@ let FloorService = class FloorService {
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(pageSize);
-        const totalItems = await this.floorModel.countDocuments();
+        const totalItems = await this.floorModel.countDocuments(filter);
         const totalPage = Math.ceil(totalItems / pageSize);
         return {
             data: getFloor,
@@ -60,24 +62,28 @@ let FloorService = class FloorService {
     }
     async creatFloor(dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
+        const company = await this.companyModel.findById(companyId);
         const floor = await this.floorModel.create({
             ...dto,
             companyId,
+            priceSqm: company.isPriceSqm ? dto.priceSqm : null,
             isDelete: false
         });
-        return (0, lodash_1.pick)(floor, ['name', 'companyId', '_id', 'houseId', 'image', 'isSale']);
+        return (0, lodash_1.pick)(floor, ['name', 'companyId', '_id', 'houseId', 'image', 'isSale', 'priceSqm']);
     }
     async updateFloor(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
+        const company = await this.companyModel.findById(companyId);
         const floor = await this.floorModel.findOneAndUpdate({ _id: id,
             isDelete: false }, {
             ...dto,
             companyId,
+            priceSqm: company.isPriceSqm ? dto.priceSqm : null,
             isDelete: false
         }, { new: true });
         if (!floor)
             throw new common_1.NotFoundException('Floor topilmadi');
-        return (0, lodash_1.pick)(floor, ['name', 'companyId', '_id', 'houseId', 'image', 'isSale']);
+        return (0, lodash_1.pick)(floor, ['name', 'companyId', '_id', 'houseId', 'image', 'isSale', 'priceSqm']);
     }
     async deleteFloor(id) {
         const findAndDelete = await this.floorModel.findOneAndUpdate({
@@ -93,6 +99,9 @@ exports.FloorService = FloorService;
 exports.FloorService = FloorService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(floor_model_1.Floor.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model, common_service_1.CommonService])
+    __param(1, (0, mongoose_1.InjectModel)(company_model_1.Company.name)),
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
+        common_service_1.CommonService])
 ], FloorService);
 //# sourceMappingURL=floor.service.js.map

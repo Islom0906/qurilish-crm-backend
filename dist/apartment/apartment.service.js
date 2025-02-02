@@ -34,7 +34,7 @@ let ApartmentService = class ApartmentService {
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(pageSize);
-        const totalItems = await this.apartmentModel.countDocuments();
+        const totalItems = await this.apartmentModel.countDocuments(filter);
         const totalPage = Math.ceil(totalItems / pageSize);
         return {
             data: getApartment,

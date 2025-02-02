@@ -1,6 +1,5 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {HydratedDocument, Types} from 'mongoose';
-import {SquarePrices, SquarePricesSchema} from "../house/house.model";
 
 export type StructureDocument = HydratedDocument<Structure>;
 

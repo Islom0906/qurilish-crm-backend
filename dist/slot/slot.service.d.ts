@@ -6,17 +6,24 @@ export declare class SlotService {
     private slotModel;
     private readonly commonService;
     constructor(slotModel: Model<SlotDocument>, commonService: CommonService);
-    getSlot(userId: string): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Slot> & Slot & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    }> & import("mongoose").Document<unknown, {}, Slot> & Slot & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    } & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>)[]>;
+    getSlot(userId: string, limit: string, page: string): Promise<{
+        data: (import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Slot> & Slot & {
+            _id: import("mongoose").Types.ObjectId;
+        } & {
+            __v: number;
+        }> & import("mongoose").Document<unknown, {}, Slot> & Slot & {
+            _id: import("mongoose").Types.ObjectId;
+        } & {
+            __v: number;
+        } & Required<{
+            _id: import("mongoose").Types.ObjectId;
+        }>)[];
+        currentPage: number;
+        totalPage: number;
+        totalItems: number;
+        nextPage: number;
+        prewPage: number;
+    }>;
     getByIdSlot(id: string): Promise<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Slot> & Slot & {
         _id: import("mongoose").Types.ObjectId;
     } & {

@@ -36,6 +36,10 @@ __decorate([
     __metadata("design:type", Date)
 ], Company.prototype, "expiredDate", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", Boolean)
+], Company.prototype, "isPriceSqm", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId, ref: 'File' }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Company.prototype, "image", void 0);

@@ -1,9 +1,21 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
-import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    Param,
+    Post,
+    Put,
+    Query,
+    UsePipes,
+    ValidationPipe
+} from '@nestjs/common';
+import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags} from "@nestjs/swagger";
 import {SlotService} from "./slot.service";
 import {Auth} from "../auth/decorators/auth.decorator";
 import {SlotDto} from "./dto/slot.dto";
-import { UserInfo} from "../user/decorators/user.decorator";
+import {UserInfo} from "../user/decorators/user.decorator";
 
 
 @ApiBearerAuth()
@@ -18,8 +30,13 @@ export class SlotController {
     @Get()
     @Auth("admin")
     @ApiOperation({summary: "Get slot"})
-    async getSlot(@UserInfo("_id") userId:string) {
-        return this.slotService.getSlot(userId)
+    @ApiQuery({name: 'limit', required: false, description: 'House pagination page size', default: '10'})
+    @ApiQuery({name: 'page', required: false, description: 'House pagination page number', default: '1'})
+    async getSlot(
+        @UserInfo("_id") userId: string,
+        @Query('limit') limit: string = '10',
+        @Query('page') page: string = '1',) {
+        return this.slotService.getSlot(userId,limit,page)
     }
 
     // GET BY ID

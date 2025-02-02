@@ -42,7 +42,7 @@ export declare class FloorController {
         __v: number;
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
-    }>, "name" | "companyId" | "image" | "_id" | "isSale" | "houseId">>;
+    }>, "name" | "companyId" | "image" | "_id" | "isSale" | "priceSqm" | "houseId">>;
     updateFloor(id: string, dto: FloorDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./floor.model").Floor> & import("./floor.model").Floor & {
         _id: import("mongoose").Types.ObjectId;
     } & {
@@ -53,6 +53,6 @@ export declare class FloorController {
         __v: number;
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
-    }>, "name" | "companyId" | "image" | "_id" | "isSale" | "houseId">>;
+    }>, "name" | "companyId" | "image" | "_id" | "isSale" | "priceSqm" | "houseId">>;
     deleteFloor(id: string): Promise<string>;
 }

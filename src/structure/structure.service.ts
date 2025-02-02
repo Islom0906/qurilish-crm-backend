@@ -3,9 +3,9 @@ import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {Structure, StructureDocument} from "./structure.model";
-import {FilterDto} from "../floor/dto/floor.dto";
 import {StructureDto} from "./dto/structure.dto";
 import {pick} from "lodash";
+import {CompanyAndIsDeleteInterface} from "../utils/companyAndIsDelete.interface";
 
 @Injectable()
 export class StructureService {
@@ -15,7 +15,7 @@ export class StructureService {
     // get structure
     async getStructure(userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
-        const filter:FilterDto={isDelete: false,companyId}
+        const filter:CompanyAndIsDeleteInterface={isDelete: false,companyId}
 
 
         const getStructure = await this.structureModel.find(filter)

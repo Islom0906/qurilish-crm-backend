@@ -3,7 +3,7 @@ import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {House, HouseDocument} from "./house.model";
-import {FilterDto, HouseDto} from "./dto/house.dto";
+import { FilterHouseDto, HouseDto} from "./dto/house.dto";
 import {pick} from "lodash";
 
 @Injectable()
@@ -17,7 +17,7 @@ export class HouseService {
         const pageSize=parseInt(limit,10)
 
         const companyId = await this.commonService.getCompanyId(userId)
-        const filter:FilterDto={isDelete: false,companyId}
+        const filter:FilterHouseDto={isDelete: false,companyId}
         if (slotId) filter.slotId=slotId
 
         const skip = (Number(pageNumber) - 1) * Number(pageSize)
@@ -28,7 +28,7 @@ export class HouseService {
             .sort({createdAt: -1})
             .skip(skip)
             .limit(pageSize)
-        const totalItems = await this.houseModel.countDocuments()
+        const totalItems = await this.houseModel.countDocuments(filter)
       const  totalPage= Math.ceil(totalItems / pageSize)
         return {
             data: getHouse,
@@ -60,7 +60,7 @@ export class HouseService {
             companyId,
             isDelete: false
         })
-        return pick(service, ['name', 'companyId', '_id', 'slotId', 'image','squarePrices'])
+        return pick(service, ['name', 'companyId', '_id', 'slotId', 'image'])
     }
 
 
@@ -78,7 +78,7 @@ export class HouseService {
 
         if (!house) throw new NotFoundException('House topilmadi')
 
-        return pick(house, ['name', 'companyId', '_id', 'slotId', 'image','squarePrices'])
+        return pick(house, ['name', 'companyId', '_id', 'slotId', 'image'])
     }
 
     // DELETE House

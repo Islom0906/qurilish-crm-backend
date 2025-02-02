@@ -38,7 +38,7 @@ let HouseService = class HouseService {
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(pageSize);
-        const totalItems = await this.houseModel.countDocuments();
+        const totalItems = await this.houseModel.countDocuments(filter);
         const totalPage = Math.ceil(totalItems / pageSize);
         return {
             data: getHouse,
@@ -65,7 +65,7 @@ let HouseService = class HouseService {
             companyId,
             isDelete: false
         });
-        return (0, lodash_1.pick)(service, ['name', 'companyId', '_id', 'slotId', 'image', 'squarePrices']);
+        return (0, lodash_1.pick)(service, ['name', 'companyId', '_id', 'slotId', 'image']);
     }
     async updateHouse(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
@@ -76,7 +76,7 @@ let HouseService = class HouseService {
         }, { new: true });
         if (!house)
             throw new common_1.NotFoundException('House topilmadi');
-        return (0, lodash_1.pick)(house, ['name', 'companyId', '_id', 'slotId', 'image', 'squarePrices']);
+        return (0, lodash_1.pick)(house, ['name', 'companyId', '_id', 'slotId', 'image']);
     }
     async deleteHouse(id) {
         const findAndDelete = await this.houseModel.findOneAndUpdate({

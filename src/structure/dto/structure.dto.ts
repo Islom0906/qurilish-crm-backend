@@ -1,7 +1,5 @@
 import {ApiProperty} from "@nestjs/swagger";
-import {ArrayNotEmpty, IsArray, IsMongoId, IsString, ValidateNested} from "class-validator";
-import {Type} from "class-transformer";
-import {SquarePricesDto} from "../../house/dto/house.dto";
+import {ArrayNotEmpty, IsArray, IsMongoId, IsString} from "class-validator";
 
 export class StructureDto {
     @ApiProperty({

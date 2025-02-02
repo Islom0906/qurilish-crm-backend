@@ -23,8 +23,8 @@ let SlotController = class SlotController {
     constructor(slotService) {
         this.slotService = slotService;
     }
-    async getSlot(userId) {
-        return this.slotService.getSlot(userId);
+    async getSlot(userId, limit = '10', page = '1') {
+        return this.slotService.getSlot(userId, limit, page);
     }
     async getByIdSlot(id) {
         return this.slotService.getByIdSlot(id);
@@ -45,9 +45,13 @@ __decorate([
     (0, common_1.Get)(),
     (0, auth_decorator_1.Auth)("admin"),
     (0, swagger_1.ApiOperation)({ summary: "Get slot" }),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: false, description: 'House pagination page size', default: '10' }),
+    (0, swagger_1.ApiQuery)({ name: 'page', required: false, description: 'House pagination page number', default: '1' }),
     __param(0, (0, user_decorator_1.UserInfo)("_id")),
+    __param(1, (0, common_1.Query)('limit')),
+    __param(2, (0, common_1.Query)('page')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], SlotController.prototype, "getSlot", null);
 __decorate([

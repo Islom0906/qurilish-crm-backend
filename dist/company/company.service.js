@@ -36,7 +36,7 @@ let CompanyService = class CompanyService {
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(pageSize);
-        const totalItems = await this.companyModel.countDocuments();
+        const totalItems = await this.companyModel.countDocuments({ isDelete: false });
         const totalPage = Math.ceil(totalItems / pageSize);
         return {
             data: getCompany,
@@ -59,7 +59,8 @@ let CompanyService = class CompanyService {
             image: dto.image,
             logo: dto.logo,
             status: "active",
-            isDelete: false
+            isDelete: false,
+            isPriceSqm: dto.isPriceSqm
         });
         const salt = await (0, bcryptjs_1.genSalt)(10);
         const passwordHash = await (0, bcryptjs_1.hash)(dto.password, salt);
@@ -76,7 +77,7 @@ let CompanyService = class CompanyService {
             phone: dto.phoneUser,
         });
         return {
-            ...(0, lodash_1.pick)(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id', "logo"]),
+            ...(0, lodash_1.pick)(company, ['name', 'phone', 'staffCount', 'expiredDate', 'image', 'status', '_id', "logo", "isPriceSqm"]),
             ...(0, lodash_1.pick)(companyAdmin, ['email', 'name', 'sur_name', 'role', 'image', 'birthday', 'gender', 'phone'])
         };
     }

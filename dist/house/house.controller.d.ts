@@ -42,7 +42,7 @@ export declare class HouseController {
         __v: number;
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
-    }>, "name" | "companyId" | "image" | "_id" | "slotId" | "squarePrices">>;
+    }>, "name" | "companyId" | "image" | "_id" | "slotId">>;
     updateHouse(id: string, dto: HouseDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./house.model").House> & import("./house.model").House & {
         _id: import("mongoose").Types.ObjectId;
     } & {
@@ -53,6 +53,6 @@ export declare class HouseController {
         __v: number;
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
-    }>, "name" | "companyId" | "image" | "_id" | "slotId" | "squarePrices">>;
+    }>, "name" | "companyId" | "image" | "_id" | "slotId">>;
     deleteHouse(id: string): Promise<string>;
 }

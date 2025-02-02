@@ -3,28 +3,6 @@ import { IsString, IsArray, IsNotEmpty, IsMongoId, ValidateNested } from 'class-
 import { Type } from 'class-transformer';
 import {CompanyAndIsDeleteInterface} from "../../utils/companyAndIsDelete.interface";
 
-export class SquarePricesDto {
-    @ApiProperty({
-        description: 'Starting floor number',
-        required: true,
-    })
-    @IsNotEmpty()
-    startFloor: number;
-
-    @ApiProperty({
-        description: 'Ending floor number',
-        required: true,
-    })
-    @IsNotEmpty()
-    endFloor: number;
-
-    @ApiProperty({
-        description: 'Price per square unit',
-        required: true,
-    })
-    @IsString()
-    price: string;
-}
 
 export class HouseDto {
     @ApiProperty({
@@ -50,19 +28,11 @@ export class HouseDto {
 
 
 
-    @ApiProperty({
-        description: 'Array of square price ranges for the house',
-        type: [SquarePricesDto],
-        required: true,
-    })
-    @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => SquarePricesDto)
-    squarePrices: SquarePricesDto[];
+
 
 
 }
 
-export class FilterDto extends CompanyAndIsDeleteInterface{
+export class FilterHouseDto extends CompanyAndIsDeleteInterface{
     slotId?:string
 }

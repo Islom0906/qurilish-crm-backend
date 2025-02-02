@@ -5,6 +5,7 @@ import {Slot, SlotDocument} from "./slot.model";
 import {SlotDto} from "./dto/slot.dto";
 import {CommonService} from "../common/common.service";
 import {pick} from "lodash";
+import {CompanyAndIsDeleteInterface} from "../utils/companyAndIsDelete.interface";
 
 @Injectable()
 export class SlotService {
@@ -12,13 +13,35 @@ export class SlotService {
     }
 
     // GET ALL Slot
-    async getSlot(userId:string) {
+    async getSlot(userId:string, limit: string, page: string) {
+        const pageNumber=parseInt(page,10)
+        const pageSize=parseInt(limit,10)
+
         const companyId = await this.commonService.getCompanyId(userId)
-        const slot = await this.slotModel.find({isDelete: false,companyId})
+        const filter:CompanyAndIsDeleteInterface={isDelete: false,companyId}
+
+        const skip = (Number(pageNumber) - 1) * Number(pageSize)
+
+
+        const slot = await this.slotModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
             .populate('image', 'url -_id')
+            .sort({createdAt: -1})
+            .skip(skip)
+            .limit(pageSize)
 
-        return slot
+
+        const totalItems = await this.slotModel.countDocuments(filter)
+        const  totalPage= Math.ceil(totalItems / pageSize)
+
+        return {
+            data: slot,
+            currentPage: pageNumber,
+            totalPage: totalPage,
+            totalItems,
+            nextPage:pageNumber<totalPage?pageNumber+1:null,
+            prewPage:pageNumber>1?pageNumber-1:null
+        }
     }
 
     // GET by id slot

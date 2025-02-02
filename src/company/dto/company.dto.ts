@@ -117,4 +117,11 @@ export class CompanyDto{
 
     })
     phoneUser: string
+
+    @ApiProperty({
+        description: 'Uy narxi kvadrat metrdami',
+        type: "boolean",
+        required: true,
+    })
+    isPriceSqm: boolean;
 }

@@ -9,28 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.HouseSchema = exports.House = exports.SquarePricesSchema = exports.SquarePrices = void 0;
+exports.HouseSchema = exports.House = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
-let SquarePrices = class SquarePrices {
-};
-exports.SquarePrices = SquarePrices;
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", Number)
-], SquarePrices.prototype, "startFloor", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", Number)
-], SquarePrices.prototype, "endFloor", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], SquarePrices.prototype, "price", void 0);
-exports.SquarePrices = SquarePrices = __decorate([
-    (0, mongoose_1.Schema)({ _id: false })
-], SquarePrices);
-exports.SquarePricesSchema = mongoose_1.SchemaFactory.createForClass(SquarePrices);
 let House = class House {
 };
 exports.House = House;
@@ -50,10 +31,6 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId, ref: 'Company' }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], House.prototype, "companyId", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true, type: [exports.SquarePricesSchema] }),
-    __metadata("design:type", Array)
-], House.prototype, "squarePrices", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Boolean)

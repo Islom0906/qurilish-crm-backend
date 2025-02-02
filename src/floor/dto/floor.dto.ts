@@ -1,6 +1,7 @@
 import {ApiProperty} from "@nestjs/swagger";
-import { IsBoolean, IsMongoId, IsString} from "class-validator";
+import {IsBoolean, IsMongoId, IsOptional, IsString} from "class-validator";
 import {CompanyAndIsDeleteInterface} from "../../utils/companyAndIsDelete.interface";
+import {IsNumber} from "@nestjs/class-validator";
 
 export class FloorDto {
     @ApiProperty({
@@ -18,6 +19,15 @@ export class FloorDto {
     isSale: boolean;
 
     @ApiProperty({
+        description: 'Is sale floor',
+        required: true,
+        nullable:true
+    })
+    @IsOptional()
+    @IsNumber()
+    priceSqm: number;
+
+    @ApiProperty({
         description: 'Image file ID',
         required: true,
     })
@@ -33,6 +43,6 @@ export class FloorDto {
 }
 
 
-export class FilterDto extends CompanyAndIsDeleteInterface{
+export class FilterFloorDto extends CompanyAndIsDeleteInterface{
     houseId?:string
 }

@@ -36,6 +36,7 @@
     "class-validator": "^0.14.1",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
+    "migrate-mongo": "^12.1.2",
     "mongoose": "^8.9.3",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",

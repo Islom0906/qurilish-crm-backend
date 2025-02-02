@@ -134,4 +134,12 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], CompanyDto.prototype, "phoneUser", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Uy narxi kvadrat metrdami',
+        type: "boolean",
+        required: true,
+    }),
+    __metadata("design:type", Boolean)
+], CompanyDto.prototype, "isPriceSqm", void 0);
 //# sourceMappingURL=company.dto.js.map

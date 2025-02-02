@@ -34,6 +34,7 @@ export declare class CompanyController {
         status: import("./company.interface").CompanyStatus;
         staffCount: number;
         expiredDate: Date;
+        isPriceSqm: boolean;
         logo: import("mongoose").Types.ObjectId;
     }>;
     deleteCompany(id: string): Promise<string>;

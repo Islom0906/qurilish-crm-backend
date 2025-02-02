@@ -7,6 +7,7 @@ export declare class Company {
     staffCount: number;
     status: CompanyStatus;
     expiredDate: Date;
+    isPriceSqm: boolean;
     image: Types.ObjectId;
     logo: Types.ObjectId;
     isDelete: boolean;

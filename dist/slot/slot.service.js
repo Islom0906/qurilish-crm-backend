@@ -24,12 +24,28 @@ let SlotService = class SlotService {
         this.slotModel = slotModel;
         this.commonService = commonService;
     }
-    async getSlot(userId) {
+    async getSlot(userId, limit, page) {
+        const pageNumber = parseInt(page, 10);
+        const pageSize = parseInt(limit, 10);
         const companyId = await this.commonService.getCompanyId(userId);
-        const slot = await this.slotModel.find({ isDelete: false, companyId })
+        const filter = { isDelete: false, companyId };
+        const skip = (Number(pageNumber) - 1) * Number(pageSize);
+        const slot = await this.slotModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
-            .populate('image', 'url -_id');
-        return slot;
+            .populate('image', 'url -_id')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(pageSize);
+        const totalItems = await this.slotModel.countDocuments(filter);
+        const totalPage = Math.ceil(totalItems / pageSize);
+        return {
+            data: slot,
+            currentPage: pageNumber,
+            totalPage: totalPage,
+            totalItems,
+            nextPage: pageNumber < totalPage ? pageNumber + 1 : null,
+            prewPage: pageNumber > 1 ? pageNumber - 1 : null
+        };
     }
     async getByIdSlot(id) {
         const slot = await this.slotModel.findOne({ _id: id, isDelete: false })

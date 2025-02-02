@@ -15,6 +15,9 @@ export class Floor {
     @Prop({required: true})
     isSale: boolean
 
+    @Prop({default:null})
+    priceSqm: number | null
+
     @Prop({required: true, type: Types.ObjectId, ref: 'House'})
     houseId: Types.ObjectId
 

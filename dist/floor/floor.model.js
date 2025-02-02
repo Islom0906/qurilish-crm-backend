@@ -28,6 +28,10 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Floor.prototype, "isSale", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ default: null }),
+    __metadata("design:type", Number)
+], Floor.prototype, "priceSqm", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId, ref: 'House' }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Floor.prototype, "houseId", void 0);

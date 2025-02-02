@@ -13,4 +13,5 @@ export declare class CompanyDto {
     birthday: Date;
     gender: string;
     phoneUser: string;
+    isPriceSqm: boolean;
 }

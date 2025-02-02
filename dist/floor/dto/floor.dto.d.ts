@@ -2,9 +2,10 @@ import { CompanyAndIsDeleteInterface } from "../../utils/companyAndIsDelete.inte
 export declare class FloorDto {
     name: string;
     isSale: boolean;
+    priceSqm: number;
     image: string;
     houseId: string;
 }
-export declare class FilterDto extends CompanyAndIsDeleteInterface {
+export declare class FilterFloorDto extends CompanyAndIsDeleteInterface {
     houseId?: string;
 }

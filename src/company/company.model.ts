@@ -21,6 +21,9 @@ export class Company {
     @Prop({required: true})
     expiredDate: Date
 
+    @Prop({required: true})
+    isPriceSqm:boolean
+
     @Prop({required: true, type: Types.ObjectId, ref: 'File'})
     image: Types.ObjectId
 
