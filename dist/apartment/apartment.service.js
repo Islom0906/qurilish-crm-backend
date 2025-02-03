@@ -18,6 +18,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const common_service_1 = require("../common/common.service");
 const apartment_model_1 = require("./apartment.model");
+const lodash_1 = require("lodash");
 let ApartmentService = class ApartmentService {
     constructor(apartmentModel, commonService) {
         this.apartmentModel = apartmentModel;
@@ -31,6 +32,10 @@ let ApartmentService = class ApartmentService {
         const skip = (Number(pageNumber) - 1) * Number(pageSize);
         const getApartment = await this.apartmentModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
+            .populate('floorId', '_id name')
+            .populate('slotId', '_id name')
+            .populate('houseId', '_id name')
+            .populate('structureId', '_id name')
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(pageSize);
@@ -44,6 +49,57 @@ let ApartmentService = class ApartmentService {
             nextPage: pageNumber < totalPage ? pageNumber + 1 : null,
             prewPage: pageNumber > 1 ? pageNumber - 1 : null
         };
+    }
+    async getByIdApartment(id) {
+        const apartment = await this.apartmentModel.findOne({ _id: id, isDelete: false })
+            .select('-createdAt -updatedAt -isDelete')
+            .populate('floorId', '_id')
+            .populate('slotId', '_id')
+            .populate('houseId', '_id')
+            .populate('structureId', '_id');
+        if (!apartment)
+            throw new common_1.NotFoundException("House topilmadi");
+        return apartment;
+    }
+    async creatApartment(dto, userId) {
+        const companyId = await this.commonService.getCompanyId(userId);
+        const checkName = await this.apartmentModel.findOne({ slotId: dto.slotId, houseId: dto.houseId, floorId: dto.floorId, name: dto.name, isDelete: false });
+        if (checkName)
+            throw new common_1.BadRequestException("Xonani nomi takrorlanmasligi kerak");
+        const apartment = await this.apartmentModel.create({
+            ...dto,
+            companyId,
+            status: null,
+            price: null,
+            isDelete: false
+        });
+        return (0, lodash_1.pick)(apartment, ['name', '_id', 'price', 'floorId', 'slotId', 'houseId', 'structureId', 'status']);
+    }
+    async updateApartment(id, dto, userId) {
+        const companyId = await this.commonService.getCompanyId(userId);
+        const checkName = await this.apartmentModel.findOne({ slotId: dto.slotId, houseId: dto.houseId, floorId: dto.floorId, name: dto.name, isDelete: false });
+        console.log(checkName);
+        if (checkName && checkName._id.toString() !== id)
+            throw new common_1.BadRequestException("Xonani nomi takrorlanmasligi kerak");
+        const apartment = await this.apartmentModel.findByIdAndUpdate(id, {
+            ...dto,
+            companyId,
+            status: null,
+            price: null,
+            isDelete: false
+        }, { new: true });
+        if (!apartment)
+            throw new common_1.NotFoundException('Apartment topilmadi');
+        return (0, lodash_1.pick)(apartment, ['name', '_id', 'price', 'floorId', 'slotId', 'houseId', 'structureId', 'status']);
+    }
+    async deleteApartment(id) {
+        const findAndDelete = await this.apartmentModel.findOneAndUpdate({
+            _id: id,
+            isDelete: false
+        }, { $set: { isDelete: true } }, { new: true });
+        if (!findAndDelete)
+            throw new common_1.NotFoundException('House topilmadi');
+        return 'success delete';
     }
 };
 exports.ApartmentService = ApartmentService;

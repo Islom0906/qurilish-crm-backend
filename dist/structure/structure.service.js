@@ -54,7 +54,7 @@ let StructureService = class StructureService {
         });
         return (0, lodash_1.pick)(structure, ['name', 'size', '_id', 'roomCount', 'floorImage', 'apartmentImage', 'images']);
     }
-    async updateService(id, dto, userId) {
+    async updateStructure(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
         const structure = await this.structureModel.findByIdAndUpdate(id, {
             ...dto,
@@ -62,7 +62,7 @@ let StructureService = class StructureService {
             isDelete: false
         }, { new: true });
         if (!structure)
-            throw new common_1.NotFoundException('House topilmadi');
+            throw new common_1.NotFoundException('Structure topilmadi');
         return (0, lodash_1.pick)(structure, ['name', 'size', '_id', 'roomCount', 'floorImage', 'apartmentImage', 'images']);
     }
     async deleteStructure(id) {

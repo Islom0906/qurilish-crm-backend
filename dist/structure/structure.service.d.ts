@@ -39,7 +39,7 @@ export declare class StructureService {
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>, "name" | "_id" | "size" | "roomCount" | "floorImage" | "apartmentImage" | "images">>;
-    updateService(id: string, dto: StructureDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Structure> & Structure & {
+    updateStructure(id: string, dto: StructureDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Structure> & Structure & {
         _id: import("mongoose").Types.ObjectId;
     } & {
         __v: number;

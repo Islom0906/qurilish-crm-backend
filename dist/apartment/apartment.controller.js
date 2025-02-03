@@ -18,12 +18,25 @@ const swagger_1 = require("@nestjs/swagger");
 const apartment_service_1 = require("./apartment.service");
 const user_decorator_1 = require("../user/decorators/user.decorator");
 const auth_decorator_1 = require("../auth/decorators/auth.decorator");
+const apartment_dto_1 = require("./dto/apartment.dto");
 let ApartmentController = class ApartmentController {
     constructor(apartmentService) {
         this.apartmentService = apartmentService;
     }
     async getApartment(userId, limit = '10', page = '1') {
         return this.apartmentService.getApartment(userId, limit, page);
+    }
+    async getByIdApartment(id) {
+        return this.apartmentService.getByIdApartment(id);
+    }
+    async creatApartment(dto, userId) {
+        return this.apartmentService.creatApartment(dto, userId);
+    }
+    async updateApartment(id, dto, userId) {
+        return this.apartmentService.updateApartment(id, dto, userId);
+    }
+    async deleteApartment(id) {
+        return this.apartmentService.deleteApartment(id);
     }
 };
 exports.ApartmentController = ApartmentController;
@@ -41,6 +54,62 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], ApartmentController.prototype, "getApartment", null);
+__decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Get)(":id"),
+    (0, auth_decorator_1.Auth)("admin"),
+    (0, swagger_1.ApiOperation)({ summary: "Get by id apartment" }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ApartmentController.prototype, "getByIdApartment", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(201),
+    (0, common_1.Post)(),
+    (0, auth_decorator_1.Auth)("admin"),
+    (0, swagger_1.ApiOperation)({ summary: "Apartment api" }),
+    (0, swagger_1.ApiCreatedResponse)({
+        description: "Apartment yaratish",
+        type: apartment_dto_1.ApartmentDto
+    }),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, user_decorator_1.UserInfo)("_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [apartment_dto_1.ApartmentDto, String]),
+    __metadata("design:returntype", Promise)
+], ApartmentController.prototype, "creatApartment", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Put)(':id'),
+    (0, auth_decorator_1.Auth)("admin"),
+    (0, swagger_1.ApiOperation)({ summary: "Apartment api" }),
+    (0, swagger_1.ApiCreatedResponse)({
+        description: "Apartment o'zgartirish",
+        type: apartment_dto_1.ApartmentDto
+    }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, user_decorator_1.UserInfo)("_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, apartment_dto_1.ApartmentDto, String]),
+    __metadata("design:returntype", Promise)
+], ApartmentController.prototype, "updateApartment", null);
+__decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Delete)(':id'),
+    (0, auth_decorator_1.Auth)("admin"),
+    (0, swagger_1.ApiOperation)({ summary: "Apartment api" }),
+    (0, swagger_1.ApiCreatedResponse)({
+        description: "Apartment o'chirish",
+    }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ApartmentController.prototype, "deleteApartment", null);
 exports.ApartmentController = ApartmentController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiTags)('Apartment'),

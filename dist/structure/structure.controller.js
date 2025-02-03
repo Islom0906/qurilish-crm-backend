@@ -32,8 +32,8 @@ let StructureController = class StructureController {
     async creatStructure(dto, userId) {
         return this.structureService.creatStructure(dto, userId);
     }
-    async updateService(id, dto, userId) {
-        return this.structureService.updateService(id, dto, userId);
+    async updateStructure(id, dto, userId) {
+        return this.structureService.updateStructure(id, dto, userId);
     }
     async deleteStructure(id) {
         return this.structureService.deleteStructure(id);
@@ -54,7 +54,7 @@ __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":id"),
     (0, auth_decorator_1.Auth)("admin"),
-    (0, swagger_1.ApiOperation)({ summary: "Get by id house" }),
+    (0, swagger_1.ApiOperation)({ summary: "Get by id structure" }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -92,7 +92,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, structure_dto_1.StructureDto, String]),
     __metadata("design:returntype", Promise)
-], StructureController.prototype, "updateService", null);
+], StructureController.prototype, "updateStructure", null);
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Delete)(':id'),

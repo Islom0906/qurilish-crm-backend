@@ -36,7 +36,7 @@ export declare class StructureController {
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>, "name" | "_id" | "size" | "roomCount" | "floorImage" | "apartmentImage" | "images">>;
-    updateService(id: string, dto: StructureDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./structure.model").Structure> & import("./structure.model").Structure & {
+    updateStructure(id: string, dto: StructureDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./structure.model").Structure> & import("./structure.model").Structure & {
         _id: import("mongoose").Types.ObjectId;
     } & {
         __v: number;

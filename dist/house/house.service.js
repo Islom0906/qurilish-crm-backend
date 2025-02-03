@@ -53,7 +53,7 @@ let HouseService = class HouseService {
         const house = await this.houseModel.findOne({ _id: id, isDelete: false })
             .select('-createdAt -updatedAt -isDelete')
             .populate('image', '-createdAt -updatedAt')
-            .populate('slotId', '-createdAt -updatedAt -finishedDate -image -companyId -isDelete -__v');
+            .populate('slotId', '-createdAt -updatedAt -finishedDate -image -companyId -isDelete -__v -name');
         if (!house)
             throw new common_1.NotFoundException("House topilmadi");
         return house;
