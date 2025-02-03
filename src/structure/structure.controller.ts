@@ -7,7 +7,6 @@ import {
     Param,
     Post,
     Put,
-    Query,
     UsePipes,
     ValidationPipe
 } from '@nestjs/common';
@@ -39,7 +38,7 @@ constructor(private readonly structureService:StructureService) {
     @HttpCode(200)
     @Get(":id")
     @Auth("admin")
-    @ApiOperation({summary: "Get by id house"})
+    @ApiOperation({summary: "Get by id structure"})
     async getByIdStructure(@Param('id') id: string) {
         return this.structureService.getByIdStructure(id)
     }
@@ -68,8 +67,8 @@ constructor(private readonly structureService:StructureService) {
         description: "Structure o'zgartirish",
         type: StructureDto
     })
-    async updateService(@Param('id') id: string, @Body() dto: StructureDto,@UserInfo("_id") userId:string) {
-        return this.structureService.updateService(id, dto,userId)
+    async updateStructure(@Param('id') id: string, @Body() dto: StructureDto,@UserInfo("_id") userId:string) {
+        return this.structureService.updateStructure(id, dto,userId)
     }
 
     // DELETE

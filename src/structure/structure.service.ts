@@ -54,7 +54,7 @@ export class StructureService {
     }
 
     // UPDATE Structure
-    async updateService(id: string, dto: StructureDto, userId: string) {
+    async updateStructure(id: string, dto: StructureDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
 
         const structure = await this.structureModel.findByIdAndUpdate(id,
@@ -65,7 +65,7 @@ export class StructureService {
             },{new:true}
         )
 
-        if (!structure) throw new NotFoundException('House topilmadi')
+        if (!structure) throw new NotFoundException('Structure topilmadi')
 
         return pick(structure, ['name', 'size', '_id', 'roomCount', 'floorImage','apartmentImage','images'])
     }

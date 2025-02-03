@@ -20,7 +20,7 @@ __decorate([
     __metadata("design:type", String)
 ], Apartment.prototype, "name", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ default: null }),
     __metadata("design:type", Number)
 ], Apartment.prototype, "price", void 0);
 __decorate([
@@ -39,6 +39,14 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Boolean)
 ], Apartment.prototype, "isDelete", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId, ref: 'Structure' }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], Apartment.prototype, "structureId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null }),
+    __metadata("design:type", Boolean)
+], Apartment.prototype, "status", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId, ref: 'Company' }),
     __metadata("design:type", mongoose_2.Types.ObjectId)

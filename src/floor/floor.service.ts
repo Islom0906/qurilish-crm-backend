@@ -73,6 +73,7 @@ export class FloorService {
         return pick(floor, ['name', 'companyId', '_id', 'houseId', 'image','isSale','priceSqm'])
     }
 
+    // update floor
     async updateFloor(id: string, dto: FloorDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
         const company =await this.companyModel.findById(companyId)

@@ -1,6 +1,5 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {HydratedDocument, Types} from 'mongoose';
-
 export type ApartmentDocument = HydratedDocument<Apartment>;
 
 
@@ -10,8 +9,8 @@ export class Apartment {
     @Prop({required: true})
     name: string
 
-    @Prop({required: true})
-    price:number
+    @Prop({default:null})
+    price:number | null
 
     @Prop({required: true, type: Types.ObjectId, ref: 'Floor'})
     floorId: Types.ObjectId
@@ -24,6 +23,12 @@ export class Apartment {
 
     @Prop({required: true})
     isDelete: boolean
+
+    @Prop({required: true, type: Types.ObjectId, ref: 'Structure'})
+    structureId: Types.ObjectId
+
+    @Prop({default:null})
+    status: boolean | null
 
     @Prop({required: true, type: Types.ObjectId, ref: 'Company'})
     companyId: Types.ObjectId

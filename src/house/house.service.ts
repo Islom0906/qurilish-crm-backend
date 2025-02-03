@@ -45,7 +45,7 @@ export class HouseService {
         const house = await this.houseModel.findOne({_id:id,isDelete:false})
             .select('-createdAt -updatedAt -isDelete')
             .populate('image','-createdAt -updatedAt')
-            .populate('slotId','-createdAt -updatedAt -finishedDate -image -companyId -isDelete -__v')
+            .populate('slotId','-createdAt -updatedAt -finishedDate -image -companyId -isDelete -__v -name')
         if (!house) throw new NotFoundException("House topilmadi")
 
         return house

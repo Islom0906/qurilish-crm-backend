@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import {Model,Types} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {Apartment, ApartmentDocument} from "./apartment.model";
-
 import {CompanyAndIsDeleteInterface} from "../utils/companyAndIsDelete.interface";
+import {ApartmentDto} from "./dto/apartment.dto";
+import {pick} from "lodash";
 
 @Injectable()
 export class ApartmentService {
@@ -24,6 +25,10 @@ export class ApartmentService {
 
         const getApartment = await this.apartmentModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
+            .populate('floorId','_id name')
+            .populate('slotId','_id name')
+            .populate('houseId','_id name')
+            .populate('structureId','_id name')
             .sort({createdAt: -1})
             .skip(skip)
             .limit(pageSize)
@@ -37,5 +42,69 @@ export class ApartmentService {
             nextPage:pageNumber<totalPage?pageNumber+1:null,
             prewPage:pageNumber>1?pageNumber-1:null
         }
+    }
+
+    // GET by id apartment
+    async getByIdApartment(id: string) {
+        const apartment = await this.apartmentModel.findOne({_id:id,isDelete:false})
+            .select('-createdAt -updatedAt -isDelete')
+            .populate('floorId','_id')
+            .populate('slotId', '_id')
+            .populate('houseId', '_id')
+            .populate('structureId', '_id')
+        if (!apartment) throw new NotFoundException("House topilmadi")
+
+        return apartment
+    }
+
+    // POST Structure
+    async creatApartment(dto: ApartmentDto, userId: string) {
+        const companyId = await this.commonService.getCompanyId(userId)
+
+        const checkName=await this.apartmentModel.findOne({slotId:dto.slotId,houseId:dto.houseId,floorId:dto.floorId,name:dto.name,isDelete:false})
+
+        if (checkName) throw new BadRequestException("Xonani nomi takrorlanmasligi kerak")
+
+        const apartment = await this.apartmentModel.create({
+            ...dto,
+            companyId,
+            status:null,
+            price:null,
+            isDelete: false
+        })
+        return pick(apartment, ['name',  '_id','price', 'floorId','slotId','houseId','structureId','status'])
+    }
+
+    // UPDATE Apartment
+    async updateApartment(id: string, dto: ApartmentDto, userId: string) {
+        const companyId = await this.commonService.getCompanyId(userId)
+        const checkName=await this.apartmentModel.findOne({slotId:dto.slotId,houseId:dto.houseId,floorId:dto.floorId,name:dto.name,isDelete:false})
+
+        console.log(checkName)
+        if (checkName&& checkName._id.toString()!==id) throw new BadRequestException("Xonani nomi takrorlanmasligi kerak")
+        const apartment = await this.apartmentModel.findByIdAndUpdate(id,
+            {
+                ...dto,
+                companyId,
+                status:null,
+                price:null,
+                isDelete: false
+            },{new:true}
+        )
+
+        if (!apartment) throw new NotFoundException('Apartment topilmadi')
+
+        return pick(apartment, ['name',  '_id','price', 'floorId','slotId','houseId','structureId','status'])
+
+    }
+
+    // DELETE Structure
+    async deleteApartment(id: string) {
+        const findAndDelete = await this.apartmentModel.findOneAndUpdate({
+            _id: id,
+            isDelete: false
+        }, {$set: {isDelete: true}}, {new: true})
+        if (!findAndDelete) throw new NotFoundException('House topilmadi')
+        return 'success delete'
     }
 }
