@@ -6,30 +6,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FloorModule = void 0;
+exports.SellerModule = void 0;
 const common_1 = require("@nestjs/common");
-const floor_controller_1 = require("./floor.controller");
-const floor_service_1 = require("./floor.service");
+const seller_controller_1 = require("./seller.controller");
+const seller_service_1 = require("./seller.service");
 const mongoose_1 = require("@nestjs/mongoose");
+const user_model_1 = require("../user/user.model");
 const common_module_1 = require("../common/common.module");
-const floor_model_1 = require("./floor.model");
 const company_model_1 = require("../company/company.model");
-const slot_model_1 = require("../slot/slot.model");
-const house_model_1 = require("../house/house.model");
-let FloorModule = class FloorModule {
+let SellerModule = class SellerModule {
 };
-exports.FloorModule = FloorModule;
-exports.FloorModule = FloorModule = __decorate([
+exports.SellerModule = SellerModule;
+exports.SellerModule = SellerModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: house_model_1.House.name, schema: house_model_1.HouseSchema }]),
-            mongoose_1.MongooseModule.forFeature([{ name: slot_model_1.Slot.name, schema: slot_model_1.SlotSchema }]),
-            mongoose_1.MongooseModule.forFeature([{ name: floor_model_1.Floor.name, schema: floor_model_1.FloorSchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: user_model_1.User.name, schema: user_model_1.UserSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: company_model_1.Company.name, schema: company_model_1.CompanySchema }]),
             common_module_1.CommonModule
         ],
-        controllers: [floor_controller_1.FloorController],
-        providers: [floor_service_1.FloorService]
+        controllers: [seller_controller_1.SellerController],
+        providers: [seller_service_1.SellerService]
     })
-], FloorModule);
-//# sourceMappingURL=floor.module.js.map
+], SellerModule);
+//# sourceMappingURL=seller.module.js.map

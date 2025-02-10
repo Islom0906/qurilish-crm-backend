@@ -1,15 +1,20 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
 import {Floor, FloorDocument} from "./floor.model";
-import {Model} from "mongoose";
+import {Model, Types} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {pick} from "lodash";
 import { FilterFloorDto, FloorDto} from "./dto/floor.dto";
 import {Company, CompanyDocument} from "../company/company.model";
+import {CompanyAndIsDeleteInterface} from "../utils/companyAndIsDelete.interface";
+import {Slot, SlotDocument} from "../slot/slot.model";
+import {House, HouseDocument} from "../house/house.model";
 
 @Injectable()
 export class FloorService {
     constructor(
+        @InjectModel(Slot.name) private slotModel: Model<SlotDocument>,
+        @InjectModel(House.name) private houseModel: Model<HouseDocument>,
         @InjectModel(Floor.name) private floorModel: Model<FloorDocument>,
         @InjectModel(Company.name) private companyModel: Model<CompanyDocument>,
                 private readonly commonService: CommonService
@@ -47,6 +52,30 @@ export class FloorService {
             prewPage:pageNumber>1?pageNumber-1:null
         }
     }
+
+
+
+    // // get floor shaxmat
+    // async getFloorShaxmat(userId: string) {
+    //
+    //     const companyId = await this.commonService.getCompanyId(userId)
+    //     const filter: CompanyAndIsDeleteInterface = {isDelete: false, companyId}
+    //
+    //     const company =await this.companyModel.findById(companyId)
+    //
+    //
+    //
+    //
+    //     const getFloor = await this.floorModel.find(filter)
+    //         .select('-createdAt -updatedAt -isDelete')
+    //         .populate('image', 'url -_id')
+    //         .sort({createdAt: -1})
+    //
+    //
+    //     return slots
+    // }
+
+
 
     // GET by id floor
     async getByIdFloor(id: string) {

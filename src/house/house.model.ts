@@ -22,7 +22,6 @@ export class House {
     companyId: Types.ObjectId
 
 
-
     @Prop({required: true})
     isDelete: boolean
 }

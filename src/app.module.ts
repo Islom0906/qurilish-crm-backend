@@ -14,6 +14,7 @@ import { HouseModule } from './house/house.module';
 import { FloorModule } from './floor/floor.module';
 import { ApartmentModule } from './apartment/apartment.module';
 import { StructureModule } from './structure/structure.module';
+import { SellerModule } from './seller/seller.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { StructureModule } from './structure/structure.module';
     HouseModule,
     FloorModule,
     ApartmentModule,
-    StructureModule
+    StructureModule,
+    SellerModule
   ],
 })
 export class AppModule {}

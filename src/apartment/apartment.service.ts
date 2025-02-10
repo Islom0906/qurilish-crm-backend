@@ -48,10 +48,10 @@ export class ApartmentService {
     async getByIdApartment(id: string) {
         const apartment = await this.apartmentModel.findOne({_id:id,isDelete:false})
             .select('-createdAt -updatedAt -isDelete')
-            .populate('floorId','_id')
-            .populate('slotId', '_id')
-            .populate('houseId', '_id')
-            .populate('structureId', '_id')
+            .populate('floorId','_id name')
+            .populate('slotId', '_id name')
+            .populate('houseId', '_id name')
+            .populate('structureId', '_id name')
         if (!apartment) throw new NotFoundException("House topilmadi")
 
         return apartment

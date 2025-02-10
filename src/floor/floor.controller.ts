@@ -18,9 +18,10 @@ export class FloorController {
     @Get()
     @Auth("admin")
     @ApiOperation({summary: "Get floor"})
-    @ApiQuery({ name: 'houseId', required: false, description: 'House filter with slot' })
-    @ApiQuery({ name: 'limit', required: false, description: 'House pagination page size',default:'10' })
-    @ApiQuery({ name: 'page', required: false, description: 'House pagination page number',default:'1' })
+    @ApiQuery({ name: 'houseId', required: false, description: 'Floor filter with houseId' })
+    @ApiQuery({ name: 'limit', required: false, description: 'Floor pagination page size',default:'10' })
+    @ApiQuery({ name: 'page', required: false, description: 'Floor pagination page number',default:'1' })
+
     async getFloor(
         @UserInfo("_id") userId: string,
         @Query("houseId") houseId:string,
@@ -29,6 +30,17 @@ export class FloorController {
     ) {
         return this.floorService.getFloor(userId,houseId,limit,page)
     }
+
+    // GET
+    // @HttpCode(200)
+    // @Get('/shaxmat')
+    // @Auth("admin")
+    // @ApiOperation({summary: "Get floor shaxmat"})
+    // async getFloorShaxmat(
+    //     @UserInfo("_id") userId: string,
+    // ) {
+    //     return this.floorService.getFloorShaxmat(userId)
+    // }
 
     // GET BY ID
     @HttpCode(200)

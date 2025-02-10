@@ -24,16 +24,30 @@ let StructureService = class StructureService {
         this.structureModel = structureModel;
         this.commonService = commonService;
     }
-    async getStructure(userId) {
+    async getStructure(userId, limit, page) {
+        const pageNumber = parseInt(page, 10);
+        const pageSize = parseInt(limit, 10);
         const companyId = await this.commonService.getCompanyId(userId);
         const filter = { isDelete: false, companyId };
+        const skip = (Number(pageNumber) - 1) * Number(pageSize);
         const getStructure = await this.structureModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
             .populate('images', 'url -_id')
             .populate('floorImage', 'url -_id')
             .populate('apartmentImage', 'url -_id')
-            .sort({ createdAt: -1 });
-        return getStructure;
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(pageSize);
+        const totalItems = await this.structureModel.countDocuments(filter);
+        const totalPage = Math.ceil(totalItems / pageSize);
+        return {
+            data: getStructure,
+            currentPage: pageNumber,
+            totalPage: totalPage,
+            totalItems,
+            nextPage: pageNumber < totalPage ? pageNumber + 1 : null,
+            prewPage: pageNumber > 1 ? pageNumber - 1 : null
+        };
     }
     async getByIdStructure(id) {
         const structure = await this.structureModel.findOne({ _id: id, isDelete: false })

@@ -6,7 +6,7 @@ import {
     HttpCode,
     Param,
     Post,
-    Put,
+    Put, Query,
     UsePipes,
     ValidationPipe
 } from '@nestjs/common';
@@ -28,10 +28,14 @@ constructor(private readonly structureService:StructureService) {
     @Get()
     @Auth("admin")
     @ApiOperation({summary: "Get structure"})
+    @ApiQuery({ name: 'limit', required: false, description: 'House pagination page size',default:'10' })
+    @ApiQuery({ name: 'page', required: false, description: 'House pagination page number',default:'1' })
     async getStructure(
         @UserInfo("_id") userId:string,
+        @Query('limit') limit:string='10',
+        @Query('page') page:string='1',
     ) {
-        return this.structureService.getStructure(userId)
+        return this.structureService.getStructure(userId,limit,page)
     }
 
     // GET BY ID

@@ -12,42 +12,37 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FloorService = void 0;
+exports.SellerService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const floor_model_1 = require("./floor.model");
 const mongoose_2 = require("mongoose");
 const common_service_1 = require("../common/common.service");
-const lodash_1 = require("lodash");
+const user_model_1 = require("../user/user.model");
+const bcryptjs_1 = require("bcryptjs");
 const company_model_1 = require("../company/company.model");
-const slot_model_1 = require("../slot/slot.model");
-const house_model_1 = require("../house/house.model");
-let FloorService = class FloorService {
-    constructor(slotModel, houseModel, floorModel, companyModel, commonService) {
-        this.slotModel = slotModel;
-        this.houseModel = houseModel;
-        this.floorModel = floorModel;
+const lodash_1 = require("lodash");
+let SellerService = class SellerService {
+    constructor(userModel, companyModel, commonService) {
+        this.userModel = userModel;
         this.companyModel = companyModel;
         this.commonService = commonService;
     }
-    async getFloor(userId, houseId, limit, page) {
+    async getSeller(userId, limit, page) {
         const pageNumber = parseInt(page, 10);
         const pageSize = parseInt(limit, 10);
         const companyId = await this.commonService.getCompanyId(userId);
         const filter = { isDelete: false, companyId };
-        if (houseId)
-            filter.houseId = houseId;
         const skip = (Number(pageNumber) - 1) * Number(pageSize);
-        const getFloor = await this.floorModel.find(filter)
+        const getSeller = await this.userModel.find({ companyId, role: 'staff' })
             .select('-createdAt -updatedAt -isDelete')
             .populate('image', 'url -_id')
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(pageSize);
-        const totalItems = await this.floorModel.countDocuments(filter);
+        const totalItems = await this.userModel.countDocuments({ companyId, role: 'staff' });
         const totalPage = Math.ceil(totalItems / pageSize);
         return {
-            data: getFloor,
+            data: getSeller,
             currentPage: pageNumber,
             totalPage: totalPage,
             totalItems,
@@ -55,61 +50,70 @@ let FloorService = class FloorService {
             prewPage: pageNumber > 1 ? pageNumber - 1 : null
         };
     }
-    async getByIdFloor(id) {
-        const floor = await this.floorModel.findOne({ _id: id, isDelete: false })
+    async getByIdSeller(id) {
+        const seller = await this.userModel.findOne({ _id: id })
             .select('-createdAt -updatedAt -isDelete')
-            .populate('image', '-createdAt -updatedAt -isDelete ')
-            .populate('houseId', '-createdAt -updatedAt -image -slotId -companyId -squarePrices -isDelete -__v');
-        if (!floor)
-            throw new common_1.NotFoundException("Floor topilmadi");
-        return floor;
+            .populate('image', '-createdAt -updatedAt');
+        if (!seller)
+            throw new common_1.NotFoundException("Seller topilmadi");
+        return seller;
     }
-    async creatFloor(dto, userId) {
+    async creatSeller(dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
         const company = await this.companyModel.findById(companyId);
-        const floor = await this.floorModel.create({
+        const existUser = await this.isExistUser(dto.email);
+        if (existUser)
+            throw new common_1.BadRequestException("Bu email bilan foydalanuvchi allaqachon ro'yxatdan o'tgan");
+        const checkSellerCount = await this.userModel.find({ companyId, role: 'staff' });
+        if (company.staffCount <= checkSellerCount.length)
+            throw new common_1.BadRequestException("Siz kerakli sellerni qo'shib bo'ldingiz");
+        const salt = await (0, bcryptjs_1.genSalt)(10);
+        const passwordHash = await (0, bcryptjs_1.hash)(dto.password, salt);
+        const newUser = await this.userModel.create({
             ...dto,
+            role: 'staff',
             companyId,
-            priceSqm: company.isPriceSqm ? dto.priceSqm : null,
-            isDelete: false
+            password: passwordHash
         });
-        return (0, lodash_1.pick)(floor, ['name', 'companyId', '_id', 'houseId', 'image', 'isSale', 'priceSqm']);
+        return (0, lodash_1.pick)(newUser, ['_id', 'email', 'name', 'sur_name', 'image', 'birthday', 'gender', 'phone']);
     }
-    async updateFloor(id, dto, userId) {
+    async updateSeller(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
         const company = await this.companyModel.findById(companyId);
-        const floor = await this.floorModel.findOneAndUpdate({ _id: id,
-            isDelete: false }, {
+        const existUser = await this.isExistUser(dto.email);
+        if (existUser)
+            throw new common_1.BadRequestException("Bu email bilan foydalanuvchi allaqachon ro'yxatdan o'tgan");
+        const salt = await (0, bcryptjs_1.genSalt)(10);
+        const passwordHash = await (0, bcryptjs_1.hash)(dto.password, salt);
+        const newUser = await this.userModel.findByIdAndUpdate(id, {
             ...dto,
+            role: 'staff',
             companyId,
-            priceSqm: company.isPriceSqm ? dto.priceSqm : null,
-            isDelete: false
+            password: passwordHash
         }, { new: true });
-        if (!floor)
-            throw new common_1.NotFoundException('Floor topilmadi');
-        return (0, lodash_1.pick)(floor, ['name', 'companyId', '_id', 'houseId', 'image', 'isSale', 'priceSqm']);
+        return (0, lodash_1.pick)(newUser, ['_id', 'email', 'name', 'sur_name', 'image', 'birthday', 'gender', 'phone']);
     }
-    async deleteFloor(id) {
-        const findAndDelete = await this.floorModel.findOneAndUpdate({
+    async deleteSeller(id) {
+        const findAndDelete = await this.userModel.findOneAndUpdate({
             _id: id,
             isDelete: false
         }, { $set: { isDelete: true } }, { new: true });
         if (!findAndDelete)
-            throw new common_1.NotFoundException('Floor topilmadi');
+            throw new common_1.NotFoundException('Seller topilmadi');
         return 'success delete';
     }
+    async isExistUser(email) {
+        const existUser = await this.userModel.findOne({ email });
+        return existUser;
+    }
 };
-exports.FloorService = FloorService;
-exports.FloorService = FloorService = __decorate([
+exports.SellerService = SellerService;
+exports.SellerService = SellerService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(slot_model_1.Slot.name)),
-    __param(1, (0, mongoose_1.InjectModel)(house_model_1.House.name)),
-    __param(2, (0, mongoose_1.InjectModel)(floor_model_1.Floor.name)),
-    __param(3, (0, mongoose_1.InjectModel)(company_model_1.Company.name)),
+    __param(0, (0, mongoose_1.InjectModel)(user_model_1.User.name)),
+    __param(1, (0, mongoose_1.InjectModel)(company_model_1.Company.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
         mongoose_2.Model,
-        mongoose_2.Model,
-        mongoose_2.Model,
         common_service_1.CommonService])
-], FloorService);
-//# sourceMappingURL=floor.service.js.map
+], SellerService);
+//# sourceMappingURL=seller.service.js.map

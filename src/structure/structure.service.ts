@@ -13,10 +13,14 @@ export class StructureService {
     }
 
     // get structure
-    async getStructure(userId: string) {
+    async getStructure(userId: string,limit: string, page: string) {
+        const pageNumber=parseInt(page,10)
+        const pageSize=parseInt(limit,10)
+
         const companyId = await this.commonService.getCompanyId(userId)
         const filter:CompanyAndIsDeleteInterface={isDelete: false,companyId}
 
+        const skip = (Number(pageNumber) - 1) * Number(pageSize)
 
         const getStructure = await this.structureModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
@@ -24,9 +28,19 @@ export class StructureService {
             .populate('floorImage', 'url -_id')
             .populate('apartmentImage', 'url -_id')
             .sort({createdAt: -1})
+            .skip(skip)
+            .limit(pageSize)
+        const totalItems = await this.structureModel.countDocuments(filter)
+        const  totalPage= Math.ceil(totalItems / pageSize)
 
-
-        return getStructure
+        return {
+            data: getStructure,
+            currentPage: pageNumber,
+            totalPage: totalPage,
+            totalItems,
+            nextPage:pageNumber<totalPage?pageNumber+1:null,
+            prewPage:pageNumber>1?pageNumber-1:null
+        }
     }
 
     // GET by id structure
