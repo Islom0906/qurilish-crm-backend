@@ -69,6 +69,10 @@ let ApartmentService = class ApartmentService {
         const apartment = await this.apartmentModel.create({
             ...dto,
             companyId,
+            floorId: new mongoose_2.Types.ObjectId(dto.floorId),
+            slotId: new mongoose_2.Types.ObjectId(dto.slotId),
+            houseId: new mongoose_2.Types.ObjectId(dto.houseId),
+            structureId: new mongoose_2.Types.ObjectId(dto.structureId),
             status: null,
             price: null,
             isDelete: false
@@ -78,12 +82,15 @@ let ApartmentService = class ApartmentService {
     async updateApartment(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
         const checkName = await this.apartmentModel.findOne({ slotId: dto.slotId, houseId: dto.houseId, floorId: dto.floorId, name: dto.name, isDelete: false });
-        console.log(checkName);
         if (checkName && checkName._id.toString() !== id)
             throw new common_1.BadRequestException("Xonani nomi takrorlanmasligi kerak");
         const apartment = await this.apartmentModel.findByIdAndUpdate(id, {
             ...dto,
             companyId,
+            floorId: new mongoose_2.Types.ObjectId(dto.floorId),
+            slotId: new mongoose_2.Types.ObjectId(dto.slotId),
+            houseId: new mongoose_2.Types.ObjectId(dto.houseId),
+            structureId: new mongoose_2.Types.ObjectId(dto.structureId),
             status: null,
             price: null,
             isDelete: false

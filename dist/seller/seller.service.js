@@ -71,6 +71,7 @@ let SellerService = class SellerService {
         const passwordHash = await (0, bcryptjs_1.hash)(dto.password, salt);
         const newUser = await this.userModel.create({
             ...dto,
+            image: new mongoose_2.Types.ObjectId(dto.image),
             role: 'staff',
             companyId,
             password: passwordHash
@@ -79,15 +80,12 @@ let SellerService = class SellerService {
     }
     async updateSeller(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
-        const company = await this.companyModel.findById(companyId);
-        const existUser = await this.isExistUser(dto.email);
-        if (existUser)
-            throw new common_1.BadRequestException("Bu email bilan foydalanuvchi allaqachon ro'yxatdan o'tgan");
         const salt = await (0, bcryptjs_1.genSalt)(10);
         const passwordHash = await (0, bcryptjs_1.hash)(dto.password, salt);
         const newUser = await this.userModel.findByIdAndUpdate(id, {
             ...dto,
             role: 'staff',
+            image: new mongoose_2.Types.ObjectId(dto.image),
             companyId,
             password: passwordHash
         }, { new: true });

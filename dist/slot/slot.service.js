@@ -60,6 +60,7 @@ let SlotService = class SlotService {
         const service = await this.slotModel.create({
             ...dto,
             companyId,
+            image: new mongoose_2.Types.ObjectId(dto.image),
             isDelete: false
         });
         return (0, lodash_1.pick)(service, ['name', 'companyId', '_id', 'finishedDate', 'image']);
@@ -69,6 +70,7 @@ let SlotService = class SlotService {
         const service = await this.slotModel.findByIdAndUpdate(id, {
             ...dto,
             companyId,
+            image: new mongoose_2.Types.ObjectId(dto.image),
             isDelete: false
         }, { new: true });
         if (!service)

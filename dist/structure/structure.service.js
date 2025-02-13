@@ -61,18 +61,26 @@ let StructureService = class StructureService {
     }
     async creatStructure(dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
+        const imagesObjectId = dto.images.map((image) => new mongoose_2.Types.ObjectId(image));
         const structure = await this.structureModel.create({
             ...dto,
             companyId,
+            floorImage: new mongoose_2.Types.ObjectId(dto.floorImage),
+            apartmentImage: new mongoose_2.Types.ObjectId(dto.apartmentImage),
+            images: imagesObjectId,
             isDelete: false
         });
         return (0, lodash_1.pick)(structure, ['name', 'size', '_id', 'roomCount', 'floorImage', 'apartmentImage', 'images']);
     }
     async updateStructure(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
+        const imagesObjectId = dto.images.map((image) => new mongoose_2.Types.ObjectId(image));
         const structure = await this.structureModel.findByIdAndUpdate(id, {
             ...dto,
             companyId,
+            floorImage: new mongoose_2.Types.ObjectId(dto.floorImage),
+            apartmentImage: new mongoose_2.Types.ObjectId(dto.apartmentImage),
+            images: imagesObjectId,
             isDelete: false
         }, { new: true });
         if (!structure)

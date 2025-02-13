@@ -26,6 +26,9 @@ let FloorController = class FloorController {
     async getFloor(userId, houseId, limit = '10', page = '1') {
         return this.floorService.getFloor(userId, houseId, limit, page);
     }
+    async getFloorShaxmat(userId) {
+        return this.floorService.getFloorShaxmat(userId);
+    }
     async getByIdFloor(id) {
         return this.floorService.getByIdFloor(id);
     }
@@ -56,6 +59,16 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], FloorController.prototype, "getFloor", null);
+__decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Get)('/shaxmat'),
+    (0, auth_decorator_1.Auth)("admin"),
+    (0, swagger_1.ApiOperation)({ summary: "Get floor shaxmat" }),
+    __param(0, (0, user_decorator_1.UserInfo)("_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], FloorController.prototype, "getFloorShaxmat", null);
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Get)(":id"),

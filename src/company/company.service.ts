@@ -1,6 +1,6 @@
 import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import {Model, Types} from "mongoose";
 import {Company, CompanyDocument} from "./company.model";
 import {CompanyDto} from "./dto/company.dto";
 import {User, UserDocument} from "../user/user.model";
@@ -52,8 +52,8 @@ export class CompanyService {
                 phone:dto.phone,
                 staffCount:dto.staffCount,
                 expiredDate:dto.expiredDate,
-                image:dto.image,
-                logo:dto.logo,
+                image:new Types.ObjectId(dto.image),
+                logo:new Types.ObjectId(dto.logo),
                 status: "active",
                 isDelete: false,
                 isPriceSqm:dto.isPriceSqm
@@ -67,7 +67,7 @@ export class CompanyService {
                 password:passwordHash,
                 role:'admin',
                 companyId:company._id,
-                image:dto.imageUser,
+                image:new Types.ObjectId(dto.imageUser),
                 birthday:dto.birthday,
                 gender:dto.gender,
                 phone:dto.phoneUser,

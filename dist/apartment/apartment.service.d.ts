@@ -45,7 +45,7 @@ export declare class ApartmentService {
         __v: number;
     } & Required<{
         _id: Types.ObjectId;
-    }>, "name" | "_id" | "status" | "slotId" | "houseId" | "price" | "floorId" | "structureId">>;
+    }>, "name" | "_id" | "status" | "slotId" | "houseId" | "floorId" | "price" | "structureId">>;
     updateApartment(id: string, dto: ApartmentDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Apartment> & Apartment & {
         _id: Types.ObjectId;
     } & {
@@ -56,6 +56,6 @@ export declare class ApartmentService {
         __v: number;
     } & Required<{
         _id: Types.ObjectId;
-    }>, "name" | "_id" | "status" | "slotId" | "houseId" | "price" | "floorId" | "structureId">>;
+    }>, "name" | "_id" | "status" | "slotId" | "houseId" | "floorId" | "price" | "structureId">>;
     deleteApartment(id: string): Promise<string>;
 }

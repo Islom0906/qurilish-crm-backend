@@ -1,6 +1,6 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import {Model, Types} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {House, HouseDocument} from "./house.model";
 import { FilterHouseDto, HouseDto} from "./dto/house.dto";
@@ -58,6 +58,8 @@ export class HouseService {
         const service = await this.houseModel.create({
             ...dto,
             companyId,
+            image:new Types.ObjectId(dto.image),
+            slotId:new Types.ObjectId(dto.slotId),
             isDelete: false
         })
         return pick(service, ['name', 'companyId', '_id', 'slotId', 'image'])
@@ -72,6 +74,8 @@ export class HouseService {
             {
                 ...dto,
                 companyId,
+                image:new Types.ObjectId(dto.image),
+                slotId:new Types.ObjectId(dto.slotId),
                 isDelete: false
             },{new:true}
         )

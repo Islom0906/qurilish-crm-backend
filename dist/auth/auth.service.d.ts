@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import { User, UserDocument } from "../user/user.model";
 import { RegisterDto } from "./dto/registerDto";
 import { LoginDto } from "./dto/login.dto";
@@ -9,25 +9,25 @@ export declare class AuthService {
     private readonly jwtService;
     constructor(userModel: Model<UserDocument>, jwtService: JwtService);
     getUsers(): Promise<(import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, User> & User & {
-        _id: import("mongoose").Types.ObjectId;
+        _id: Types.ObjectId;
     } & {
         __v: number;
     }> & import("mongoose").Document<unknown, {}, User> & User & {
-        _id: import("mongoose").Types.ObjectId;
+        _id: Types.ObjectId;
     } & {
         __v: number;
     } & Required<{
-        _id: import("mongoose").Types.ObjectId;
+        _id: Types.ObjectId;
     }>)[]>;
     register(dto: RegisterDto): Promise<{
         refresh: string;
         access: string;
         user: {
-            _id: import("mongoose").Types.ObjectId;
+            _id: Types.ObjectId;
             email: string;
             name: string;
             sur_name: string;
-            image: import("mongoose").Types.ObjectId;
+            image: Types.ObjectId;
             birthday: Date;
             gender: string;
             phone: string;
@@ -37,11 +37,11 @@ export declare class AuthService {
         refresh: string;
         access: string;
         user: {
-            _id: import("mongoose").Types.ObjectId;
+            _id: Types.ObjectId;
             email: string;
             name: string;
             sur_name: string;
-            image: import("mongoose").Types.ObjectId;
+            image: Types.ObjectId;
             birthday: Date;
             gender: string;
             phone: string;
@@ -51,11 +51,11 @@ export declare class AuthService {
         refresh: string;
         access: string;
         user: {
-            _id: import("mongoose").Types.ObjectId;
+            _id: Types.ObjectId;
             email: string;
             name: string;
             sur_name: string;
-            image: import("mongoose").Types.ObjectId;
+            image: Types.ObjectId;
             birthday: Date;
             gender: string;
             phone: string;
@@ -67,11 +67,11 @@ export declare class AuthService {
         access: string;
     }>;
     getUserField(user: UserDocument): {
-        _id: import("mongoose").Types.ObjectId;
+        _id: Types.ObjectId;
         email: string;
         name: string;
         sur_name: string;
-        image: import("mongoose").Types.ObjectId;
+        image: Types.ObjectId;
         birthday: Date;
         gender: string;
         phone: string;

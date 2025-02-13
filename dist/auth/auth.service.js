@@ -39,6 +39,7 @@ let AuthService = class AuthService {
         const passwordHash = await (0, bcryptjs_1.hash)(dto.password, salt);
         const newUser = await this.userModel.create({
             ...dto,
+            image: new mongoose_1.Types.ObjectId(dto.image),
             password: passwordHash
         });
         const token = await this.issueTokenPair(String(newUser._id));

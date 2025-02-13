@@ -3,14 +3,14 @@
 const config = {
   mongodb: {
     // TODO Change (or review) the url to your MongoDB:
-    url: "mongodb://localhost:27017",
+    url: "mongodb+srv://abdugofurovislom1:sSv5vf0rxcENiSZx@qurilish.hieyx.mongodb.net/?retryWrites=true&w=majority&appName=Qurilish",
 
     // TODO Change this to your database name:
-    databaseName: "qurilish-crm",
+    databaseName: "test",
 
   },
 
-  // The migrations dir, can be a relative or absolute path. Only edit this when really necessary.
+  // The migrations dir, can be relative or absolute path. Only edit this when really necessary.
   migrationsDir: "migrations",
 
   // The mongodb collection where the applied changes are stored. Only edit this when really necessary.

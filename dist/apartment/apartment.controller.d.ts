@@ -42,7 +42,7 @@ export declare class ApartmentController {
         __v: number;
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
-    }>, "name" | "_id" | "status" | "slotId" | "houseId" | "price" | "floorId" | "structureId">>;
+    }>, "name" | "_id" | "status" | "slotId" | "houseId" | "floorId" | "price" | "structureId">>;
     updateApartment(id: string, dto: ApartmentDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./apartment.model").Apartment> & import("./apartment.model").Apartment & {
         _id: import("mongoose").Types.ObjectId;
     } & {
@@ -53,6 +53,6 @@ export declare class ApartmentController {
         __v: number;
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
-    }>, "name" | "_id" | "status" | "slotId" | "houseId" | "price" | "floorId" | "structureId">>;
+    }>, "name" | "_id" | "status" | "slotId" | "houseId" | "floorId" | "price" | "structureId">>;
     deleteApartment(id: string): Promise<string>;
 }

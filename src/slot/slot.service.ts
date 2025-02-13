@@ -1,6 +1,6 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import {Model, Types} from "mongoose";
 import {Slot, SlotDocument} from "./slot.model";
 import {SlotDto} from "./dto/slot.dto";
 import {CommonService} from "../common/common.service";
@@ -61,6 +61,7 @@ export class SlotService {
         const service = await this.slotModel.create({
             ...dto,
             companyId,
+            image:new Types.ObjectId(dto.image),
             isDelete: false
         })
         return pick(service, ['name', 'companyId', '_id', 'finishedDate', 'image'])
@@ -73,6 +74,7 @@ export class SlotService {
             {
                 ...dto,
                 companyId,
+                image:new Types.ObjectId(dto.image),
                 isDelete: false
             },{new:true}
         )

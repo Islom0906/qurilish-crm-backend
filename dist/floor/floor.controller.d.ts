@@ -21,6 +21,7 @@ export declare class FloorController {
         nextPage: number;
         prewPage: number;
     }>;
+    getFloorShaxmat(userId: string): Promise<any[]>;
     getByIdFloor(id: string): Promise<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./floor.model").Floor> & import("./floor.model").Floor & {
         _id: import("mongoose").Types.ObjectId;
     } & {

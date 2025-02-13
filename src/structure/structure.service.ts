@@ -1,6 +1,6 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import {Model, Types} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {Structure, StructureDocument} from "./structure.model";
 import {StructureDto} from "./dto/structure.dto";
@@ -59,9 +59,13 @@ export class StructureService {
     async creatStructure(dto: StructureDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
 
+        const imagesObjectId=dto.images.map((image)=>new Types.ObjectId(image))
         const structure = await this.structureModel.create({
             ...dto,
             companyId,
+            floorImage:new Types.ObjectId(dto.floorImage),
+            apartmentImage:new Types.ObjectId(dto.apartmentImage),
+            images:imagesObjectId,
             isDelete: false
         })
         return pick(structure, ['name', 'size', '_id', 'roomCount', 'floorImage','apartmentImage','images'])
@@ -70,11 +74,14 @@ export class StructureService {
     // UPDATE Structure
     async updateStructure(id: string, dto: StructureDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
-
+        const imagesObjectId=dto.images.map((image)=>new Types.ObjectId(image))
         const structure = await this.structureModel.findByIdAndUpdate(id,
             {
                 ...dto,
                 companyId,
+                floorImage:new Types.ObjectId(dto.floorImage),
+                apartmentImage:new Types.ObjectId(dto.apartmentImage),
+                images:imagesObjectId,
                 isDelete: false
             },{new:true}
         )

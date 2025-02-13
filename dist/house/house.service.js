@@ -63,6 +63,8 @@ let HouseService = class HouseService {
         const service = await this.houseModel.create({
             ...dto,
             companyId,
+            image: new mongoose_2.Types.ObjectId(dto.image),
+            slotId: new mongoose_2.Types.ObjectId(dto.slotId),
             isDelete: false
         });
         return (0, lodash_1.pick)(service, ['name', 'companyId', '_id', 'slotId', 'image']);
@@ -72,6 +74,8 @@ let HouseService = class HouseService {
         const house = await this.houseModel.findByIdAndUpdate(id, {
             ...dto,
             companyId,
+            image: new mongoose_2.Types.ObjectId(dto.image),
+            slotId: new mongoose_2.Types.ObjectId(dto.slotId),
             isDelete: false
         }, { new: true });
         if (!house)

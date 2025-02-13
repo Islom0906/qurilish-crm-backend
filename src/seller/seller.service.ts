@@ -1,6 +1,6 @@
 import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import {Model, Types} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {User, UserDocument} from "../user/user.model";
 import {CompanyAndIsDeleteInterface} from "../utils/companyAndIsDelete.interface";
@@ -77,6 +77,7 @@ export class SellerService {
 
         const newUser=await this.userModel.create({
             ...dto,
+            image:new Types.ObjectId(dto.image),
             role:'staff',
             companyId,
             password:passwordHash
@@ -90,13 +91,9 @@ export class SellerService {
     // Update Seller
     async updateSeller(id:string,dto: SellerDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
-        const company =await this.companyModel.findById(companyId)
 
 
-        const existUser=await this.isExistUser(dto.email)
 
-
-        if (existUser) throw new BadRequestException("Bu email bilan foydalanuvchi allaqachon ro'yxatdan o'tgan")
 
 
 
@@ -108,6 +105,7 @@ export class SellerService {
         const newUser=await this.userModel.findByIdAndUpdate(id,{
             ...dto,
             role:'staff',
+            image:new Types.ObjectId(dto.image),
             companyId,
             password:passwordHash
         },{new:true})

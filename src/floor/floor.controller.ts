@@ -32,15 +32,15 @@ export class FloorController {
     }
 
     // GET
-    // @HttpCode(200)
-    // @Get('/shaxmat')
-    // @Auth("admin")
-    // @ApiOperation({summary: "Get floor shaxmat"})
-    // async getFloorShaxmat(
-    //     @UserInfo("_id") userId: string,
-    // ) {
-    //     return this.floorService.getFloorShaxmat(userId)
-    // }
+    @HttpCode(200)
+    @Get('/shaxmat')
+    @Auth("admin")
+    @ApiOperation({summary: "Get floor shaxmat"})
+    async getFloorShaxmat(
+        @UserInfo("_id") userId: string,
+    ) {
+        return this.floorService.getFloorShaxmat(userId)
+    }
 
     // GET BY ID
     @HttpCode(200)

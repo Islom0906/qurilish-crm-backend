@@ -68,6 +68,10 @@ export class ApartmentService {
         const apartment = await this.apartmentModel.create({
             ...dto,
             companyId,
+            floorId: new Types.ObjectId(dto.floorId),
+            slotId: new Types.ObjectId(dto.slotId),
+            houseId: new Types.ObjectId(dto.houseId),
+            structureId: new Types.ObjectId(dto.structureId),
             status:null,
             price:null,
             isDelete: false
@@ -80,12 +84,16 @@ export class ApartmentService {
         const companyId = await this.commonService.getCompanyId(userId)
         const checkName=await this.apartmentModel.findOne({slotId:dto.slotId,houseId:dto.houseId,floorId:dto.floorId,name:dto.name,isDelete:false})
 
-        console.log(checkName)
+
         if (checkName&& checkName._id.toString()!==id) throw new BadRequestException("Xonani nomi takrorlanmasligi kerak")
         const apartment = await this.apartmentModel.findByIdAndUpdate(id,
             {
                 ...dto,
                 companyId,
+                floorId: new Types.ObjectId(dto.floorId),
+                slotId: new Types.ObjectId(dto.slotId),
+                houseId: new Types.ObjectId(dto.houseId),
+                structureId: new Types.ObjectId(dto.structureId),
                 status:null,
                 price:null,
                 isDelete: false

@@ -1,5 +1,5 @@
 import {BadRequestException, Injectable, UnauthorizedException} from '@nestjs/common';
-import {Model} from "mongoose";
+import {Model, Types} from "mongoose";
 import {User, UserDocument} from "../user/user.model";
 import {InjectModel} from "@nestjs/mongoose";
 import {RegisterDto} from "./dto/registerDto";
@@ -33,6 +33,7 @@ export class AuthService {
 
         const newUser=await this.userModel.create({
             ...dto,
+            image:new Types.ObjectId(dto.image),
             password:passwordHash
         })
 

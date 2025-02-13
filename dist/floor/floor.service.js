@@ -55,6 +55,125 @@ let FloorService = class FloorService {
             prewPage: pageNumber > 1 ? pageNumber - 1 : null
         };
     }
+    async getFloorShaxmat(userId) {
+        const companyId = await this.commonService.getCompanyId(userId);
+        const filter = { isDelete: false, companyId };
+        const company = await this.companyModel.findById(companyId);
+        const getFloor = await this.slotModel.aggregate([
+            {
+                $match: { isDelete: false }
+            },
+            {
+                $lookup: {
+                    from: "houses",
+                    localField: "_id",
+                    foreignField: "slotId",
+                    as: "houses"
+                }
+            },
+            {
+                $addFields: {
+                    houses: {
+                        $filter: {
+                            input: "$houses",
+                            as: "house",
+                            cond: { $eq: ["$$house.isDelete", false] }
+                        }
+                    }
+                }
+            },
+            {
+                $lookup: {
+                    from: "floors",
+                    let: { houseIds: "$houses._id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $in: ["$houseId", "$$houseIds"] },
+                                        { $eq: ["$isDelete", false] }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            $lookup: {
+                                from: "apartments",
+                                let: { floorId: "$_id" },
+                                pipeline: [
+                                    {
+                                        $match: {
+                                            $expr: {
+                                                $and: [
+                                                    { $eq: ["$floorId", "$$floorId"] },
+                                                    { $eq: ["$isDelete", false] }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                ],
+                                as: "apartments"
+                            }
+                        }
+                    ],
+                    as: "floors"
+                }
+            },
+            {
+                $addFields: {
+                    houses: {
+                        $map: {
+                            input: "$houses",
+                            as: "house",
+                            in: {
+                                $mergeObjects: [
+                                    "$$house",
+                                    {
+                                        floors: {
+                                            $filter: {
+                                                input: "$floors",
+                                                as: "floor",
+                                                cond: { $eq: ["$$floor.houseId", "$$house._id"] }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    name: 1,
+                    image: 1,
+                    houses: {
+                        _id: 1,
+                        name: 1,
+                        image: 1,
+                        floors: {
+                            _id: 1,
+                            name: 1,
+                            image: 1,
+                            priceSqm: 1,
+                            isSale: 1,
+                            apartments: {
+                                _id: 1,
+                                name: 1,
+                                price: 1
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                $unset: "floors"
+            }
+        ]);
+        return getFloor;
+    }
     async getByIdFloor(id) {
         const floor = await this.floorModel.findOne({ _id: id, isDelete: false })
             .select('-createdAt -updatedAt -isDelete')
@@ -70,6 +189,8 @@ let FloorService = class FloorService {
         const floor = await this.floorModel.create({
             ...dto,
             companyId,
+            houseId: new mongoose_2.Types.ObjectId(dto.houseId),
+            image: new mongoose_2.Types.ObjectId(dto.image),
             priceSqm: company.isPriceSqm ? dto.priceSqm : null,
             isDelete: false
         });
@@ -82,6 +203,8 @@ let FloorService = class FloorService {
             isDelete: false }, {
             ...dto,
             companyId,
+            houseId: new mongoose_2.Types.ObjectId(dto.houseId),
+            image: new mongoose_2.Types.ObjectId(dto.image),
             priceSqm: company.isPriceSqm ? dto.priceSqm : null,
             isDelete: false
         }, { new: true });

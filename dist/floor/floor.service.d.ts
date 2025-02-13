@@ -30,6 +30,7 @@ export declare class FloorService {
         nextPage: number;
         prewPage: number;
     }>;
+    getFloorShaxmat(userId: string): Promise<any[]>;
     getByIdFloor(id: string): Promise<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Floor> & Floor & {
         _id: Types.ObjectId;
     } & {
