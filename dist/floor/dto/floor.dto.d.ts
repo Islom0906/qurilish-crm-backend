@@ -9,3 +9,7 @@ export declare class FloorDto {
 export declare class FilterFloorDto extends CompanyAndIsDeleteInterface {
     houseId?: string;
 }
+export declare class FloorEditPriceDto {
+    floors: string[];
+    price: number;
+}

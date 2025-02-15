@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StructureDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
+const class_validator_2 = require("@nestjs/class-validator");
 class StructureDto {
 }
 exports.StructureDto = StructureDto;
@@ -28,15 +29,15 @@ __decorate([
         description: 'Home size',
         required: true,
     }),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
+    (0, class_validator_2.IsNumber)(),
+    __metadata("design:type", Number)
 ], StructureDto.prototype, "size", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         description: 'Room count',
         required: true,
     }),
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_2.IsNumber)(),
     __metadata("design:type", String)
 ], StructureDto.prototype, "roomCount", void 0);
 __decorate([

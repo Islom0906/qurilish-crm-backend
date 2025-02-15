@@ -2,7 +2,7 @@ import { HydratedDocument, Types } from 'mongoose';
 export type StructureDocument = HydratedDocument<Structure>;
 export declare class Structure {
     name: string;
-    size: string;
+    size: number;
     roomCount: number;
     floorImage: Types.ObjectId;
     apartmentImage: Types.ObjectId;

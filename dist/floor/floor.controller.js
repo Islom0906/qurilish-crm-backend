@@ -35,6 +35,9 @@ let FloorController = class FloorController {
     async creatFloor(dto, userId) {
         return this.floorService.creatFloor(dto, userId);
     }
+    async editFloorPrice(dto, userId) {
+        return this.floorService.editFloorPrice(dto, userId);
+    }
     async updateFloor(id, dto, userId) {
         return this.floorService.updateFloor(id, dto, userId);
     }
@@ -95,6 +98,22 @@ __decorate([
     __metadata("design:paramtypes", [floor_dto_1.FloorDto, String]),
     __metadata("design:returntype", Promise)
 ], FloorController.prototype, "creatFloor", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(201),
+    (0, common_1.Post)("/editPrice"),
+    (0, auth_decorator_1.Auth)("admin"),
+    (0, swagger_1.ApiOperation)({ summary: "Floor narx o'zgartirish api" }),
+    (0, swagger_1.ApiCreatedResponse)({
+        description: "Floor narx o'zgartirish ",
+        type: floor_dto_1.FloorEditPriceDto
+    }),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, user_decorator_1.UserInfo)("_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [floor_dto_1.FloorEditPriceDto, String]),
+    __metadata("design:returntype", Promise)
+], FloorController.prototype, "editFloorPrice", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),

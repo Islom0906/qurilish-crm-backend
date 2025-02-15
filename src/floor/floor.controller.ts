@@ -2,7 +2,7 @@ import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UsePip
 import {FloorService} from "./floor.service";
 import {Auth} from "../auth/decorators/auth.decorator";
 import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags} from "@nestjs/swagger";
-import {FloorDto} from "./dto/floor.dto";
+import {FloorDto, FloorEditPriceDto} from "./dto/floor.dto";
 import { UserInfo} from "../user/decorators/user.decorator";
 
 
@@ -65,7 +65,21 @@ export class FloorController {
         return this.floorService.creatFloor(dto, userId)
     }
 
-    // PUT SLOT
+    // EDIT Floor price
+    @UsePipes(new ValidationPipe())
+    @HttpCode(201)
+    @Post("/editPrice")
+    @Auth("admin")
+    @ApiOperation({summary: "Floor narx o'zgartirish api"})
+    @ApiCreatedResponse({
+        description: "Floor narx o'zgartirish ",
+        type: FloorEditPriceDto
+    })
+    async editFloorPrice(@Body() dto: FloorEditPriceDto,@UserInfo("_id") userId: string) {
+        return this.floorService.editFloorPrice(dto, userId)
+    }
+
+    // PUT Floor
     @UsePipes(new ValidationPipe())
     @HttpCode(200)
     @Put(':id')

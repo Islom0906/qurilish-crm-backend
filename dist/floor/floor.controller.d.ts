@@ -1,5 +1,5 @@
 import { FloorService } from "./floor.service";
-import { FloorDto } from "./dto/floor.dto";
+import { FloorDto, FloorEditPriceDto } from "./dto/floor.dto";
 export declare class FloorController {
     private readonly floorService;
     constructor(floorService: FloorService);
@@ -44,6 +44,7 @@ export declare class FloorController {
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>, "name" | "companyId" | "image" | "_id" | "isSale" | "priceSqm" | "houseId">>;
+    editFloorPrice(dto: FloorEditPriceDto, userId: string): Promise<string>;
     updateFloor(id: string, dto: FloorDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./floor.model").Floor> & import("./floor.model").Floor & {
         _id: import("mongoose").Types.ObjectId;
     } & {

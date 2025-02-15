@@ -1,5 +1,5 @@
 import {ApiProperty} from "@nestjs/swagger";
-import {IsBoolean, IsMongoId, IsOptional, IsString} from "class-validator";
+import {ArrayNotEmpty, IsArray, IsBoolean, IsMongoId, IsOptional, IsString} from "class-validator";
 import {CompanyAndIsDeleteInterface} from "../../utils/companyAndIsDelete.interface";
 import {IsNumber} from "@nestjs/class-validator";
 
@@ -45,4 +45,24 @@ export class FloorDto {
 
 export class FilterFloorDto extends CompanyAndIsDeleteInterface{
     houseId?:string
+}
+
+export class FloorEditPriceDto{
+    @ApiProperty({
+        description: 'Floors IDs',
+        type:[String],
+        required: true,
+    })
+    @IsArray()
+    @ArrayNotEmpty()
+    @IsMongoId({each:true})
+    floors: string[];
+
+    @ApiProperty({
+        description: 'Price',
+        required: true,
+
+    })
+    @IsNumber()
+    price:number
 }

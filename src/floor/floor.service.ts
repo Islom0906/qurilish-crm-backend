@@ -4,19 +4,23 @@ import {Floor, FloorDocument} from "./floor.model";
 import {Model, Types} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {pick} from "lodash";
-import { FilterFloorDto, FloorDto} from "./dto/floor.dto";
+import {FilterFloorDto, FloorDto, FloorEditPriceDto} from "./dto/floor.dto";
 import {Company, CompanyDocument} from "../company/company.model";
 import {CompanyAndIsDeleteInterface} from "../utils/companyAndIsDelete.interface";
 import {Slot, SlotDocument} from "../slot/slot.model";
 import {House, HouseDocument} from "../house/house.model";
+import {Apartment, ApartmentDocument} from "../apartment/apartment.model";
+import {Structure, StructureDocument} from "../structure/structure.model";
 
 @Injectable()
 export class FloorService {
     constructor(
         @InjectModel(Slot.name) private slotModel: Model<SlotDocument>,
         @InjectModel(House.name) private houseModel: Model<HouseDocument>,
+        @InjectModel(Apartment.name) private apartmentModel: Model<ApartmentDocument>,
         @InjectModel(Floor.name) private floorModel: Model<FloorDocument>,
         @InjectModel(Company.name) private companyModel: Model<CompanyDocument>,
+        @InjectModel(Structure.name) private structureModel: Model<StructureDocument>,
                 private readonly commonService: CommonService
     ) {
     }
@@ -41,7 +45,7 @@ export class FloorService {
             .limit(pageSize)
 
         const totalItems = await this.floorModel.countDocuments(filter)
-        const  totalPage= Math.ceil(totalItems / pageSize)
+        const totalPage= Math.ceil(totalItems / pageSize)
 
         return {
             data: getFloor,
@@ -64,11 +68,9 @@ export class FloorService {
         const company =await this.companyModel.findById(companyId)
 
 
-
-
-        const getFloor = await this.slotModel.aggregate([
+        const pipeline: any[] = [
             {
-                $match: { isDelete: false } // Faqat o‘chirilmagan slotlarni olish
+                $match: { isDelete: false }
             },
             {
                 $lookup: {
@@ -118,6 +120,28 @@ export class FloorService {
                                                 ]
                                             }
                                         }
+                                    },
+                                    {
+                                        $lookup: {
+                                            from: "structures",
+                                            localField: "structureId",
+                                            foreignField: "_id",
+                                            as: "structure"
+                                        }
+                                    },
+                                    {
+                                        $addFields: {
+                                            structure: {
+                                                $cond: {
+                                                    if: { $gt: [{ $size: "$structure" }, 0] },
+                                                    then: {
+                                                        _id: { $arrayElemAt: ["$structure._id", 0] },
+                                                        name: { $arrayElemAt: ["$structure.name", 0] }
+                                                    },
+                                                    else: null
+                                                }
+                                            }
+                                        }
                                     }
                                 ],
                                 as: "apartments"
@@ -155,7 +179,7 @@ export class FloorService {
                 $project: {
                     _id: 1,
                     name: 1,
-                    image:1,
+                    image: 1,
                     houses: {
                         _id: 1,
                         name: 1,
@@ -163,13 +187,13 @@ export class FloorService {
                         floors: {
                             _id: 1,
                             name: 1,
-                            image:1,
-                            priceSqm:1,
-                            isSale:1,
+                            image: 1,
+                            priceSqm: 1,
+                            isSale: 1,
                             apartments: {
-                                _id: 1,
-                                name: 1,
-                                price: 1
+                                _id:1,
+                                name:1,
+                                structure:1
                             }
                         }
                     }
@@ -178,7 +202,13 @@ export class FloorService {
             {
                 $unset: "floors"
             }
-        ])
+        ];
+
+        if (company.isPriceSqm) {
+            pipeline.push({ $unset: "houses.floors.apartments" });
+        }
+
+        const getFloor = await this.slotModel.aggregate(pipeline)
 
 
         return getFloor
@@ -211,6 +241,42 @@ export class FloorService {
             isDelete: false
         })
         return pick(floor, ['name', 'companyId', '_id', 'houseId', 'image','isSale','priceSqm'])
+    }
+
+    async editFloorPrice(dto: FloorEditPriceDto, userId: string) {
+        const companyId = await this.commonService.getCompanyId(userId)
+        const filter: CompanyAndIsDeleteInterface = {isDelete: false, companyId}
+        await this.floorModel.bulkWrite(
+            dto.floors.map(id=>({
+                updateOne:{
+                    filter:{_id:id,...filter},
+                    update:{$set:{priceSqm:dto.price}}
+                }
+            }))
+        )
+
+        const floorObjectIds = dto.floors.map(id => new Types.ObjectId(id));
+        const apartments = await this.apartmentModel.find({ floorId: { $in: floorObjectIds },...filter }).lean();
+
+        const bulkApartmentUpdates = await Promise.all(
+            apartments.map(async (apartment) => {
+                // Structure modeldan area ni olish
+                const structure = await this.structureModel.findOne({_id:apartment.structureId,...filter})
+                if (!structure || !structure.size) return null;
+                console.log(structure)
+                return {
+                    updateOne: {
+                        filter: { _id: apartment._id },
+                        update: { $set: { price: dto.price * structure.size } }
+                    }
+                };
+            })
+        );
+
+
+        await this.apartmentModel.bulkWrite(bulkApartmentUpdates.filter(Boolean));
+
+        return 'success'
     }
 
     // update floor

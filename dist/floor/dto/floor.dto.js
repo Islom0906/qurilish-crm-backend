@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FilterFloorDto = exports.FloorDto = void 0;
+exports.FloorEditPriceDto = exports.FilterFloorDto = exports.FloorDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const companyAndIsDelete_interface_1 = require("../../utils/companyAndIsDelete.interface");
@@ -62,4 +62,26 @@ __decorate([
 class FilterFloorDto extends companyAndIsDelete_interface_1.CompanyAndIsDeleteInterface {
 }
 exports.FilterFloorDto = FilterFloorDto;
+class FloorEditPriceDto {
+}
+exports.FloorEditPriceDto = FloorEditPriceDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Floors IDs',
+        type: [String],
+        required: true,
+    }),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.ArrayNotEmpty)(),
+    (0, class_validator_1.IsMongoId)({ each: true }),
+    __metadata("design:type", Array)
+], FloorEditPriceDto.prototype, "floors", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Price',
+        required: true,
+    }),
+    (0, class_validator_2.IsNumber)(),
+    __metadata("design:type", Number)
+], FloorEditPriceDto.prototype, "price", void 0);
 //# sourceMappingURL=floor.dto.js.map

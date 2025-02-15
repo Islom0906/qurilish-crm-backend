@@ -1,15 +1,24 @@
 import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
-import {Model,Types} from "mongoose";
+import {Model, Types} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {Apartment, ApartmentDocument} from "./apartment.model";
 import {CompanyAndIsDeleteInterface} from "../utils/companyAndIsDelete.interface";
 import {ApartmentDto} from "./dto/apartment.dto";
 import {pick} from "lodash";
+import {Floor, FloorDocument} from "../floor/floor.model";
+import {Company, CompanyDocument} from "../company/company.model";
+import {Structure, StructureDocument} from "../structure/structure.model";
 
 @Injectable()
 export class ApartmentService {
-    constructor(@InjectModel(Apartment.name) private apartmentModel: Model<ApartmentDocument>, private readonly commonService: CommonService) {
+    constructor(
+        @InjectModel(Apartment.name) private apartmentModel: Model<ApartmentDocument>,
+        @InjectModel(Floor.name) private floorModel: Model<FloorDocument>,
+        @InjectModel(Structure.name) private structureModel: Model<StructureDocument>,
+        @InjectModel(Company.name) private companyModel: Model<CompanyDocument>,
+        private readonly commonService: CommonService
+    ) {
     }
 
 
@@ -60,10 +69,18 @@ export class ApartmentService {
     // POST Structure
     async creatApartment(dto: ApartmentDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
-
         const checkName=await this.apartmentModel.findOne({slotId:dto.slotId,houseId:dto.houseId,floorId:dto.floorId,name:dto.name,isDelete:false})
-
+        console.log(checkName)
         if (checkName) throw new BadRequestException("Xonani nomi takrorlanmasligi kerak")
+
+        const company = await this.companyModel.findOne({_id: companyId, isDelete: false})
+        if (!company) throw new BadRequestException('Company topilmadi')
+        const floor = await this.floorModel.findOne({_id: dto.floorId, companyId, isDelete: false})
+        if (!floor) throw new BadRequestException('Floor topilmadi')
+
+        const structure = await this.structureModel.findOne({_id: dto.structureId, companyId, isDelete: false})
+        if (!structure) throw new BadRequestException('Structure topilmadi')
+
 
         const apartment = await this.apartmentModel.create({
             ...dto,
@@ -73,7 +90,7 @@ export class ApartmentService {
             houseId: new Types.ObjectId(dto.houseId),
             structureId: new Types.ObjectId(dto.structureId),
             status:null,
-            price:null,
+            price: company.isPriceSqm ? floor.priceSqm * structure.size : dto.price,
             isDelete: false
         })
         return pick(apartment, ['name',  '_id','price', 'floorId','slotId','houseId','structureId','status'])

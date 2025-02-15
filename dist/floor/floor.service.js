@@ -22,12 +22,16 @@ const lodash_1 = require("lodash");
 const company_model_1 = require("../company/company.model");
 const slot_model_1 = require("../slot/slot.model");
 const house_model_1 = require("../house/house.model");
+const apartment_model_1 = require("../apartment/apartment.model");
+const structure_model_1 = require("../structure/structure.model");
 let FloorService = class FloorService {
-    constructor(slotModel, houseModel, floorModel, companyModel, commonService) {
+    constructor(slotModel, houseModel, apartmentModel, floorModel, companyModel, structureModel, commonService) {
         this.slotModel = slotModel;
         this.houseModel = houseModel;
+        this.apartmentModel = apartmentModel;
         this.floorModel = floorModel;
         this.companyModel = companyModel;
+        this.structureModel = structureModel;
         this.commonService = commonService;
     }
     async getFloor(userId, houseId, limit, page) {
@@ -59,7 +63,7 @@ let FloorService = class FloorService {
         const companyId = await this.commonService.getCompanyId(userId);
         const filter = { isDelete: false, companyId };
         const company = await this.companyModel.findById(companyId);
-        const getFloor = await this.slotModel.aggregate([
+        const pipeline = [
             {
                 $match: { isDelete: false }
             },
@@ -109,6 +113,28 @@ let FloorService = class FloorService {
                                                     { $eq: ["$floorId", "$$floorId"] },
                                                     { $eq: ["$isDelete", false] }
                                                 ]
+                                            }
+                                        }
+                                    },
+                                    {
+                                        $lookup: {
+                                            from: "structures",
+                                            localField: "structureId",
+                                            foreignField: "_id",
+                                            as: "structure"
+                                        }
+                                    },
+                                    {
+                                        $addFields: {
+                                            structure: {
+                                                $cond: {
+                                                    if: { $gt: [{ $size: "$structure" }, 0] },
+                                                    then: {
+                                                        _id: { $arrayElemAt: ["$structure._id", 0] },
+                                                        name: { $arrayElemAt: ["$structure.name", 0] }
+                                                    },
+                                                    else: null
+                                                }
                                             }
                                         }
                                     }
@@ -162,7 +188,7 @@ let FloorService = class FloorService {
                             apartments: {
                                 _id: 1,
                                 name: 1,
-                                price: 1
+                                structure: 1
                             }
                         }
                     }
@@ -171,7 +197,11 @@ let FloorService = class FloorService {
             {
                 $unset: "floors"
             }
-        ]);
+        ];
+        if (company.isPriceSqm) {
+            pipeline.push({ $unset: "houses.floors.apartments" });
+        }
+        const getFloor = await this.slotModel.aggregate(pipeline);
         return getFloor;
     }
     async getByIdFloor(id) {
@@ -195,6 +225,32 @@ let FloorService = class FloorService {
             isDelete: false
         });
         return (0, lodash_1.pick)(floor, ['name', 'companyId', '_id', 'houseId', 'image', 'isSale', 'priceSqm']);
+    }
+    async editFloorPrice(dto, userId) {
+        const companyId = await this.commonService.getCompanyId(userId);
+        const filter = { isDelete: false, companyId };
+        await this.floorModel.bulkWrite(dto.floors.map(id => ({
+            updateOne: {
+                filter: { _id: id, ...filter },
+                update: { $set: { priceSqm: dto.price } }
+            }
+        })));
+        const floorObjectIds = dto.floors.map(id => new mongoose_2.Types.ObjectId(id));
+        const apartments = await this.apartmentModel.find({ floorId: { $in: floorObjectIds }, ...filter }).lean();
+        const bulkApartmentUpdates = await Promise.all(apartments.map(async (apartment) => {
+            const structure = await this.structureModel.findOne({ _id: apartment.structureId, ...filter });
+            if (!structure || !structure.size)
+                return null;
+            console.log(structure);
+            return {
+                updateOne: {
+                    filter: { _id: apartment._id },
+                    update: { $set: { price: dto.price * structure.size } }
+                }
+            };
+        }));
+        await this.apartmentModel.bulkWrite(bulkApartmentUpdates.filter(Boolean));
+        return 'success';
     }
     async updateFloor(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
@@ -227,9 +283,13 @@ exports.FloorService = FloorService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(slot_model_1.Slot.name)),
     __param(1, (0, mongoose_1.InjectModel)(house_model_1.House.name)),
-    __param(2, (0, mongoose_1.InjectModel)(floor_model_1.Floor.name)),
-    __param(3, (0, mongoose_1.InjectModel)(company_model_1.Company.name)),
+    __param(2, (0, mongoose_1.InjectModel)(apartment_model_1.Apartment.name)),
+    __param(3, (0, mongoose_1.InjectModel)(floor_model_1.Floor.name)),
+    __param(4, (0, mongoose_1.InjectModel)(company_model_1.Company.name)),
+    __param(5, (0, mongoose_1.InjectModel)(structure_model_1.Structure.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
+        mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,

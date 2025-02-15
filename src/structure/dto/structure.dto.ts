@@ -1,5 +1,6 @@
 import {ApiProperty} from "@nestjs/swagger";
 import {ArrayNotEmpty, IsArray, IsMongoId, IsString} from "class-validator";
+import {IsNumber} from "@nestjs/class-validator";
 
 export class StructureDto {
     @ApiProperty({
@@ -13,14 +14,14 @@ export class StructureDto {
         description: 'Home size',
         required: true,
     })
-    @IsString()
-    size: string;
+    @IsNumber()
+    size: number;
 
     @ApiProperty({
         description: 'Room count',
         required: true,
     })
-    @IsString()
+    @IsNumber()
     roomCount: string;
 
     @ApiProperty({

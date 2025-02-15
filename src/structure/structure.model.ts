@@ -11,7 +11,7 @@ export class Structure {
     name: string
 
     @Prop({required: true})
-    size: string
+    size: number
 
     @Prop({required: true})
     roomCount: number

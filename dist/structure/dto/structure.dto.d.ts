@@ -1,6 +1,6 @@
 export declare class StructureDto {
     name: string;
-    size: string;
+    size: number;
     roomCount: string;
     images: string[];
     floorImage: string;
