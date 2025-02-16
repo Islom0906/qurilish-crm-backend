@@ -69,8 +69,13 @@ let ApartmentService = class ApartmentService {
     }
     async creatApartment(dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
-        const checkName = await this.apartmentModel.findOne({ slotId: dto.slotId, houseId: dto.houseId, floorId: dto.floorId, name: dto.name, isDelete: false });
-        console.log(checkName);
+        const checkName = await this.apartmentModel.findOne({
+            slotId: new mongoose_2.Types.ObjectId(dto.slotId),
+            houseId: new mongoose_2.Types.ObjectId(dto.houseId),
+            floorId: new mongoose_2.Types.ObjectId(dto.floorId),
+            name: dto.name,
+            isDelete: false
+        });
         if (checkName)
             throw new common_1.BadRequestException("Xonani nomi takrorlanmasligi kerak");
         const company = await this.companyModel.findOne({ _id: companyId, isDelete: false });

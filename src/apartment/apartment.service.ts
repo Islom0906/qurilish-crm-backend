@@ -69,8 +69,13 @@ export class ApartmentService {
     // POST Structure
     async creatApartment(dto: ApartmentDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
-        const checkName=await this.apartmentModel.findOne({slotId:dto.slotId,houseId:dto.houseId,floorId:dto.floorId,name:dto.name,isDelete:false})
-        console.log(checkName)
+        const checkName=await this.apartmentModel.findOne({
+            slotId:new Types.ObjectId(dto.slotId),
+            houseId:new Types.ObjectId(dto.houseId),
+            floorId:new Types.ObjectId(dto.floorId),
+            name:dto.name,
+            isDelete:false
+        })
         if (checkName) throw new BadRequestException("Xonani nomi takrorlanmasligi kerak")
 
         const company = await this.companyModel.findOne({_id: companyId, isDelete: false})
