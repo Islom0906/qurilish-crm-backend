@@ -6,3 +6,7 @@ export declare class ApartmentDto {
     houseId: string;
     structureId: string;
 }
+export declare class ApartmentEditPriceDto {
+    apartments: string[];
+    price: number;
+}

@@ -1,7 +1,7 @@
 import { Model, Types } from "mongoose";
 import { CommonService } from "../common/common.service";
 import { Apartment, ApartmentDocument } from "./apartment.model";
-import { ApartmentDto } from "./dto/apartment.dto";
+import { ApartmentDto, ApartmentEditPriceDto } from "./dto/apartment.dto";
 import { FloorDocument } from "../floor/floor.model";
 import { CompanyDocument } from "../company/company.model";
 import { StructureDocument } from "../structure/structure.model";
@@ -51,7 +51,8 @@ export declare class ApartmentService {
         __v: number;
     } & Required<{
         _id: Types.ObjectId;
-    }>, "name" | "price" | "floorId" | "slotId" | "houseId" | "structureId" | "status" | "_id">>;
+    }>, "name" | "_id" | "status" | "slotId" | "houseId" | "price" | "floorId" | "structureId">>;
+    editApartmentPrice(dto: ApartmentEditPriceDto, userId: string): Promise<string>;
     updateApartment(id: string, dto: ApartmentDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Apartment> & Apartment & {
         _id: Types.ObjectId;
     } & {
@@ -62,6 +63,6 @@ export declare class ApartmentService {
         __v: number;
     } & Required<{
         _id: Types.ObjectId;
-    }>, "name" | "price" | "floorId" | "slotId" | "houseId" | "structureId" | "status" | "_id">>;
+    }>, "name" | "_id" | "status" | "slotId" | "houseId" | "price" | "floorId" | "structureId">>;
     deleteApartment(id: string): Promise<string>;
 }

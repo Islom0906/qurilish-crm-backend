@@ -1,5 +1,5 @@
 import { ApartmentService } from "./apartment.service";
-import { ApartmentDto } from "./dto/apartment.dto";
+import { ApartmentDto, ApartmentEditPriceDto } from "./dto/apartment.dto";
 export declare class ApartmentController {
     private readonly apartmentService;
     constructor(apartmentService: ApartmentService);
@@ -43,6 +43,7 @@ export declare class ApartmentController {
     } & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>, "name" | "_id" | "status" | "slotId" | "houseId" | "price" | "floorId" | "structureId">>;
+    editApartmentPrice(dto: ApartmentEditPriceDto, userId: string): Promise<string>;
     updateApartment(id: string, dto: ApartmentDto, userId: string): Promise<Pick<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./apartment.model").Apartment> & import("./apartment.model").Apartment & {
         _id: import("mongoose").Types.ObjectId;
     } & {

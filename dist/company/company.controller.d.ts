@@ -31,8 +31,8 @@ export declare class CompanyController {
         gender: string;
         phone: string;
         _id: import("mongoose").Types.ObjectId;
-        status: import("./company.interface").CompanyStatus;
         staffCount: number;
+        status: import("./company.interface").CompanyStatus;
         expiredDate: Date;
         isPriceSqm: boolean;
         logo: import("mongoose").Types.ObjectId;

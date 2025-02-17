@@ -34,8 +34,8 @@ export declare class CompanyService {
         gender: string;
         phone: string;
         _id: Types.ObjectId;
-        status: import("./company.interface").CompanyStatus;
         staffCount: number;
+        status: import("./company.interface").CompanyStatus;
         expiredDate: Date;
         isPriceSqm: boolean;
         logo: Types.ObjectId;

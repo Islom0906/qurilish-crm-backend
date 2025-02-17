@@ -32,6 +32,9 @@ let ApartmentController = class ApartmentController {
     async creatApartment(dto, userId) {
         return this.apartmentService.creatApartment(dto, userId);
     }
+    async editApartmentPrice(dto, userId) {
+        return this.apartmentService.editApartmentPrice(dto, userId);
+    }
     async updateApartment(id, dto, userId) {
         return this.apartmentService.updateApartment(id, dto, userId);
     }
@@ -80,6 +83,22 @@ __decorate([
     __metadata("design:paramtypes", [apartment_dto_1.ApartmentDto, String]),
     __metadata("design:returntype", Promise)
 ], ApartmentController.prototype, "creatApartment", null);
+__decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.HttpCode)(201),
+    (0, common_1.Post)("/editPrice"),
+    (0, auth_decorator_1.Auth)("admin"),
+    (0, swagger_1.ApiOperation)({ summary: "Apartment narx o'zgartirish api" }),
+    (0, swagger_1.ApiCreatedResponse)({
+        description: "Apartment narx o'zgartirish ",
+        type: apartment_dto_1.ApartmentEditPriceDto
+    }),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, user_decorator_1.UserInfo)("_id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [apartment_dto_1.ApartmentEditPriceDto, String]),
+    __metadata("design:returntype", Promise)
+], ApartmentController.prototype, "editApartmentPrice", null);
 __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.HttpCode)(200),

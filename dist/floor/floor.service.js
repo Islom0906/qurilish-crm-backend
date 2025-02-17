@@ -21,13 +21,11 @@ const common_service_1 = require("../common/common.service");
 const lodash_1 = require("lodash");
 const company_model_1 = require("../company/company.model");
 const slot_model_1 = require("../slot/slot.model");
-const house_model_1 = require("../house/house.model");
 const apartment_model_1 = require("../apartment/apartment.model");
 const structure_model_1 = require("../structure/structure.model");
 let FloorService = class FloorService {
-    constructor(slotModel, houseModel, apartmentModel, floorModel, companyModel, structureModel, commonService) {
+    constructor(slotModel, apartmentModel, floorModel, companyModel, structureModel, commonService) {
         this.slotModel = slotModel;
-        this.houseModel = houseModel;
         this.apartmentModel = apartmentModel;
         this.floorModel = floorModel;
         this.companyModel = companyModel;
@@ -174,15 +172,12 @@ let FloorService = class FloorService {
                 $project: {
                     _id: 1,
                     name: 1,
-                    image: 1,
                     houses: {
                         _id: 1,
                         name: 1,
-                        image: 1,
                         floors: {
                             _id: 1,
                             name: 1,
-                            image: 1,
                             priceSqm: 1,
                             isSale: 1,
                             apartments: {
@@ -228,20 +223,24 @@ let FloorService = class FloorService {
     }
     async editFloorPrice(dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
+        const company = await this.companyModel.findOne({ _id: companyId, isDelete: false }).lean();
+        if (!company.isPriceSqm)
+            throw new common_1.BadRequestException("Siz narxlarni kvadrat metr bo'yicha kiritasiz");
         const filter = { isDelete: false, companyId };
-        await this.floorModel.bulkWrite(dto.floors.map(id => ({
+        const resultFloor = await this.floorModel.bulkWrite(dto.floors.map(id => ({
             updateOne: {
                 filter: { _id: id, ...filter },
                 update: { $set: { priceSqm: dto.price } }
             }
         })));
+        if (resultFloor.modifiedCount === 0)
+            throw new common_1.NotFoundException('Floors topilmadi');
         const floorObjectIds = dto.floors.map(id => new mongoose_2.Types.ObjectId(id));
         const apartments = await this.apartmentModel.find({ floorId: { $in: floorObjectIds }, ...filter }).lean();
         const bulkApartmentUpdates = await Promise.all(apartments.map(async (apartment) => {
             const structure = await this.structureModel.findOne({ _id: apartment.structureId, ...filter });
             if (!structure || !structure.size)
                 return null;
-            console.log(structure);
             return {
                 updateOne: {
                     filter: { _id: apartment._id },
@@ -249,7 +248,8 @@ let FloorService = class FloorService {
                 }
             };
         }));
-        await this.apartmentModel.bulkWrite(bulkApartmentUpdates.filter(Boolean));
+        const resultApartment = await this.apartmentModel.bulkWrite(bulkApartmentUpdates.filter(Boolean));
+        console.log(resultFloor.modifiedCount);
         return 'success';
     }
     async updateFloor(id, dto, userId) {
@@ -282,13 +282,11 @@ exports.FloorService = FloorService;
 exports.FloorService = FloorService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(slot_model_1.Slot.name)),
-    __param(1, (0, mongoose_1.InjectModel)(house_model_1.House.name)),
-    __param(2, (0, mongoose_1.InjectModel)(apartment_model_1.Apartment.name)),
-    __param(3, (0, mongoose_1.InjectModel)(floor_model_1.Floor.name)),
-    __param(4, (0, mongoose_1.InjectModel)(company_model_1.Company.name)),
-    __param(5, (0, mongoose_1.InjectModel)(structure_model_1.Structure.name)),
+    __param(1, (0, mongoose_1.InjectModel)(apartment_model_1.Apartment.name)),
+    __param(2, (0, mongoose_1.InjectModel)(floor_model_1.Floor.name)),
+    __param(3, (0, mongoose_1.InjectModel)(company_model_1.Company.name)),
+    __param(4, (0, mongoose_1.InjectModel)(structure_model_1.Structure.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
-        mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,

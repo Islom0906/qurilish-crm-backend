@@ -1,4 +1,4 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
 import {Floor, FloorDocument} from "./floor.model";
 import {Model, Types} from "mongoose";
@@ -8,7 +8,6 @@ import {FilterFloorDto, FloorDto, FloorEditPriceDto} from "./dto/floor.dto";
 import {Company, CompanyDocument} from "../company/company.model";
 import {CompanyAndIsDeleteInterface} from "../utils/companyAndIsDelete.interface";
 import {Slot, SlotDocument} from "../slot/slot.model";
-import {House, HouseDocument} from "../house/house.model";
 import {Apartment, ApartmentDocument} from "../apartment/apartment.model";
 import {Structure, StructureDocument} from "../structure/structure.model";
 
@@ -16,7 +15,6 @@ import {Structure, StructureDocument} from "../structure/structure.model";
 export class FloorService {
     constructor(
         @InjectModel(Slot.name) private slotModel: Model<SlotDocument>,
-        @InjectModel(House.name) private houseModel: Model<HouseDocument>,
         @InjectModel(Apartment.name) private apartmentModel: Model<ApartmentDocument>,
         @InjectModel(Floor.name) private floorModel: Model<FloorDocument>,
         @InjectModel(Company.name) private companyModel: Model<CompanyDocument>,
@@ -68,7 +66,7 @@ export class FloorService {
         const company =await this.companyModel.findById(companyId)
 
 
-        const pipeline: any[] = [
+        const pipeline = [
             {
                 $match: { isDelete: false }
             },
@@ -179,15 +177,12 @@ export class FloorService {
                 $project: {
                     _id: 1,
                     name: 1,
-                    image: 1,
                     houses: {
                         _id: 1,
                         name: 1,
-                        image: 1,
                         floors: {
                             _id: 1,
                             name: 1,
-                            image: 1,
                             priceSqm: 1,
                             isSale: 1,
                             apartments: {
@@ -245,8 +240,13 @@ export class FloorService {
 
     async editFloorPrice(dto: FloorEditPriceDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
+        const company=await this.companyModel.findOne({_id:companyId,isDelete:false}).lean()
+
+        if (!company.isPriceSqm) throw new BadRequestException("Siz narxlarni kvadrat metr bo'yicha kiritasiz")
+
+
         const filter: CompanyAndIsDeleteInterface = {isDelete: false, companyId}
-        await this.floorModel.bulkWrite(
+       const resultFloor= await this.floorModel.bulkWrite(
             dto.floors.map(id=>({
                 updateOne:{
                     filter:{_id:id,...filter},
@@ -254,6 +254,7 @@ export class FloorService {
                 }
             }))
         )
+        if (resultFloor.modifiedCount===0) throw new NotFoundException('Floors topilmadi')
 
         const floorObjectIds = dto.floors.map(id => new Types.ObjectId(id));
         const apartments = await this.apartmentModel.find({ floorId: { $in: floorObjectIds },...filter }).lean();
@@ -263,7 +264,7 @@ export class FloorService {
                 // Structure modeldan area ni olish
                 const structure = await this.structureModel.findOne({_id:apartment.structureId,...filter})
                 if (!structure || !structure.size) return null;
-                console.log(structure)
+
                 return {
                     updateOne: {
                         filter: { _id: apartment._id },
@@ -274,8 +275,9 @@ export class FloorService {
         );
 
 
-        await this.apartmentModel.bulkWrite(bulkApartmentUpdates.filter(Boolean));
-
+       const resultApartment= await this.apartmentModel.bulkWrite(bulkApartmentUpdates.filter(Boolean));
+        console.log(resultFloor.modifiedCount)
+        // console.log(resultApartment)
         return 'success'
     }
 
@@ -283,7 +285,6 @@ export class FloorService {
     async updateFloor(id: string, dto: FloorDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
         const company =await this.companyModel.findById(companyId)
-
 
 
         const floor = await this.floorModel.findOneAndUpdate({_id: id,

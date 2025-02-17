@@ -4,11 +4,12 @@ import {Model, Types} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {Apartment, ApartmentDocument} from "./apartment.model";
 import {CompanyAndIsDeleteInterface} from "../utils/companyAndIsDelete.interface";
-import {ApartmentDto} from "./dto/apartment.dto";
+import {ApartmentDto, ApartmentEditPriceDto} from "./dto/apartment.dto";
 import {pick} from "lodash";
 import {Floor, FloorDocument} from "../floor/floor.model";
 import {Company, CompanyDocument} from "../company/company.model";
 import {Structure, StructureDocument} from "../structure/structure.model";
+import {FloorEditPriceDto} from "../floor/dto/floor.dto";
 
 @Injectable()
 export class ApartmentService {
@@ -100,6 +101,30 @@ export class ApartmentService {
         })
         return pick(apartment, ['name',  '_id','price', 'floorId','slotId','houseId','structureId','status'])
     }
+
+    async editApartmentPrice(dto: ApartmentEditPriceDto, userId: string) {
+        const companyId = await this.commonService.getCompanyId(userId)
+        const filter: CompanyAndIsDeleteInterface = {isDelete: false, companyId}
+        const company=await this.companyModel.findOne({_id:companyId,isDelete:false}).lean()
+
+        if (company.isPriceSqm) throw new BadRequestException("Siz narxlarni kvadrat metr bo'yicha kiritasiz")
+
+       const result= await this.apartmentModel.bulkWrite(
+            dto.apartments.map(id=>({
+                updateOne:{
+                    filter:{_id:id,...filter},
+                    update:{$set:{price:dto.price}}
+                }
+            }))
+        )
+
+if (result.modifiedCount===0)  throw new NotFoundException('Apartment topilmadi')
+
+
+
+        return 'success'
+    }
+
 
     // UPDATE Apartment
     async updateApartment(id: string, dto: ApartmentDto, userId: string) {

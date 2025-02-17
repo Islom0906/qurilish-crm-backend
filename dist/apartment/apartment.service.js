@@ -100,6 +100,22 @@ let ApartmentService = class ApartmentService {
         });
         return (0, lodash_1.pick)(apartment, ['name', '_id', 'price', 'floorId', 'slotId', 'houseId', 'structureId', 'status']);
     }
+    async editApartmentPrice(dto, userId) {
+        const companyId = await this.commonService.getCompanyId(userId);
+        const filter = { isDelete: false, companyId };
+        const company = await this.companyModel.findOne({ _id: companyId, isDelete: false }).lean();
+        if (company.isPriceSqm)
+            throw new common_1.BadRequestException("Siz narxlarni kvadrat metr bo'yicha kiritasiz");
+        const result = await this.apartmentModel.bulkWrite(dto.apartments.map(id => ({
+            updateOne: {
+                filter: { _id: id, ...filter },
+                update: { $set: { price: dto.price } }
+            }
+        })));
+        if (result.modifiedCount === 0)
+            throw new common_1.NotFoundException('Apartment topilmadi');
+        return 'success';
+    }
     async updateApartment(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
         const checkName = await this.apartmentModel.findOne({ slotId: dto.slotId, houseId: dto.houseId, floorId: dto.floorId, name: dto.name, isDelete: false });

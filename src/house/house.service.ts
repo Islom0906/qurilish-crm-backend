@@ -25,6 +25,7 @@ export class HouseService {
         const getHouse = await this.houseModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')
             .populate('image', 'url -_id')
+            .populate('slotId','_id name')
             .sort({createdAt: -1})
             .skip(skip)
             .limit(pageSize)

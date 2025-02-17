@@ -1,5 +1,5 @@
 import {ApiProperty} from "@nestjs/swagger";
-import {IsMongoId, IsOptional, IsString} from "class-validator";
+import {ArrayNotEmpty, IsArray, IsMongoId, IsOptional, IsString} from "class-validator";
 import {IsNumber} from "@nestjs/class-validator";
 
 export class ApartmentDto {
@@ -46,4 +46,24 @@ export class ApartmentDto {
     })
     @IsMongoId()
     structureId: string;
+}
+
+export class ApartmentEditPriceDto{
+    @ApiProperty({
+        description: 'Apartment IDs',
+        type:[String],
+        required: true,
+    })
+    @IsArray()
+    @ArrayNotEmpty()
+    @IsMongoId({each:true})
+    apartments: string[];
+
+    @ApiProperty({
+        description: 'Price',
+        required: true,
+
+    })
+    @IsNumber()
+    price:number
 }

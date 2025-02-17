@@ -4,18 +4,16 @@ import { CommonService } from "../common/common.service";
 import { FloorDto, FloorEditPriceDto } from "./dto/floor.dto";
 import { CompanyDocument } from "../company/company.model";
 import { SlotDocument } from "../slot/slot.model";
-import { HouseDocument } from "../house/house.model";
 import { ApartmentDocument } from "../apartment/apartment.model";
 import { StructureDocument } from "../structure/structure.model";
 export declare class FloorService {
     private slotModel;
-    private houseModel;
     private apartmentModel;
     private floorModel;
     private companyModel;
     private structureModel;
     private readonly commonService;
-    constructor(slotModel: Model<SlotDocument>, houseModel: Model<HouseDocument>, apartmentModel: Model<ApartmentDocument>, floorModel: Model<FloorDocument>, companyModel: Model<CompanyDocument>, structureModel: Model<StructureDocument>, commonService: CommonService);
+    constructor(slotModel: Model<SlotDocument>, apartmentModel: Model<ApartmentDocument>, floorModel: Model<FloorDocument>, companyModel: Model<CompanyDocument>, structureModel: Model<StructureDocument>, commonService: CommonService);
     getFloor(userId: string, houseId: string, limit: string, page: string): Promise<{
         data: (import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Floor> & Floor & {
             _id: Types.ObjectId;

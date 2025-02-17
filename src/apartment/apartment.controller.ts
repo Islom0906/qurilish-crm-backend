@@ -15,7 +15,7 @@ import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags} from
 import {ApartmentService} from "./apartment.service";
 import {UserInfo} from "../user/decorators/user.decorator";
 import {Auth} from "../auth/decorators/auth.decorator";
-import {ApartmentDto} from "./dto/apartment.dto";
+import {ApartmentDto, ApartmentEditPriceDto} from "./dto/apartment.dto";
 
 @ApiBearerAuth()
 @ApiTags('Apartment')
@@ -59,6 +59,20 @@ export class ApartmentController {
     })
     async creatApartment(@Body() dto: ApartmentDto,@UserInfo("_id") userId:string) {
         return this.apartmentService.creatApartment(dto,userId)
+    }
+
+    // EDIT Apartment price
+    @UsePipes(new ValidationPipe())
+    @HttpCode(201)
+    @Post("/editPrice")
+    @Auth("admin")
+    @ApiOperation({summary: "Apartment narx o'zgartirish api"})
+    @ApiCreatedResponse({
+        description: "Apartment narx o'zgartirish ",
+        type: ApartmentEditPriceDto
+    })
+    async editApartmentPrice(@Body() dto: ApartmentEditPriceDto,@UserInfo("_id") userId: string) {
+        return this.apartmentService.editApartmentPrice(dto, userId)
     }
 
     // PUT

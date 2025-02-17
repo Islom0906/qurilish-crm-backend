@@ -17,22 +17,35 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const user_model_1 = require("./user.model");
 const mongoose_2 = require("mongoose");
+const company_model_1 = require("../company/company.model");
 let UserService = class UserService {
-    constructor(userModel) {
+    constructor(companyModel, userModel) {
+        this.companyModel = companyModel;
         this.userModel = userModel;
     }
     async byId(id) {
         const user = await this.userModel.findById(id)
-            .select('-createdAt -updatedAt -__v');
+            .select('-createdAt -updatedAt -__v').lean();
+        let company;
+        if (user.companyId) {
+            company = await this.companyModel.findOne({ _id: user.companyId, isDelete: false });
+        }
+        console.log(company);
         if (!user)
             throw new common_1.NotFoundException('Not Found User');
-        return user;
+        const data = {
+            ...user,
+            isPriceSqm: user.companyId ? company?.isPriceSqm : null
+        };
+        return data;
     }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(user_model_1.User.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __param(0, (0, mongoose_1.InjectModel)(company_model_1.Company.name)),
+    __param(1, (0, mongoose_1.InjectModel)(user_model_1.User.name)),
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model])
 ], UserService);
 //# sourceMappingURL=user.service.js.map
