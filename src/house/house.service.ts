@@ -18,7 +18,7 @@ export class HouseService {
 
         const companyId = await this.commonService.getCompanyId(userId)
         const filter:FilterHouseDto={isDelete: false,companyId}
-        if (slotId) filter.slotId=slotId
+        if (slotId) filter.slotId=new Types.ObjectId(slotId)
 
         const skip = (Number(pageNumber) - 1) * Number(pageSize)
 

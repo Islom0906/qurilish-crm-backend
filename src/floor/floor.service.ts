@@ -31,7 +31,7 @@ export class FloorService {
 
         const companyId = await this.commonService.getCompanyId(userId)
         const filter: FilterFloorDto = {isDelete: false, companyId}
-        if (houseId) filter.houseId = houseId
+        if (houseId) filter.houseId = new Types.ObjectId(houseId)
 
         const skip = (Number(pageNumber) - 1) * Number(pageSize)
 

@@ -38,7 +38,7 @@ let FloorService = class FloorService {
         const companyId = await this.commonService.getCompanyId(userId);
         const filter = { isDelete: false, companyId };
         if (houseId)
-            filter.houseId = houseId;
+            filter.houseId = new mongoose_2.Types.ObjectId(houseId);
         const skip = (Number(pageNumber) - 1) * Number(pageSize);
         const getFloor = await this.floorModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')

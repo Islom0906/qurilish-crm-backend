@@ -49,7 +49,7 @@ let SlotService = class SlotService {
     }
     async getByIdSlot(id) {
         const slot = await this.slotModel.findOne({ _id: id, isDelete: false })
-            .select('-createdAt -updatedAt')
+            .select('-createdAt -updatedAt -isDelete')
             .populate('image', '-createdAt -updatedAt -isDelete');
         if (!slot)
             throw new common_1.NotFoundException("Slot topilmadi");
@@ -67,15 +67,15 @@ let SlotService = class SlotService {
     }
     async updateSlot(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
-        const service = await this.slotModel.findByIdAndUpdate(id, {
+        const slot = await this.slotModel.findByIdAndUpdate(id, {
             ...dto,
             companyId,
             image: new mongoose_2.Types.ObjectId(dto.image),
             isDelete: false
         }, { new: true });
-        if (!service)
+        if (!slot)
             throw new common_1.NotFoundException('Slot topilmadi');
-        return (0, lodash_1.pick)(service, ['name', 'companyId', '_id', 'finishedDate', 'image']);
+        return (0, lodash_1.pick)(slot, ['name', 'companyId', '_id', 'finishedDate', 'image']);
     }
     async deleteSlot(id) {
         const findAndDelete = await this.slotModel.findOneAndUpdate({

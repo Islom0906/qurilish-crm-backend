@@ -27,11 +27,13 @@ export class Apartment {
     @Prop({required: true, type: Types.ObjectId, ref: 'Structure'})
     structureId: Types.ObjectId
 
-    @Prop({default:null})
+    @Prop({required:true,enum:['available','booked','bought']})
     status: boolean | null
 
     @Prop({required: true, type: Types.ObjectId, ref: 'Company'})
     companyId: Types.ObjectId
+
+
 }
 
 export const ApartmentSchema = SchemaFactory.createForClass(Apartment);

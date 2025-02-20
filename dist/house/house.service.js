@@ -30,7 +30,7 @@ let HouseService = class HouseService {
         const companyId = await this.commonService.getCompanyId(userId);
         const filter = { isDelete: false, companyId };
         if (slotId)
-            filter.slotId = slotId;
+            filter.slotId = new mongoose_2.Types.ObjectId(slotId);
         const skip = (Number(pageNumber) - 1) * Number(pageSize);
         const getHouse = await this.houseModel.find(filter)
             .select('-createdAt -updatedAt -isDelete')

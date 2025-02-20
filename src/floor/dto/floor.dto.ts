@@ -2,6 +2,7 @@ import {ApiProperty} from "@nestjs/swagger";
 import {ArrayNotEmpty, IsArray, IsBoolean, IsMongoId, IsOptional, IsString} from "class-validator";
 import {CompanyAndIsDeleteInterface} from "../../utils/companyAndIsDelete.interface";
 import {IsNumber} from "@nestjs/class-validator";
+import {Types} from "mongoose";
 
 export class FloorDto {
     @ApiProperty({
@@ -44,7 +45,7 @@ export class FloorDto {
 
 
 export class FilterFloorDto extends CompanyAndIsDeleteInterface{
-    houseId?:string
+    houseId?:Types.ObjectId
 }
 
 export class FloorEditPriceDto{

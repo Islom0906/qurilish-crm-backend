@@ -1,4 +1,5 @@
 import { CompanyAndIsDeleteInterface } from "../../utils/companyAndIsDelete.interface";
+import { Types } from "mongoose";
 export declare class FloorDto {
     name: string;
     isSale: boolean;
@@ -7,7 +8,7 @@ export declare class FloorDto {
     houseId: string;
 }
 export declare class FilterFloorDto extends CompanyAndIsDeleteInterface {
-    houseId?: string;
+    houseId?: Types.ObjectId;
 }
 export declare class FloorEditPriceDto {
     floors: string[];

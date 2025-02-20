@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsArray, IsNotEmpty, IsMongoId, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import {CompanyAndIsDeleteInterface} from "../../utils/companyAndIsDelete.interface";
+import {Types} from "mongoose";
 
 
 export class HouseDto {
@@ -34,5 +35,5 @@ export class HouseDto {
 }
 
 export class FilterHouseDto extends CompanyAndIsDeleteInterface{
-    slotId?:string
+    slotId?:Types.ObjectId
 }

@@ -9,36 +9,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SlotDto = void 0;
+exports.BookingDto = void 0;
 const class_validator_1 = require("@nestjs/class-validator");
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_2 = require("class-validator");
-class SlotDto {
+class BookingDto {
 }
-exports.SlotDto = SlotDto;
+exports.BookingDto = BookingDto;
 __decorate([
     (0, swagger_1.ApiProperty)({
-        description: 'Slot nomi',
-        required: true
+        description: 'Booking kuni',
+        required: true,
+        enum: ['free', 'paid']
     }),
     (0, class_validator_1.IsString)(),
+    (0, class_validator_2.IsEnum)(['free', 'paid'], { message: "You enter only paid or free" }),
     __metadata("design:type", String)
-], SlotDto.prototype, "name", void 0);
+], BookingDto.prototype, "type", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        description: 'Slot tugash vaqti',
+        description: 'Booking kuni',
         required: true
     }),
-    (0, class_validator_2.IsDateString)(),
-    (0, class_validator_2.IsDate)(),
-    __metadata("design:type", Date)
-], SlotDto.prototype, "finishedDate", void 0);
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], BookingDto.prototype, "days", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        description: 'Slot image',
+        description: 'Booking narxi',
+        required: true
     }),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_2.IsMongoId)(),
-    __metadata("design:type", String)
-], SlotDto.prototype, "image", void 0);
-//# sourceMappingURL=slot.dto.js.map
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], BookingDto.prototype, "price", void 0);
+//# sourceMappingURL=booking.dto.js.map

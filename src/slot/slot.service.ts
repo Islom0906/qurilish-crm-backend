@@ -47,7 +47,7 @@ export class SlotService {
     // GET by id slot
     async getByIdSlot(id: string) {
         const slot = await this.slotModel.findOne({_id:id,isDelete:false})
-            .select('-createdAt -updatedAt')
+            .select('-createdAt -updatedAt -isDelete')
             .populate('image','-createdAt -updatedAt -isDelete')
         if (!slot) throw new NotFoundException("Slot topilmadi")
 
@@ -67,10 +67,11 @@ export class SlotService {
         return pick(service, ['name', 'companyId', '_id', 'finishedDate', 'image'])
     }
 
+    // Edit SLOT
     async updateSlot(id: string, dto: SlotDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
 
-        const service = await this.slotModel.findByIdAndUpdate(id,
+        const slot = await this.slotModel.findByIdAndUpdate(id,
             {
                 ...dto,
                 companyId,
@@ -79,9 +80,9 @@ export class SlotService {
             },{new:true}
         )
 
-        if (!service) throw new NotFoundException('Slot topilmadi')
+        if (!slot) throw new NotFoundException('Slot topilmadi')
 
-        return pick(service, ['name', 'companyId', '_id', 'finishedDate', 'image'])
+        return pick(slot, ['name', 'companyId', '_id', 'finishedDate', 'image'])
     }
 
     // DELETE SLOT

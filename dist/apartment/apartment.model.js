@@ -44,7 +44,7 @@ __decorate([
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Apartment.prototype, "structureId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: null }),
+    (0, mongoose_1.Prop)({ required: true, enum: ['available', 'booked', 'bought'] }),
     __metadata("design:type", Boolean)
 ], Apartment.prototype, "status", void 0);
 __decorate([

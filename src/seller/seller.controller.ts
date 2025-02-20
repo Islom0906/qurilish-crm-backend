@@ -1,28 +1,15 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpCode,
-    Param,
-    Post,
-    Put,
-    Query,
-    UsePipes,
-    ValidationPipe
-} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe} from '@nestjs/common';
 import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags} from "@nestjs/swagger";
 import {SellerService} from "./seller.service";
 import {Auth} from "../auth/decorators/auth.decorator";
 import {UserInfo} from "../user/decorators/user.decorator";
 import {SellerDto} from "./dto/seller.dto";
-import {UserDocument} from "../user/user.model";
 
 @ApiBearerAuth()
 @ApiTags('Seller')
 @Controller('seller')
 export class SellerController {
-    constructor(private readonly sellerService:SellerService) {
+    constructor(private readonly sellerService: SellerService) {
     }
 
     // GET
@@ -30,14 +17,14 @@ export class SellerController {
     @Get()
     @Auth("admin")
     @ApiOperation({summary: "Get seller"})
-    @ApiQuery({ name: 'limit', required: false, description: 'House pagination page size',default:'10' })
-    @ApiQuery({ name: 'page', required: false, description: 'House pagination page number',default:'1' })
+    @ApiQuery({name: 'limit', required: false, description: 'House pagination page size', default: '10'})
+    @ApiQuery({name: 'page', required: false, description: 'House pagination page number', default: '1'})
     async getSeller(
-        @UserInfo("_id") userId:string,
-        @Query('limit') limit:string='10',
-        @Query('page') page:string='1',
+        @UserInfo("_id") userId: string,
+        @Query('limit') limit: string = '10',
+        @Query('page') page: string = '1',
     ) {
-        return this.sellerService.getSeller(userId,limit,page)
+        return this.sellerService.getSeller(userId, limit, page)
     }
 
     // GET BY ID
@@ -59,8 +46,8 @@ export class SellerController {
         description: "Seller yaratish",
         type: SellerDto
     })
-    async creatSeller(@Body() dto: SellerDto,@UserInfo("_id") userId:string) {
-        return this.sellerService.creatSeller(dto,userId)
+    async creatSeller(@Body() dto: SellerDto, @UserInfo("_id") userId: string) {
+        return this.sellerService.creatSeller(dto, userId)
     }
 
     // PUT House
@@ -73,8 +60,8 @@ export class SellerController {
         description: "Seller o'zgartirish",
         type: SellerDto
     })
-    async updateSeller(@Param('id') id: string, @Body() dto: SellerDto,@UserInfo("_id") userId:string) {
-        return this.sellerService.updateSeller(id, dto,userId)
+    async updateSeller(@Param('id') id: string, @Body() dto: SellerDto, @UserInfo("_id") userId: string) {
+        return this.sellerService.updateSeller(id, dto, userId)
     }
 
 // // DELETE
