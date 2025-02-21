@@ -8,7 +8,7 @@ export declare class Apartment {
     houseId: Types.ObjectId;
     isDelete: boolean;
     structureId: Types.ObjectId;
-    status: boolean | null;
+    status: string;
     companyId: Types.ObjectId;
 }
 export declare const ApartmentSchema: import("mongoose").Schema<Apartment, import("mongoose").Model<Apartment, any, any, any, import("mongoose").Document<unknown, any, Apartment> & Apartment & {

@@ -94,7 +94,7 @@ let ApartmentService = class ApartmentService {
             slotId: new mongoose_2.Types.ObjectId(dto.slotId),
             houseId: new mongoose_2.Types.ObjectId(dto.houseId),
             structureId: new mongoose_2.Types.ObjectId(dto.structureId),
-            status: null,
+            status: 'available',
             price: company.isPriceSqm ? floor.priceSqm * structure.size : dto.price,
             isDelete: false
         });

@@ -28,7 +28,7 @@ export class Apartment {
     structureId: Types.ObjectId
 
     @Prop({required:true,enum:['available','booked','bought']})
-    status: boolean | null
+    status: string
 
     @Prop({required: true, type: Types.ObjectId, ref: 'Company'})
     companyId: Types.ObjectId

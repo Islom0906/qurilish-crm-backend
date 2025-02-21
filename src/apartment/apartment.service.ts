@@ -67,7 +67,7 @@ export class ApartmentService {
         return apartment
     }
 
-    // POST Structure
+    // POST Apartment
     async creatApartment(dto: ApartmentDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
         const checkName=await this.apartmentModel.findOne({
@@ -95,7 +95,7 @@ export class ApartmentService {
             slotId: new Types.ObjectId(dto.slotId),
             houseId: new Types.ObjectId(dto.houseId),
             structureId: new Types.ObjectId(dto.structureId),
-            status:null,
+            status:'available',
             price: company.isPriceSqm ? floor.priceSqm * structure.size : dto.price,
             isDelete: false
         })
