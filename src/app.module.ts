@@ -16,6 +16,7 @@ import { ApartmentModule } from './apartment/apartment.module';
 import { StructureModule } from './structure/structure.module';
 import { SellerModule } from './seller/seller.module';
 import { BookingModule } from './booking/booking.module';
+import { ClientModule } from './client/client.module';
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { BookingModule } from './booking/booking.module';
     ApartmentModule,
     StructureModule,
     SellerModule,
-    BookingModule
+    BookingModule,
+    ClientModule
   ],
 })
 export class AppModule {}

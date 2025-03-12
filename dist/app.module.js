@@ -25,6 +25,7 @@ const apartment_module_1 = require("./apartment/apartment.module");
 const structure_module_1 = require("./structure/structure.module");
 const seller_module_1 = require("./seller/seller.module");
 const booking_module_1 = require("./booking/booking.module");
+const client_module_1 = require("./client/client.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -52,7 +53,8 @@ exports.AppModule = AppModule = __decorate([
             apartment_module_1.ApartmentModule,
             structure_module_1.StructureModule,
             seller_module_1.SellerModule,
-            booking_module_1.BookingModule
+            booking_module_1.BookingModule,
+            client_module_1.ClientModule
         ],
     })
 ], AppModule);

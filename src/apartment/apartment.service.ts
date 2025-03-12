@@ -4,12 +4,11 @@ import {Model, Types} from "mongoose";
 import {CommonService} from "../common/common.service";
 import {Apartment, ApartmentDocument} from "./apartment.model";
 import {CompanyAndIsDeleteInterface} from "../utils/companyAndIsDelete.interface";
-import {ApartmentDto, ApartmentEditPriceDto} from "./dto/apartment.dto";
+import {ApartmentDto, ApartmentEditPriceDto, ApartmentEditStatusDto} from "./dto/apartment.dto";
 import {pick} from "lodash";
 import {Floor, FloorDocument} from "../floor/floor.model";
 import {Company, CompanyDocument} from "../company/company.model";
 import {Structure, StructureDocument} from "../structure/structure.model";
-import {FloorEditPriceDto} from "../floor/dto/floor.dto";
 
 @Injectable()
 export class ApartmentService {
@@ -95,6 +94,9 @@ export class ApartmentService {
             slotId: new Types.ObjectId(dto.slotId),
             houseId: new Types.ObjectId(dto.houseId),
             structureId: new Types.ObjectId(dto.structureId),
+            clientId: null,
+            bookingExpiresAt: null,
+            lastBookingDate: null,
             status:'available',
             price: company.isPriceSqm ? floor.priceSqm * structure.size : dto.price,
             isDelete: false
@@ -118,19 +120,40 @@ export class ApartmentService {
             }))
         )
 
-if (result.modifiedCount===0)  throw new NotFoundException('Apartment topilmadi')
-
-
-
+        if (result.modifiedCount === 0) throw new NotFoundException('Apartment topilmadi')
         return 'success'
+
     }
 
+
+    // async editApartmentStatus(dto: ApartmentEditStatusDto, userId: string) {
+    //     const companyId = await this.commonService.getCompanyId(userId)
+    //     const filter: CompanyAndIsDeleteInterface = {isDelete: false, companyId}
+    //
+    //     // const company=await this.companyModel.findOne({_id:companyId,isDelete:false}).lean()
+    //     //
+    //     // if (company.isPriceSqm) throw new BadRequestException("Siz narxlarni kvadrat metr bo'yicha kiritasiz")
+    //     //
+    //     // const result= await this.apartmentModel.bulkWrite(
+    //     //     dto.apartments.map(id=>({
+    //     //         updateOne:{
+    //     //             filter:{_id:id,...filter},
+    //     //             update:{$set:{price:dto.price}}
+    //     //         }
+    //     //     }))
+    //     // )
+    //     //
+    //     // if (result.modifiedCount === 0) throw new NotFoundException('Apartment topilmadi')
+    //     // return 'success'
+    //
+    // }
 
     // UPDATE Apartment
     async updateApartment(id: string, dto: ApartmentDto, userId: string) {
         const companyId = await this.commonService.getCompanyId(userId)
         const checkName=await this.apartmentModel.findOne({slotId:dto.slotId,houseId:dto.houseId,floorId:dto.floorId,name:dto.name,isDelete:false})
 
+        const oldApartment = await this.apartmentModel.findById(id).lean()
 
         if (checkName&& checkName._id.toString()!==id) throw new BadRequestException("Xonani nomi takrorlanmasligi kerak")
         const apartment = await this.apartmentModel.findByIdAndUpdate(id,
@@ -141,8 +164,11 @@ if (result.modifiedCount===0)  throw new NotFoundException('Apartment topilmadi'
                 slotId: new Types.ObjectId(dto.slotId),
                 houseId: new Types.ObjectId(dto.houseId),
                 structureId: new Types.ObjectId(dto.structureId),
-                status:null,
-                price:null,
+                status: oldApartment.status,
+                price: oldApartment.price,
+                clientId: oldApartment.clientId,
+                bookingExpiresAt: oldApartment.bookingExpiresAt,
+                lastBookingDate: oldApartment.lastBookingDate,
                 isDelete: false
             },{new:true}
         )

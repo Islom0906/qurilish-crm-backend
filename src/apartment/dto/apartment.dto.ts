@@ -67,3 +67,20 @@ export class ApartmentEditPriceDto{
     @IsNumber()
     price:number
 }
+export class ApartmentEditStatusDto{
+    @ApiProperty({
+        description: 'Booking IDs',
+        type:String,
+        required: true,
+    })
+    @IsMongoId()
+    bookingId: string;
+
+    @ApiProperty({
+        description: 'Client IDs',
+        type:String,
+        required: true,
+    })
+    @IsMongoId()
+    clientId: string;
+}

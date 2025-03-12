@@ -4,7 +4,6 @@ import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/
 import {Auth} from "../auth/decorators/auth.decorator";
 import {UserInfo} from "../user/decorators/user.decorator";
 import {BookingDto} from "./dto/booking.dto";
-import {SlotDto} from "../slot/dto/slot.dto";
 
 @ApiBearerAuth()
 @ApiTags('Booking')
@@ -55,8 +54,8 @@ export class BookingController {
         description: "Booking o'zgartirish",
         type: BookingDto
     })
-    async updateBooking(@Param('id') id: string, @Body() dto: BookingDto, @UserInfo("_id") userId:string) {
-        return this.bookingService.updateBooking(id, dto,userId)
+    async updateBooking(@Param('id') id: string, @Body() dto: BookingDto, @UserInfo("_id") userId: string) {
+        return this.bookingService.updateBooking(id, dto, userId)
     }
 
     // DELETE

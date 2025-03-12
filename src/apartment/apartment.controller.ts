@@ -15,7 +15,7 @@ import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags} from
 import {ApartmentService} from "./apartment.service";
 import {UserInfo} from "../user/decorators/user.decorator";
 import {Auth} from "../auth/decorators/auth.decorator";
-import {ApartmentDto, ApartmentEditPriceDto} from "./dto/apartment.dto";
+import {ApartmentDto, ApartmentEditPriceDto, ApartmentEditStatusDto} from "./dto/apartment.dto";
 
 @ApiBearerAuth()
 @ApiTags('Apartment')
@@ -74,6 +74,20 @@ export class ApartmentController {
     async editApartmentPrice(@Body() dto: ApartmentEditPriceDto,@UserInfo("_id") userId: string) {
         return this.apartmentService.editApartmentPrice(dto, userId)
     }
+    //
+    // // EDIT Apartment status
+    // @UsePipes(new ValidationPipe())
+    // @HttpCode(201)
+    // @Post("/editStatus")
+    // @Auth("admin")
+    // @ApiOperation({summary: "Apartment status o'zgartirish api"})
+    // @ApiCreatedResponse({
+    //     description: "Apartment status o'zgartirish ",
+    //     type: ApartmentEditStatusDto
+    // })
+    // async editApartmentStatus(@Body() dto: ApartmentEditStatusDto,@UserInfo("_id") userId: string) {
+    //     return this.apartmentService.editApartmentStatus(dto, userId)
+    // }
 
     // PUT
     @UsePipes(new ValidationPipe())
