@@ -10,3 +10,7 @@ export declare class ApartmentEditPriceDto {
     apartments: string[];
     price: number;
 }
+export declare class ApartmentEditStatusDto {
+    bookingId: string;
+    clientId: string;
+}

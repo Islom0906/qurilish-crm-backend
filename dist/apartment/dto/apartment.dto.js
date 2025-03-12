@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ApartmentEditPriceDto = exports.ApartmentDto = void 0;
+exports.ApartmentEditStatusDto = exports.ApartmentEditPriceDto = exports.ApartmentDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const class_validator_2 = require("@nestjs/class-validator");
@@ -88,4 +88,25 @@ __decorate([
     (0, class_validator_2.IsNumber)(),
     __metadata("design:type", Number)
 ], ApartmentEditPriceDto.prototype, "price", void 0);
+class ApartmentEditStatusDto {
+}
+exports.ApartmentEditStatusDto = ApartmentEditStatusDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Booking IDs',
+        type: String,
+        required: true,
+    }),
+    (0, class_validator_1.IsMongoId)(),
+    __metadata("design:type", String)
+], ApartmentEditStatusDto.prototype, "bookingId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Client IDs',
+        type: String,
+        required: true,
+    }),
+    (0, class_validator_1.IsMongoId)(),
+    __metadata("design:type", String)
+], ApartmentEditStatusDto.prototype, "clientId", void 0);
 //# sourceMappingURL=apartment.dto.js.map

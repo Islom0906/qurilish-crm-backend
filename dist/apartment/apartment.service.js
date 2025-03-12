@@ -94,6 +94,9 @@ let ApartmentService = class ApartmentService {
             slotId: new mongoose_2.Types.ObjectId(dto.slotId),
             houseId: new mongoose_2.Types.ObjectId(dto.houseId),
             structureId: new mongoose_2.Types.ObjectId(dto.structureId),
+            clientId: null,
+            bookingExpiresAt: null,
+            lastBookingDate: null,
             status: 'available',
             price: company.isPriceSqm ? floor.priceSqm * structure.size : dto.price,
             isDelete: false
@@ -119,6 +122,7 @@ let ApartmentService = class ApartmentService {
     async updateApartment(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
         const checkName = await this.apartmentModel.findOne({ slotId: dto.slotId, houseId: dto.houseId, floorId: dto.floorId, name: dto.name, isDelete: false });
+        const oldApartment = await this.apartmentModel.findById(id).lean();
         if (checkName && checkName._id.toString() !== id)
             throw new common_1.BadRequestException("Xonani nomi takrorlanmasligi kerak");
         const apartment = await this.apartmentModel.findByIdAndUpdate(id, {
@@ -128,8 +132,11 @@ let ApartmentService = class ApartmentService {
             slotId: new mongoose_2.Types.ObjectId(dto.slotId),
             houseId: new mongoose_2.Types.ObjectId(dto.houseId),
             structureId: new mongoose_2.Types.ObjectId(dto.structureId),
-            status: null,
-            price: null,
+            status: oldApartment.status,
+            price: oldApartment.price,
+            clientId: oldApartment.clientId,
+            bookingExpiresAt: oldApartment.bookingExpiresAt,
+            lastBookingDate: oldApartment.lastBookingDate,
             isDelete: false
         }, { new: true });
         if (!apartment)

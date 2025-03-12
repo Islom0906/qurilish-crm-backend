@@ -51,6 +51,18 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId, ref: 'Company' }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Apartment.prototype, "companyId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null, type: mongoose_2.Types.ObjectId, ref: 'House' }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], Apartment.prototype, "clientId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null, type: Date }),
+    __metadata("design:type", Date)
+], Apartment.prototype, "bookingExpiresAt", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null, type: Date }),
+    __metadata("design:type", Date)
+], Apartment.prototype, "lastBookingDate", void 0);
 exports.Apartment = Apartment = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Apartment);

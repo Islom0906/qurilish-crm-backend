@@ -10,6 +10,9 @@ export declare class Apartment {
     structureId: Types.ObjectId;
     status: string;
     companyId: Types.ObjectId;
+    clientId: Types.ObjectId | null;
+    bookingExpiresAt: Date | null;
+    lastBookingDate: Date | null;
 }
 export declare const ApartmentSchema: import("mongoose").Schema<Apartment, import("mongoose").Model<Apartment, any, any, any, import("mongoose").Document<unknown, any, Apartment> & Apartment & {
     _id: Types.ObjectId;
