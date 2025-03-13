@@ -11,6 +11,7 @@ module.exports = {
           $set: {
             clientId: null,
             bookingExpiresAt: null,
+            bookingId: null,
             lastBookingDate: null,
           },
         }

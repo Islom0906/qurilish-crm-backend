@@ -76,6 +76,7 @@ export class ApartmentEditStatusDto{
     @IsMongoId()
     bookingId: string;
 
+
     @ApiProperty({
         description: 'Client IDs',
         type:String,

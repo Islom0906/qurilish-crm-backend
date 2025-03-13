@@ -9,6 +9,9 @@ import {pick} from "lodash";
 import {Floor, FloorDocument} from "../floor/floor.model";
 import {Company, CompanyDocument} from "../company/company.model";
 import {Structure, StructureDocument} from "../structure/structure.model";
+import {Booking, BookingDocument} from "../booking/booking.model";
+import * as dayjs from "dayjs";
+import {Cron} from "@nestjs/schedule";
 
 @Injectable()
 export class ApartmentService {
@@ -17,6 +20,7 @@ export class ApartmentService {
         @InjectModel(Floor.name) private floorModel: Model<FloorDocument>,
         @InjectModel(Structure.name) private structureModel: Model<StructureDocument>,
         @InjectModel(Company.name) private companyModel: Model<CompanyDocument>,
+        @InjectModel(Booking.name) private bookingModel: Model<BookingDocument>,
         private readonly commonService: CommonService
     ) {
     }
@@ -33,7 +37,7 @@ export class ApartmentService {
         const skip = (Number(pageNumber) - 1) * Number(pageSize)
 
         const getApartment = await this.apartmentModel.find(filter)
-            .select('-createdAt -updatedAt -isDelete')
+            .select('-createdAt -updatedAt -isDelete -clientId -bookingExpiresAt -lastBookingDate -bookingId')
             .populate('floorId','_id name')
             .populate('slotId','_id name')
             .populate('houseId','_id name')
@@ -61,6 +65,8 @@ export class ApartmentService {
             .populate('slotId', '_id name')
             .populate('houseId', '_id name')
             .populate('structureId', '_id name')
+            .populate('clientId', '-createdAt -updatedAt -isDelete -userId -companyId')
+            .populate('bookingId', '-createdAt -updatedAt -isDelete -companyId')
         if (!apartment) throw new NotFoundException("House topilmadi")
 
         return apartment
@@ -126,27 +132,34 @@ export class ApartmentService {
     }
 
 
-    // async editApartmentStatus(dto: ApartmentEditStatusDto, userId: string) {
-    //     const companyId = await this.commonService.getCompanyId(userId)
-    //     const filter: CompanyAndIsDeleteInterface = {isDelete: false, companyId}
-    //
-    //     // const company=await this.companyModel.findOne({_id:companyId,isDelete:false}).lean()
-    //     //
-    //     // if (company.isPriceSqm) throw new BadRequestException("Siz narxlarni kvadrat metr bo'yicha kiritasiz")
-    //     //
-    //     // const result= await this.apartmentModel.bulkWrite(
-    //     //     dto.apartments.map(id=>({
-    //     //         updateOne:{
-    //     //             filter:{_id:id,...filter},
-    //     //             update:{$set:{price:dto.price}}
-    //     //         }
-    //     //     }))
-    //     // )
-    //     //
-    //     // if (result.modifiedCount === 0) throw new NotFoundException('Apartment topilmadi')
-    //     // return 'success'
-    //
-    // }
+    async editApartmentStatus(id, dto: ApartmentEditStatusDto, userId: string) {
+        const companyId = await this.commonService.getCompanyId(userId)
+
+        const bookingGet = await this.bookingModel.findOne({
+            isDelete: false,
+            companyId,
+            _id: new Types.ObjectId(dto.bookingId)
+        })
+        if (!bookingGet) throw new NotFoundException('Not Found booking')
+
+        const bookingExpiresAt = dayjs().add(bookingGet.days, 'day').toDate()
+        console.log(bookingExpiresAt)
+        const apartmentStatus = await this.apartmentModel.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    clientId: new Types.ObjectId(dto.clientId),
+                    bookingId: new Types.ObjectId(dto.bookingId),
+                    lastBookingDate: new Date(),
+                    bookingExpiresAt,
+                    status: 'booked'
+                }
+            },
+            {new: true})
+        console.log(apartmentStatus)
+        return apartmentStatus
+
+    }
 
     // UPDATE Apartment
     async updateApartment(id: string, dto: ApartmentDto, userId: string) {
@@ -187,5 +200,28 @@ export class ApartmentService {
         }, {$set: {isDelete: true}}, {new: true})
         if (!findAndDelete) throw new NotFoundException('House topilmadi')
         return 'success delete'
+    }
+
+
+//     Cron job
+    @Cron('0 * * * *')
+    async checkBookingExpiration() {
+        const now = new Date();
+        console.log('run cron job')
+        const expiredApartments = await this.apartmentModel.find({
+            bookingExpiresAt: {$lt: now}, // bookingExpiresAt o'tib ketganlar
+            status: 'booked',
+            isDelete: false
+        });
+        console.log(expiredApartments)
+
+        await this.apartmentModel.updateMany(
+            {
+                bookingExpiresAt: {$lt: now},
+                status: 'booked',
+                isDelete: false
+            },
+            {$set: {status: 'available'}}
+        );
     }
 }

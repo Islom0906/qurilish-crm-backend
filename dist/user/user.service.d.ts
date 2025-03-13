@@ -227,11 +227,15 @@ export declare class UserService {
                 flattenObjectIds?: false;
             }): import("mongoose").FlattenMaps<User & {
                 _id: Types.ObjectId;
+            } & {
+                __v: number;
             }>;
             (options: import("mongoose").ToObjectOptions & {
                 flattenObjectIds: false;
             }): import("mongoose").FlattenMaps<User & {
                 _id: Types.ObjectId;
+            } & {
+                __v: number;
             }>;
             (options: import("mongoose").ToObjectOptions & {
                 flattenObjectIds: true;
@@ -247,11 +251,14 @@ export declare class UserService {
                 gender: string;
                 phone: string;
                 _id: string;
+                __v: number;
             };
             (options: import("mongoose").ToObjectOptions & {
                 flattenMaps: false;
             }): User & {
                 _id: Types.ObjectId;
+            } & {
+                __v: number;
             };
             (options: import("mongoose").ToObjectOptions & {
                 flattenMaps: false;
@@ -268,30 +275,41 @@ export declare class UserService {
                 gender: string;
                 phone: string;
                 _id: string;
+                __v: number;
             };
             <T = User & {
                 _id: Types.ObjectId;
+            } & {
+                __v: number;
             }>(options?: import("mongoose").ToObjectOptions & {
                 flattenMaps?: true;
                 flattenObjectIds?: false;
             }): import("mongoose").FlattenMaps<T>;
             <T = User & {
                 _id: Types.ObjectId;
+            } & {
+                __v: number;
             }>(options: import("mongoose").ToObjectOptions & {
                 flattenObjectIds: false;
             }): import("mongoose").FlattenMaps<T>;
             <T = User & {
                 _id: Types.ObjectId;
+            } & {
+                __v: number;
             }>(options: import("mongoose").ToObjectOptions & {
                 flattenObjectIds: true;
             }): import("mongoose").ObjectIdToString<import("mongoose").FlattenMaps<T>>;
             <T = User & {
                 _id: Types.ObjectId;
+            } & {
+                __v: number;
             }>(options: import("mongoose").ToObjectOptions & {
                 flattenMaps: false;
             }): T;
             <T = User & {
                 _id: Types.ObjectId;
+            } & {
+                __v: number;
             }>(options: import("mongoose").ToObjectOptions & {
                 flattenMaps: false;
                 flattenObjectIds: true;
@@ -300,8 +318,10 @@ export declare class UserService {
         toObject: {
             (options?: import("mongoose").ToObjectOptions): User & {
                 _id: Types.ObjectId;
+            } & {
+                __v: number;
             };
-            <T>(options?: import("mongoose").ToObjectOptions): import("mongoose").Require_id<T>;
+            <T>(options?: import("mongoose").ToObjectOptions): import("mongoose").Default__v<import("mongoose").Require_id<T>>;
         };
         unmarkModified: {
             <T extends keyof User>(path: T): void;

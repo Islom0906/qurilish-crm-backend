@@ -26,12 +26,14 @@ const structure_module_1 = require("./structure/structure.module");
 const seller_module_1 = require("./seller/seller.module");
 const booking_module_1 = require("./booking/booking.module");
 const client_module_1 = require("./client/client.module");
+const schedule_1 = require("@nestjs/schedule");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            schedule_1.ScheduleModule.forRoot(),
             config_1.ConfigModule.forRoot(),
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(__dirname, '..', 'swagger-static'),

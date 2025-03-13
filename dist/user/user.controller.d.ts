@@ -224,11 +224,15 @@ export declare class UserController {
                 flattenObjectIds?: false;
             }): import("mongoose").FlattenMaps<import("./user.model").User & {
                 _id: import("mongoose").Types.ObjectId;
+            } & {
+                __v: number;
             }>;
             (options: import("mongoose").ToObjectOptions & {
                 flattenObjectIds: false;
             }): import("mongoose").FlattenMaps<import("./user.model").User & {
                 _id: import("mongoose").Types.ObjectId;
+            } & {
+                __v: number;
             }>;
             (options: import("mongoose").ToObjectOptions & {
                 flattenObjectIds: true;
@@ -244,11 +248,14 @@ export declare class UserController {
                 gender: string;
                 phone: string;
                 _id: string;
+                __v: number;
             };
             (options: import("mongoose").ToObjectOptions & {
                 flattenMaps: false;
             }): import("./user.model").User & {
                 _id: import("mongoose").Types.ObjectId;
+            } & {
+                __v: number;
             };
             (options: import("mongoose").ToObjectOptions & {
                 flattenMaps: false;
@@ -265,30 +272,41 @@ export declare class UserController {
                 gender: string;
                 phone: string;
                 _id: string;
+                __v: number;
             };
             <T = import("./user.model").User & {
                 _id: import("mongoose").Types.ObjectId;
+            } & {
+                __v: number;
             }>(options?: import("mongoose").ToObjectOptions & {
                 flattenMaps?: true;
                 flattenObjectIds?: false;
             }): import("mongoose").FlattenMaps<T>;
             <T = import("./user.model").User & {
                 _id: import("mongoose").Types.ObjectId;
+            } & {
+                __v: number;
             }>(options: import("mongoose").ToObjectOptions & {
                 flattenObjectIds: false;
             }): import("mongoose").FlattenMaps<T>;
             <T = import("./user.model").User & {
                 _id: import("mongoose").Types.ObjectId;
+            } & {
+                __v: number;
             }>(options: import("mongoose").ToObjectOptions & {
                 flattenObjectIds: true;
             }): import("mongoose").ObjectIdToString<import("mongoose").FlattenMaps<T>>;
             <T = import("./user.model").User & {
                 _id: import("mongoose").Types.ObjectId;
+            } & {
+                __v: number;
             }>(options: import("mongoose").ToObjectOptions & {
                 flattenMaps: false;
             }): T;
             <T = import("./user.model").User & {
                 _id: import("mongoose").Types.ObjectId;
+            } & {
+                __v: number;
             }>(options: import("mongoose").ToObjectOptions & {
                 flattenMaps: false;
                 flattenObjectIds: true;
@@ -297,8 +315,10 @@ export declare class UserController {
         toObject: {
             (options?: import("mongoose").ToObjectOptions): import("./user.model").User & {
                 _id: import("mongoose").Types.ObjectId;
+            } & {
+                __v: number;
             };
-            <T>(options?: import("mongoose").ToObjectOptions): import("mongoose").Require_id<T>;
+            <T>(options?: import("mongoose").ToObjectOptions): import("mongoose").Default__v<import("mongoose").Require_id<T>>;
         };
         unmarkModified: {
             <T extends keyof import("./user.model").User>(path: T): void;

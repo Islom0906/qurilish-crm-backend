@@ -7,6 +7,7 @@ import {Apartment, ApartmentSchema} from "./apartment.model";
 import {Floor, FloorSchema} from "../floor/floor.model";
 import {Structure, StructureSchema} from "../structure/structure.model";
 import {Company, CompanySchema} from "../company/company.model";
+import {Booking, BookingSchema} from "../booking/booking.model";
 
 @Module({
   imports:[
@@ -14,6 +15,7 @@ import {Company, CompanySchema} from "../company/company.model";
     MongooseModule.forFeature([{name: Floor.name, schema: FloorSchema}]),
     MongooseModule.forFeature([{name: Structure.name, schema: StructureSchema}]),
     MongooseModule.forFeature([{name: Company.name, schema: CompanySchema}]),
+    MongooseModule.forFeature([{name: Booking.name, schema: BookingSchema}]),
 
     CommonModule
   ],

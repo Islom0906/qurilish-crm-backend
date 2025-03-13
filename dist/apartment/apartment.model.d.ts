@@ -11,6 +11,7 @@ export declare class Apartment {
     status: string;
     companyId: Types.ObjectId;
     clientId: Types.ObjectId | null;
+    bookingId: Types.ObjectId | null;
     bookingExpiresAt: Date | null;
     lastBookingDate: Date | null;
 }

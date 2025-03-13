@@ -52,9 +52,13 @@ __decorate([
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Apartment.prototype, "companyId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: null, type: mongoose_2.Types.ObjectId, ref: 'House' }),
+    (0, mongoose_1.Prop)({ default: null, type: mongoose_2.Types.ObjectId, ref: 'Client' }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Apartment.prototype, "clientId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null, type: mongoose_2.Types.ObjectId, ref: 'Booking' }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], Apartment.prototype, "bookingId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: null, type: Date }),
     __metadata("design:type", Date)

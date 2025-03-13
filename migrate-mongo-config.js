@@ -3,10 +3,10 @@
 const config = {
   mongodb: {
     // TODO Change (or review) the url to your MongoDB:
-    url: "mongodb://localhost:27017",
+    url: "mongodb+srv://abdugofurovislom1:sSv5vf0rxcENiSZx@qurilish.hieyx.mongodb.net/?retryWrites=true&w=majority&appName=Qurilish",
 
     // TODO Change this to your database name:
-    databaseName: "qurilish-crm",
+    databaseName: "test",
 
   },
 

@@ -74,20 +74,20 @@ export class ApartmentController {
     async editApartmentPrice(@Body() dto: ApartmentEditPriceDto,@UserInfo("_id") userId: string) {
         return this.apartmentService.editApartmentPrice(dto, userId)
     }
-    //
-    // // EDIT Apartment status
-    // @UsePipes(new ValidationPipe())
-    // @HttpCode(201)
-    // @Post("/editStatus")
-    // @Auth("admin")
-    // @ApiOperation({summary: "Apartment status o'zgartirish api"})
-    // @ApiCreatedResponse({
-    //     description: "Apartment status o'zgartirish ",
-    //     type: ApartmentEditStatusDto
-    // })
-    // async editApartmentStatus(@Body() dto: ApartmentEditStatusDto,@UserInfo("_id") userId: string) {
-    //     return this.apartmentService.editApartmentStatus(dto, userId)
-    // }
+
+    // EDIT Apartment status
+    @UsePipes(new ValidationPipe())
+    @HttpCode(200)
+    @Put('/editStatus/:id')
+    @Auth("admin")
+    @ApiOperation({summary: "Apartment status o'zgartirish api"})
+    @ApiCreatedResponse({
+        description: "Apartment status o'zgartirish ",
+        type: ApartmentEditStatusDto
+    })
+    async editApartmentStatus(@Param('id') id: string,@Body() dto: ApartmentEditStatusDto,@UserInfo("_id") userId: string) {
+        return this.apartmentService.editApartmentStatus(id,dto, userId)
+    }
 
     // PUT
     @UsePipes(new ValidationPipe())

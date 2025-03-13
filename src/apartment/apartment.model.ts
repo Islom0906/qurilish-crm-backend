@@ -35,8 +35,11 @@ export class Apartment {
     @Prop({required: true, type: Types.ObjectId, ref: 'Company'})
     companyId: Types.ObjectId
 
-    @Prop({default: null, type: Types.ObjectId, ref: 'House'})
+    @Prop({default: null, type: Types.ObjectId, ref: 'Client'})
     clientId: Types.ObjectId | null
+
+    @Prop({default: null, type: Types.ObjectId, ref: 'Booking'})
+    bookingId: Types.ObjectId | null
 
     @Prop({default: null, type: Date})
     bookingExpiresAt: Date | null

@@ -16,6 +16,7 @@ const apartment_model_1 = require("./apartment.model");
 const floor_model_1 = require("../floor/floor.model");
 const structure_model_1 = require("../structure/structure.model");
 const company_model_1 = require("../company/company.model");
+const booking_model_1 = require("../booking/booking.model");
 let ApartmentModule = class ApartmentModule {
 };
 exports.ApartmentModule = ApartmentModule;
@@ -26,6 +27,7 @@ exports.ApartmentModule = ApartmentModule = __decorate([
             mongoose_1.MongooseModule.forFeature([{ name: floor_model_1.Floor.name, schema: floor_model_1.FloorSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: structure_model_1.Structure.name, schema: structure_model_1.StructureSchema }]),
             mongoose_1.MongooseModule.forFeature([{ name: company_model_1.Company.name, schema: company_model_1.CompanySchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: booking_model_1.Booking.name, schema: booking_model_1.BookingSchema }]),
             common_module_1.CommonModule
         ],
         controllers: [apartment_controller_1.ApartmentController],

@@ -17,9 +17,11 @@ import { StructureModule } from './structure/structure.module';
 import { SellerModule } from './seller/seller.module';
 import { BookingModule } from './booking/booking.module';
 import { ClientModule } from './client/client.module';
+import {ScheduleModule} from "@nestjs/schedule";
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'swagger-static'),
