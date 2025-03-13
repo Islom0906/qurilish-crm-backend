@@ -14,6 +14,12 @@ export class Client {
     @Prop({required: true})
     phone: string
 
+    @Prop()
+    description: string
+
+    @Prop({required: true, type: Types.ObjectId, ref: 'User'})
+    userId:Types.ObjectId
+
     @Prop({required: true, type: Types.ObjectId, ref: 'Company'})
     companyId:Types.ObjectId
 

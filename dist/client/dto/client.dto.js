@@ -40,4 +40,11 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], ClientDto.prototype, "phone", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'Client first name',
+    }),
+    __metadata("design:type", String)
+], ClientDto.prototype, "description", void 0);
 //# sourceMappingURL=client.dto.js.map

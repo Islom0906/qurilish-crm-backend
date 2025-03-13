@@ -24,17 +24,33 @@ let ClientService = class ClientService {
         this.clientModel = clientModel;
         this.commonService = commonService;
     }
-    async getClient(userId) {
+    async getClient(userId, limit, page) {
+        const pageNumber = parseInt(page, 10);
+        const pageSize = parseInt(limit, 10);
         const companyId = await this.commonService.getCompanyId(userId);
         const filter = { isDelete: false, companyId };
+        const skip = (Number(pageNumber) - 1) * Number(pageSize);
         const client = await this.clientModel.find(filter)
-            .select('-createdAt -updatedAt -isDelete')
-            .sort({ createdAt: -1 });
-        return client;
+            .select('-createdAt -updatedAt -isDelete -companyId')
+            .populate('userId', '-createdAt -updatedAt -isDelete -password -companyId')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(pageSize);
+        const totalItems = await this.clientModel.countDocuments(filter);
+        const totalPage = Math.ceil(totalItems / pageSize);
+        return {
+            data: client,
+            currentPage: pageNumber,
+            totalPage: totalPage,
+            totalItems,
+            nextPage: pageNumber < totalPage ? pageNumber + 1 : null,
+            prewPage: pageNumber > 1 ? pageNumber - 1 : null
+        };
     }
     async getByIdClient(id) {
         const client = await this.clientModel.findOne({ _id: id, isDelete: false })
-            .select('-createdAt -updatedAt -isDelete');
+            .select('-createdAt -updatedAt -isDelete -companyId')
+            .populate('userId', '-createdAt -updatedAt -isDelete -password -companyId');
         if (!client)
             throw new common_1.NotFoundException("Client topilmadi");
         return client;
@@ -44,20 +60,22 @@ let ClientService = class ClientService {
         const client = await this.clientModel.create({
             ...dto,
             companyId,
+            userId,
             isDelete: false
         });
-        return (0, lodash_1.pick)(client, ['first_name', 'last_name', '_id', 'phone', 'companyId']);
+        return (0, lodash_1.pick)(client, ['first_name', 'last_name', '_id', 'phone', 'companyId', 'userId']);
     }
     async updateClient(id, dto, userId) {
         const companyId = await this.commonService.getCompanyId(userId);
         const client = await this.clientModel.findByIdAndUpdate(id, {
             ...dto,
             companyId,
+            userId,
             isDelete: false
         }, { new: true });
         if (!client)
             throw new common_1.NotFoundException('Client topilmadi');
-        return (0, lodash_1.pick)(client, ['first_name', 'last_name', '_id', 'phone', 'companyId']);
+        return (0, lodash_1.pick)(client, ['first_name', 'last_name', '_id', 'phone', 'companyId', 'userId']);
     }
     async deleteClient(id) {
         const findAndDelete = await this.clientModel.findOneAndUpdate({

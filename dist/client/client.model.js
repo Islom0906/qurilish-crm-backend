@@ -28,6 +28,14 @@ __decorate([
     __metadata("design:type", String)
 ], Client.prototype, "phone", void 0);
 __decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Client.prototype, "description", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId, ref: 'User' }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], Client.prototype, "userId", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId, ref: 'Company' }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Client.prototype, "companyId", void 0);

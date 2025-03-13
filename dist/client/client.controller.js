@@ -23,8 +23,8 @@ let ClientController = class ClientController {
     constructor(clientService) {
         this.clientService = clientService;
     }
-    async getClient(userId) {
-        return this.clientService.getClient(userId);
+    async getClient(userId, limit = '10', page = '1') {
+        return this.clientService.getClient(userId, limit, page);
     }
     async getByIdClient(id) {
         return this.clientService.getByIdClient(id);
@@ -45,9 +45,13 @@ __decorate([
     (0, common_1.Get)(),
     (0, auth_decorator_1.Auth)("admin"),
     (0, swagger_1.ApiOperation)({ summary: "Get clients" }),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: false, description: 'House pagination page size', default: '10' }),
+    (0, swagger_1.ApiQuery)({ name: 'page', required: false, description: 'House pagination page number', default: '1' }),
     __param(0, (0, user_decorator_1.UserInfo)("_id")),
+    __param(1, (0, common_1.Query)('limit')),
+    __param(2, (0, common_1.Query)('page')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], ClientController.prototype, "getClient", null);
 __decorate([

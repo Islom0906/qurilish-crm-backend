@@ -25,4 +25,10 @@ export class ClientDto {
     })
     phone: string
 
+    @IsString()
+    @ApiProperty({
+        description: 'Client first name',
+    })
+    description: string
+
 }

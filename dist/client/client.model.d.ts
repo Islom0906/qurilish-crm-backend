@@ -4,6 +4,8 @@ export declare class Client {
     first_name: string;
     last_name: string;
     phone: string;
+    description: string;
+    userId: Types.ObjectId;
     companyId: Types.ObjectId;
     isDelete: boolean;
 }

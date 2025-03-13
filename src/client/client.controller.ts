@@ -1,5 +1,17 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
-import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    Param,
+    Post,
+    Put,
+    Query,
+    UsePipes,
+    ValidationPipe
+} from '@nestjs/common';
+import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags} from "@nestjs/swagger";
 import {ClientService} from "./client.service";
 import {UserInfo} from "../user/decorators/user.decorator";
 import {Auth} from "../auth/decorators/auth.decorator";
@@ -17,8 +29,15 @@ export class ClientController {
     @Get()
     @Auth("admin")
     @ApiOperation({summary: "Get clients"})
-    async getClient(@UserInfo("_id") userId: string) {
-        return this.clientService.getClient(userId)
+    @ApiQuery({ name: 'limit', required: false, description: 'House pagination page size',default:'10' })
+    @ApiQuery({ name: 'page', required: false, description: 'House pagination page number',default:'1' })
+    async getClient(
+        @UserInfo("_id") userId: string,
+        @Query('limit') limit:string='10',
+        @Query('page') page:string='1',
+
+    ) {
+        return this.clientService.getClient(userId,limit,page)
     }
 
     // GET BY ID
