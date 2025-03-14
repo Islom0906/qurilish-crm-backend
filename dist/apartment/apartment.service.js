@@ -145,7 +145,6 @@ let ApartmentService = class ApartmentService {
                 status: 'booked'
             }
         }, { new: true });
-        console.log(apartmentStatus);
         return apartmentStatus;
     }
     async updateApartment(id, dto, userId) {
@@ -183,13 +182,11 @@ let ApartmentService = class ApartmentService {
     }
     async checkBookingExpiration() {
         const now = new Date();
-        console.log('run cron job');
         const expiredApartments = await this.apartmentModel.find({
             bookingExpiresAt: { $lt: now },
             status: 'booked',
             isDelete: false
         });
-        console.log(expiredApartments);
         await this.apartmentModel.updateMany({
             bookingExpiresAt: { $lt: now },
             status: 'booked',
