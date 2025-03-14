@@ -27,6 +27,7 @@ const seller_module_1 = require("./seller/seller.module");
 const booking_module_1 = require("./booking/booking.module");
 const client_module_1 = require("./client/client.module");
 const schedule_1 = require("@nestjs/schedule");
+const currency_module_1 = require("./currency/currency.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -56,7 +57,8 @@ exports.AppModule = AppModule = __decorate([
             structure_module_1.StructureModule,
             seller_module_1.SellerModule,
             booking_module_1.BookingModule,
-            client_module_1.ClientModule
+            client_module_1.ClientModule,
+            currency_module_1.CurrencyModule
         ],
     })
 ], AppModule);

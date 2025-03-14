@@ -30,8 +30,8 @@ export class SlotController {
     @Get()
     @Auth("admin")
     @ApiOperation({summary: "Get slot"})
-    @ApiQuery({name: 'limit', required: false, description: 'House pagination page size', default: '10'})
-    @ApiQuery({name: 'page', required: false, description: 'House pagination page number', default: '1'})
+    @ApiQuery({name: 'limit', required: false, description: 'Slot pagination page size', default: '10'})
+    @ApiQuery({name: 'page', required: false, description: 'Slot pagination page number', default: '1'})
     async getSlot(
         @UserInfo("_id") userId: string,
         @Query('limit') limit: string = '10',

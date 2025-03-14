@@ -18,6 +18,7 @@ import { SellerModule } from './seller/seller.module';
 import { BookingModule } from './booking/booking.module';
 import { ClientModule } from './client/client.module';
 import {ScheduleModule} from "@nestjs/schedule";
+import { CurrencyModule } from './currency/currency.module';
 
 @Module({
   imports: [
@@ -45,7 +46,8 @@ import {ScheduleModule} from "@nestjs/schedule";
     StructureModule,
     SellerModule,
     BookingModule,
-    ClientModule
+    ClientModule,
+    CurrencyModule
   ],
 })
 export class AppModule {}

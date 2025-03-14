@@ -156,7 +156,6 @@ export class ApartmentService {
                 }
             },
             {new: true})
-        console.log(apartmentStatus)
         return apartmentStatus
 
     }
@@ -207,13 +206,11 @@ export class ApartmentService {
     @Cron('0 * * * *')
     async checkBookingExpiration() {
         const now = new Date();
-        console.log('run cron job')
         const expiredApartments = await this.apartmentModel.find({
             bookingExpiresAt: {$lt: now}, // bookingExpiresAt o'tib ketganlar
             status: 'booked',
             isDelete: false
         });
-        console.log(expiredApartments)
 
         await this.apartmentModel.updateMany(
             {
