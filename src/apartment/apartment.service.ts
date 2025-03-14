@@ -143,7 +143,6 @@ export class ApartmentService {
         if (!bookingGet) throw new NotFoundException('Not Found booking')
 
         const bookingExpiresAt = dayjs().add(bookingGet.days, 'day').toDate()
-        console.log(bookingExpiresAt)
         const apartmentStatus = await this.apartmentModel.findByIdAndUpdate(
             id,
             {
@@ -206,11 +205,6 @@ export class ApartmentService {
     @Cron('0 * * * *')
     async checkBookingExpiration() {
         const now = new Date();
-        const expiredApartments = await this.apartmentModel.find({
-            bookingExpiresAt: {$lt: now}, // bookingExpiresAt o'tib ketganlar
-            status: 'booked',
-            isDelete: false
-        });
 
         await this.apartmentModel.updateMany(
             {

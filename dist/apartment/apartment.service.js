@@ -135,7 +135,6 @@ let ApartmentService = class ApartmentService {
         if (!bookingGet)
             throw new common_1.NotFoundException('Not Found booking');
         const bookingExpiresAt = dayjs().add(bookingGet.days, 'day').toDate();
-        console.log(bookingExpiresAt);
         const apartmentStatus = await this.apartmentModel.findByIdAndUpdate(id, {
             $set: {
                 clientId: new mongoose_2.Types.ObjectId(dto.clientId),
@@ -182,11 +181,6 @@ let ApartmentService = class ApartmentService {
     }
     async checkBookingExpiration() {
         const now = new Date();
-        const expiredApartments = await this.apartmentModel.find({
-            bookingExpiresAt: { $lt: now },
-            status: 'booked',
-            isDelete: false
-        });
         await this.apartmentModel.updateMany({
             bookingExpiresAt: { $lt: now },
             status: 'booked',
